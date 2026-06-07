@@ -13,7 +13,7 @@
   --nav-h:64px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:var(--nav-h);}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
 
 /* ── HEADER ── */
 .header{
@@ -226,7 +226,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   align-items:flex-end;justify-content:center;
   backdrop-filter:blur(4px);
 }
-.modal-overlay.open{display:flex;}
+.modal-overlay.open{display:flex;pointer-events:all;}
 .modal{
   background:var(--surface);width:100%;max-width:500px;
   border-radius:20px 20px 0 0;padding:20px 20px 32px;
@@ -869,4 +869,24 @@ function autoSplitWorkers(){
 }
 function getWorkerBreakdown(){
   const workers={};
-  document.querySelectorAll('#worker-rows .worker-pay-row').forEac
+  document.querySelectorAll('#worker-rows .worker-pay-row').forEach(r=>{
+    const inputs=r.querySelectorAll('input');
+    const name=inputs[0].value.trim();const amt=parseFloat(inputs[1].value)||null;
+    if(name)workers[name]=amt;
+  });
+  return workers;
+}
+
+function fmtDate(d){
+  if(!d)return'—';
+  const[y,m,day]=d.split('-');
+  return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+ +day+', '+y;
+}
+
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.getElementById('cost-modal').addEventListener('click',function(e){if(e.target===this)closeCostModal();});
+
+buildYearTabs();render();
+</script>
+</body>
+</html>
