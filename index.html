@@ -2,185 +2,319 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ECD Job Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#0d0d0d;--surface:#161616;--card:#1e1e1e;--border:#2a2a2a;
-    --accent:#e8ff47;--text:#f0f0f0;--muted:#777;
-    --green:#4ade80;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c;--blue:#60a5fa;
+:root{
+  --bg:#0d0d0d;--surface:#161616;--card:#1e1e1e;--border:#2a2a2a;
+  --accent:#e8ff47;--text:#f0f0f0;--muted:#666;
+  --green:#4ade80;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c;--blue:#60a5fa;
+  --nav-h:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:var(--nav-h);}
+
+/* ── HEADER ── */
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 16px 12px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--bg);z-index:50;
+}
+.brand-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1px;}
+.brand-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1;}
+.header-btns{display:flex;gap:8px;}
+.add-btn{
+  background:var(--accent);color:#000;border:none;
+  padding:10px 14px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:12px;
+  cursor:pointer;border-radius:6px;white-space:nowrap;
+}
+.add-btn.cost{background:transparent;color:var(--orange);border:1.5px solid var(--orange);}
+
+/* ── STATS ── */
+.stats-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:12px 16px;
+}
+.stat-card{
+  background:var(--card);border-radius:10px;padding:14px;
+  position:relative;overflow:hidden;
+}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--accent);}
+.stat-card.red::before{background:var(--red);}
+.stat-card.profit::before{background:var(--green);}
+.stat-card.profit-wide{grid-column:1/-1;}
+.stat-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;line-height:1;}
+.stat-value.green{color:var(--green);}
+.stat-value.yellow{color:var(--yellow);}
+.stat-value.accent{color:var(--accent);}
+.stat-value.red{color:var(--red);}
+.stat-value.profit{color:var(--green);}
+
+/* ── YEAR PILLS ── */
+.year-bar{display:flex;gap:6px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none;}
+.year-bar::-webkit-scrollbar{display:none;}
+.year-tab{
+  background:var(--card);border:1.5px solid var(--border);color:var(--muted);
+  padding:6px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0;
+}
+.year-tab.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
+
+/* ── STATUS FILTERS ── */
+.filters{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.filter-btn{
+  background:transparent;border:1.5px solid var(--border);color:var(--muted);
+  padding:6px 14px;font-family:'DM Sans',sans-serif;font-size:12px;
+  cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0;
+}
+.filter-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
+
+/* ── CONTENT ── */
+.content{padding:0 16px;}
+
+/* ── JOB CARDS ── */
+.job-list{display:flex;flex-direction:column;gap:8px;padding-bottom:8px;}
+.job-card{
+  background:var(--card);border-radius:12px;
+  padding:14px;border:1px solid var(--border);
+}
+.job-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.job-left{flex:1;min-width:0;}
+.job-name{font-size:15px;font-weight:600;margin-bottom:3px;}
+.job-date{font-size:11px;color:var(--muted);}
+.job-price{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent);letter-spacing:1px;flex-shrink:0;margin-left:12px;}
+.job-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.job-service{
+  font-size:10px;text-transform:uppercase;letter-spacing:1px;
+  padding:4px 10px;border-radius:4px;
+  background:rgba(255,255,255,.05);color:var(--muted);
+  border:1px solid var(--border);
+}
+.job-actions{display:flex;align-items:center;gap:4px;}
+.status-badge{
+  font-size:10px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;
+  padding:5px 10px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;
+  border-radius:6px;white-space:nowrap;
+}
+.status-badge.scheduled{background:rgba(251,191,36,.15);color:var(--yellow);}
+.status-badge.completed{background:rgba(74,222,128,.15);color:var(--green);}
+.status-badge.cancelled{background:rgba(248,113,113,.12);color:var(--red);}
+.icon-btn{
+  background:transparent;border:none;font-size:16px;cursor:pointer;
+  padding:6px;border-radius:6px;color:var(--muted);
+  min-width:34px;min-height:34px;display:flex;align-items:center;justify-content:center;
+}
+.icon-btn:active{background:rgba(255,255,255,.08);}
+
+/* ── EXPENSE CARDS ── */
+.expense-card{
+  background:var(--card);border-radius:12px;padding:14px;
+  border:1px solid var(--border);border-left:3px solid var(--orange);
+  margin-bottom:8px;
+}
+.expense-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.expense-info{flex:1;min-width:0;}
+.expense-name{font-size:14px;font-weight:600;margin-bottom:3px;}
+.expense-meta{font-size:11px;color:var(--muted);}
+.expense-right{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.expense-amount{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);}
+.expense-cat{
+  font-size:9px;text-transform:uppercase;letter-spacing:1px;
+  padding:3px 7px;border-radius:4px;
+  border:1px solid rgba(251,146,60,.3);color:var(--orange);
+  white-space:nowrap;margin-top:6px;display:inline-block;
+}
+
+/* ── WORKER CARDS ── */
+.workers-grid{display:flex;flex-direction:column;gap:10px;}
+.worker-card{
+  background:var(--card);border-radius:12px;padding:16px;
+  border:1px solid var(--border);border-top:3px solid var(--blue);
+}
+.worker-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.worker-avatar{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),#3b82f6);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;color:#000;
+}
+.worker-info{flex:1;}
+.worker-name{font-size:16px;font-weight:600;margin-bottom:2px;}
+.worker-stats{display:flex;align-items:baseline;gap:8px;}
+.worker-total{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--blue);line-height:1;}
+.worker-jobs-count{font-size:11px;color:var(--muted);}
+.worker-breakdown{border-top:1px solid var(--border);padding-top:10px;margin-bottom:10px;}
+.worker-breakdown-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.worker-breakdown-row:last-child{border-bottom:none;}
+.wbr-job{font-size:12px;color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px;}
+.wbr-amount{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;margin-right:6px;}
+.tbd-badge{font-size:9px;background:rgba(251,191,36,.12);color:var(--yellow);padding:2px 6px;border-radius:4px;}
+.add-pay-btn{
+  width:100%;background:transparent;border:1.5px dashed var(--blue);
+  color:var(--blue);padding:10px;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:500;cursor:pointer;border-radius:8px;
+}
+
+/* ── GOALS ── */
+.goal-wrapper{padding-bottom:16px;}
+.goal-hero{
+  background:var(--card);border-radius:12px;padding:20px;
+  margin-bottom:10px;border:1px solid var(--border);
+  border-top:3px solid #a78bfa;
+}
+.goal-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:4px;}
+.goal-amount{font-family:'Bebas Neue',sans-serif;font-size:52px;color:#a78bfa;line-height:1;letter-spacing:2px;}
+.progress-wrap{margin:16px 0 6px;}
+.progress-track{background:var(--border);height:10px;border-radius:5px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#a78bfa,var(--green));border-radius:5px;transition:width .6s ease;}
+.progress-pct{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#fff;margin-top:8px;}
+.progress-caption{font-size:12px;color:var(--muted);}
+.goal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.goal-stat{background:var(--card);border-radius:10px;padding:12px;border:1px solid var(--border);}
+.gs-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;}
+.gs-value{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+.gs-value.accent{color:#a78bfa;}.gs-value.green{color:var(--green);}.gs-value.yellow{color:var(--yellow);}
+.goal-rationale{background:var(--card);border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid var(--border);border-left:3px solid #a78bfa;}
+.goal-rationale h3{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:10px;}
+.goal-rationale p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:8px;}
+.goal-rationale p:last-child{margin-bottom:0;}
+.goal-rationale strong{color:var(--text);}
+.goal-adjust{display:flex;gap:8px;align-items:center;}
+.goal-adjust input{
+  flex:1;background:var(--card);border:1.5px solid var(--border);color:var(--text);
+  padding:12px;font-family:'Bebas Neue',sans-serif;font-size:22px;outline:none;
+  border-radius:8px;letter-spacing:1px;
+}
+.goal-adjust input:focus{border-color:#a78bfa;}
+.btn-set{
+  background:#a78bfa;color:#000;border:none;padding:12px 18px;
+  font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;
+  cursor:pointer;border-radius:8px;white-space:nowrap;
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
+  background:var(--surface);border-top:1px solid var(--border);
+  display:flex;align-items:stretch;z-index:100;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;background:transparent;border:none;cursor:pointer;
+  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;
+  padding:8px 4px;
+}
+.nav-btn.active{color:var(--accent);}
+.nav-btn.active .nav-icon{transform:translateY(-2px);}
+.nav-icon{font-size:20px;line-height:1;transition:transform .15s;}
+.nav-costs-btn.active{color:var(--orange);}
+.nav-workers-btn.active{color:var(--blue);}
+.nav-goals-btn.active{color:#a78bfa;}
+
+/* ── MODALS ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.8);z-index:200;
+  align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--surface);width:100%;max-width:500px;
+  border-radius:20px 20px 0 0;padding:20px 20px 32px;
+  max-height:90vh;overflow-y:auto;
+  border-top:1px solid var(--border);
+}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:16px;color:var(--accent);}
+.modal-title.cost{color:var(--orange);}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+input,select,textarea{
+  background:var(--bg);border:1.5px solid var(--border);color:var(--text);
+  padding:12px;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;
+  border-radius:8px;width:100%;-webkit-appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+select option{background:var(--bg);}
+textarea{resize:vertical;min-height:60px;font-size:14px;}
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
+.btn-primary{
+  flex:1;background:var(--accent);color:#000;border:none;
+  padding:14px;font-family:'DM Sans',sans-serif;font-weight:700;
+  font-size:15px;cursor:pointer;border-radius:10px;
+}
+.btn-primary.cost{background:var(--orange);}
+.btn-ghost{
+  background:transparent;color:var(--muted);border:1.5px solid var(--border);
+  padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:14px;
+  cursor:pointer;border-radius:10px;
+}
+.worker-pay-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px;margin-top:4px;}
+.worker-pay-row{display:flex;gap:8px;margin-bottom:8px;align-items:center;}
+.worker-pay-row input{padding:10px 12px;font-size:13px;}
+.worker-pay-row input:last-of-type{width:80px;flex-shrink:0;}
+.remove-worker{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0;}
+.add-worker-row{
+  background:transparent;border:1.5px dashed var(--border);color:var(--muted);
+  padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;width:100%;margin-top:4px;border-radius:8px;
+}
+
+.empty{
+  text-align:center;padding:48px 20px;color:var(--muted);font-size:14px;
+  background:var(--card);border-radius:12px;border:1px dashed var(--border);
+}
+.view{display:none;padding:0 0 8px;}
+.view.active{display:block;}
+
+/* ── DESKTOP OVERRIDES ── */
+@media(min-width:600px){
+  body{padding-bottom:0;}
+  .header{padding:20px 24px 16px;}
+  .brand-title{font-size:36px;}
+  .stats-row{grid-template-columns:repeat(5,1fr);padding:16px 24px;}
+  .stat-card.profit-wide{grid-column:auto;}
+  .year-bar{padding:0 24px 12px;}
+  .filters{padding:0 24px 14px;}
+  .content{padding:0 24px;}
+  .bottom-nav{display:none;}
+  .desktop-tabs{display:flex;border-bottom:1px solid var(--border);margin:0 24px 16px;}
+  .main-tab{
+    background:transparent;border:none;border-bottom:2px solid transparent;
+    color:var(--muted);padding:10px 20px;font-family:'DM Sans',sans-serif;
+    font-size:13px;font-weight:500;cursor:pointer;margin-bottom:-1px;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:16px;}
-
-  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);gap:12px;}
-  .brand-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:2px;}
-  .brand-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;white-space:nowrap;}
-  .header-btns{display:flex;gap:6px;flex-shrink:0;}
-  .add-btn{background:var(--accent);color:#000;border:none;padding:8px 12px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:all .15s;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));white-space:nowrap;}
-  .add-btn:hover{background:#fff;}
-  .add-btn.cost{background:var(--card);color:var(--orange);border:1px solid var(--orange);clip-path:none;}
-  .add-btn.cost:hover{background:var(--orange);color:#000;}
-
-  .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px;}
-  .stats-row .stat-card:nth-child(4){grid-column:span 2;}
-  .stat-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;position:relative;overflow:hidden;}
-  .stat-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);}
-  .stat-card.red::before{background:var(--red);}
-  .stat-card.profit::before{background:var(--green);}
-  .stat-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;}
-  .stat-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1;}
-  .stat-value.green{color:var(--green);}.stat-value.yellow{color:var(--yellow);}.stat-value.accent{color:var(--accent);}.stat-value.red{color:var(--red);}.stat-value.profit{color:var(--green);}
-
-  @media(min-width:600px){
-    body{padding:24px;}
-    .brand-title{font-size:42px;}
-    .stats-row{grid-template-columns:repeat(5,1fr);}
-    .stats-row .stat-card:nth-child(4){grid-column:span 1;}
-    .stat-value{font-size:28px;}
-    .add-btn{padding:10px 18px;font-size:13px;}
-  }
-
-  .main-tabs{display:flex;margin-bottom:18px;border-bottom:1px solid var(--border);}
-  .main-tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-bottom:-1px;transition:all .15s;}
-  .main-tab:hover{color:var(--text);}
   .main-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
   .main-tab.costs-tab.active{color:var(--orange);border-bottom-color:var(--orange);}
   .main-tab.workers-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-
-  .year-bar{display:flex;margin-bottom:12px;border-bottom:1px solid var(--border);}
-  .year-tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:8px 15px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;margin-bottom:-1px;transition:all .15s;}
-  .year-tab:hover{color:var(--text);}
-  .year-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
-
-  .filters{display:flex;gap:8px;margin-bottom:18px;}
-  .filter-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 13px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;}
-  .filter-btn:hover{border-color:var(--accent);color:var(--accent);}
-  .filter-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
-
-  .job-list{display:flex;flex-direction:column;gap:8px;}
-
-  .job-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s;}
-  .job-card:hover{border-color:#444;}
-  .job-card-row1{display:flex;align-items:center;gap:10px;}
-  .job-card-row2{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;}
-  .job-num{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);min-width:26px;}
-  .job-info{flex:1;min-width:0;}
-  .job-name{font-size:14px;font-weight:600;margin-bottom:2px;}
-  .job-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}
-  .job-service{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:3px 7px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;}
-  .job-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);white-space:nowrap;}
-  .job-actions{display:flex;align-items:center;gap:2px;margin-left:auto;}
-  .status-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;white-space:nowrap;}
-  .status-badge.scheduled{background:rgba(251,191,36,.12);color:var(--yellow);}
-  .status-badge.completed{background:rgba(74,222,128,.12);color:var(--green);}
-  .status-badge.cancelled{background:rgba(248,113,113,.1);color:var(--red);}
-  .edit-btn{background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:5px;transition:color .15s;}
-  .edit-btn:hover{color:var(--accent);}
-  .delete-btn{background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:5px;transition:color .15s;}
-  .delete-btn:hover{color:var(--red);}
-
-  .expense-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
-  .expense-card:hover{border-color:#444;border-left-color:var(--orange);}
-  .expense-card-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-  .expense-name{font-size:14px;font-weight:600;margin-bottom:2px;}
-  .expense-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}
-  .expense-cat{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:3px 7px;border:1px solid rgba(251,146,60,.3);color:var(--orange);white-space:nowrap;}
-  .expense-amount{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);white-space:nowrap;}
-
-  /* WORKERS */
-  .workers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px;}
-  .worker-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--blue);padding:20px;}
-  .worker-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#3b82f6);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:#000;margin-bottom:12px;}
-  .worker-name{font-size:15px;font-weight:600;margin-bottom:4px;}
-  .worker-total{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--blue);line-height:1;margin-bottom:4px;}
-  .worker-jobs{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-  .worker-breakdown{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-  .worker-breakdown-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);padding:3px 0;}
-  .worker-breakdown-row span:last-child{color:var(--text);}
-  .tbd-badge{font-size:9px;background:rgba(251,191,36,.12);color:var(--yellow);padding:1px 5px;letter-spacing:1px;text-transform:uppercase;}
-
-  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-  .modal-overlay.open{display:flex;}
-  .modal{background:var(--surface);border:1px solid var(--border);padding:28px;width:460px;max-width:95vw;max-height:90vh;overflow-y:auto;}
-  .modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:20px;color:var(--accent);}
-  .modal-title.cost{color:var(--orange);}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .form-group{display:flex;flex-direction:column;gap:5px;}
-  .form-group.full{grid-column:1/-1;}
-  label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
-  input,select,textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s;width:100%;}
-  input:focus,select:focus,textarea:focus{border-color:var(--accent);}
-  select option{background:var(--bg);}
-  textarea{resize:vertical;min-height:55px;}
-
-  /* WORKER PAY ROWS IN MODAL */
-  .worker-pay-section{margin-top:8px;}
-  .worker-pay-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px;}
-  .worker-pay-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:6px;align-items:center;}
-  .worker-pay-row input{padding:7px 10px;font-size:12px;}
-  .worker-pay-row .wp-name{font-size:12px;color:var(--text);font-weight:500;}
-  .add-worker-row{background:transparent;border:1px dashed var(--border);color:var(--muted);padding:7px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;width:100%;margin-top:4px;transition:all .15s;}
-  .add-worker-row:hover{border-color:var(--blue);color:var(--blue);}
-  .remove-worker{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;}
-  .remove-worker:hover{color:var(--red);}
-
-  .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
-  .btn-primary{background:var(--accent);color:#000;border:none;padding:10px 20px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;}
-  .btn-primary:hover{background:#fff;}
-  .btn-primary.cost{background:var(--orange);}
-  .btn-primary.cost:hover{background:#fff;}
-  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
-  .empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:13px;border:1px dashed var(--border);}
-  .view{display:none;}.view.active{display:block;}
   .main-tab.goals-tab.active{color:#a78bfa;border-bottom-color:#a78bfa;}
-
-  /* GOALS */
-  .goal-wrapper{max-width:680px;margin:0 auto;}
-  .goal-hero{background:var(--card);border:1px solid var(--border);padding:32px;margin-bottom:16px;position:relative;overflow:hidden;}
-  .goal-hero::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#a78bfa;}
-  .goal-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;}
-  .goal-amount{font-family:'Bebas Neue',sans-serif;font-size:64px;color:#a78bfa;line-height:1;letter-spacing:2px;}
-  .goal-sub{font-size:13px;color:var(--muted);margin-top:4px;}
-
-  .progress-wrap{margin:24px 0 8px;}
-  .progress-track{background:var(--border);height:12px;position:relative;overflow:hidden;}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#a78bfa,var(--green));transition:width .6s ease;position:relative;}
-  .progress-fill::after{content:'';position:absolute;right:0;top:0;width:3px;height:100%;background:#fff;opacity:.6;}
-  .progress-pct{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#fff;margin-top:10px;letter-spacing:2px;}
-  .progress-caption{font-size:12px;color:var(--muted);}
-
-  .goal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-  .goal-stat{background:var(--card);border:1px solid var(--border);padding:16px;}
-  .goal-stat .gs-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;}
-  .goal-stat .gs-value{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--text);}
-  .goal-stat .gs-value.purple{color:#a78bfa;}
-  .goal-stat .gs-value.green{color:var(--green);}
-  .goal-stat .gs-value.yellow{color:var(--yellow);}
-
-  .goal-rationale{background:var(--card);border:1px solid var(--border);border-left:3px solid #a78bfa;padding:20px;margin-bottom:16px;}
-  .goal-rationale h3{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:12px;}
-  .goal-rationale p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:8px;}
-  .goal-rationale p:last-child{margin-bottom:0;}
-  .goal-rationale strong{color:var(--text);}
-
-  .goal-adjust{display:flex;gap:10px;align-items:center;margin-bottom:4px;}
-  .goal-adjust input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:'Bebas Neue',sans-serif;font-size:20px;outline:none;width:160px;letter-spacing:1px;}
-  .goal-adjust input:focus{border-color:#a78bfa;}
-  .goal-adjust .btn-set{background:#a78bfa;color:#000;border:none;padding:10px 18px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;}
-  .goal-adjust .btn-set:hover{background:#fff;}
+  .modal-overlay{align-items:center;}
+  .modal{border-radius:16px;padding:28px;max-width:460px;max-height:85vh;}
+  .modal-handle{display:none;}
+  .workers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .add-btn{padding:11px 18px;font-size:13px;}
+}
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="brand">
     <div class="brand-tag">East Coast Detailing</div>
     <div class="brand-title">JOB TRACKER</div>
   </div>
   <div class="header-btns">
-    <button class="add-btn cost" onclick="openCostModal()">+ Add Cost</button>
-    <button class="add-btn" onclick="openModal()">+ Add Job</button>
+    <button class="add-btn cost" onclick="openCostModal()">+ Cost</button>
+    <button class="add-btn" onclick="openModal()">+ Job</button>
   </div>
 </div>
 
@@ -188,17 +322,19 @@
   <div class="stat-card"><div class="stat-label">Jobs</div><div class="stat-value accent" id="stat-total">0</div></div>
   <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value green" id="stat-revenue">$0</div></div>
   <div class="stat-card red"><div class="stat-label">Costs</div><div class="stat-value red" id="stat-costs">$0</div></div>
-  <div class="stat-card profit"><div class="stat-label">Net Profit</div><div class="stat-value profit" id="stat-profit">$0</div></div>
   <div class="stat-card"><div class="stat-label">Scheduled</div><div class="stat-value yellow" id="stat-scheduled">0</div></div>
+  <div class="stat-card profit profit-wide"><div class="stat-label">Net Profit</div><div class="stat-value profit" id="stat-profit">$0</div></div>
 </div>
 
-<div class="main-tabs">
+<!-- DESKTOP TABS -->
+<div class="desktop-tabs" style="display:none;">
   <button class="main-tab active" onclick="switchView('jobs',this)">Jobs</button>
   <button class="main-tab costs-tab" onclick="switchView('costs',this)">Expenses</button>
   <button class="main-tab workers-tab" onclick="switchView('workers',this)">Workers</button>
   <button class="main-tab goals-tab" onclick="switchView('goals',this)">Goals</button>
 </div>
 
+<!-- JOBS VIEW -->
 <div class="view active" id="view-jobs">
   <div class="year-bar" id="year-bar"></div>
   <div class="filters">
@@ -207,83 +343,88 @@
     <button class="filter-btn" onclick="setStatus('completed',this)">Completed</button>
     <button class="filter-btn" onclick="setStatus('cancelled',this)">Cancelled</button>
   </div>
-  <div class="job-list" id="job-list"></div>
+  <div class="content"><div class="job-list" id="job-list"></div></div>
 </div>
 
+<!-- EXPENSES VIEW -->
 <div class="view" id="view-costs">
   <div class="year-bar" id="cost-year-bar"></div>
-  <div class="job-list" id="cost-list"></div>
+  <div class="content" id="cost-list"></div>
 </div>
 
+<!-- WORKERS VIEW -->
 <div class="view" id="view-workers">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
-    <button class="add-btn cost" style="clip-path:none;" onclick="openWorkerPayModal()">+ Log Worker Pay</button>
+  <div class="content">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <button class="add-btn" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue);border-radius:8px;" onclick="openWorkerPayModal()">+ Log Worker Pay</button>
+    </div>
+    <div class="workers-grid" id="workers-grid"></div>
   </div>
-  <div class="workers-grid" id="workers-grid"></div>
 </div>
 
+<!-- GOALS VIEW -->
 <div class="view" id="view-goals">
-  <div class="goal-wrapper">
+  <div class="content goal-wrapper">
     <div class="goal-hero">
       <div class="goal-label">2026 Revenue Goal</div>
       <div class="goal-amount" id="g-amount-display">$10,000</div>
-      <div class="goal-sub">Set by East Coast Detailing financial analysis</div>
       <div class="progress-wrap">
         <div class="progress-track"><div class="progress-fill" id="g-bar" style="width:0%"></div></div>
         <div class="progress-pct" id="g-pct">0%</div>
         <div class="progress-caption" id="g-caption"></div>
       </div>
     </div>
-
     <div class="goal-stats">
-      <div class="goal-stat">
-        <div class="gs-label">Revenue So Far</div>
-        <div class="gs-value green" id="g-current">$0</div>
-      </div>
-      <div class="goal-stat">
-        <div class="gs-label">Remaining</div>
-        <div class="gs-value yellow" id="g-remaining">$0</div>
-      </div>
-      <div class="goal-stat">
-        <div class="gs-label">Jobs to Go</div>
-        <div class="gs-value purple" id="g-jobs">0</div>
-      </div>
+      <div class="goal-stat"><div class="gs-label">So Far</div><div class="gs-value green" id="g-current">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">Remaining</div><div class="gs-value yellow" id="g-remaining">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">Jobs Left</div><div class="gs-value accent" id="g-jobs">0</div></div>
     </div>
-
     <div class="goal-rationale">
       <h3>Why $10,000</h3>
-      <p>Your average job value jumped from <strong>$134 in 2024</strong> to <strong>$238 this summer</strong> — a 77% increase. That's your workers letting you take on larger, higher-value jobs instead of solo quick details.</p>
-      <p>At just <strong>3 jobs per week</strong> for the remaining 11 weeks of summer, you hit <strong>$11,200</strong>. $10,000 is your floor, not your ceiling.</p>
-      <p>You need roughly <strong>28 more jobs</strong> at your current average to hit the goal. That's under 3 per week. You've already matched all of last summer's revenue in the first two weeks.</p>
+      <p>Your average job value jumped from <strong>$134 in 2024</strong> to <strong>$238 this summer</strong> — a 77% increase. That's your workers letting you take on larger jobs.</p>
+      <p>At just <strong>3 jobs per week</strong> for the remaining 11 weeks of summer, you hit <strong>$11,200</strong>. $10k is your floor, not your ceiling.</p>
     </div>
-
     <div class="goal-adjust">
       <input type="number" id="g-input" placeholder="10000" min="0">
-      <button class="btn-set" onclick="setGoal()">Update Goal</button>
+      <button class="btn-set" onclick="setGoal()">Update</button>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px;">Want to raise the bar? Type a new number above.</div>
   </div>
 </div>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-jobs" onclick="switchView('jobs', document.getElementById('nav-jobs'))">
+    <span class="nav-icon">📋</span>Jobs
+  </button>
+  <button class="nav-btn nav-costs-btn" id="nav-costs" onclick="switchView('costs', document.getElementById('nav-costs'))">
+    <span class="nav-icon">💸</span>Expenses
+  </button>
+  <button class="nav-btn nav-workers-btn" id="nav-workers" onclick="switchView('workers', document.getElementById('nav-workers'))">
+    <span class="nav-icon">👥</span>Workers
+  </button>
+  <button class="nav-btn nav-goals-btn" id="nav-goals" onclick="switchView('goals', document.getElementById('nav-goals'))">
+    <span class="nav-icon">🎯</span>Goals
+  </button>
+</nav>
 
 <!-- JOB MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title" id="job-modal-title">New Job</div>
-    <div class="form-grid">
-      <div class="form-group full"><label>Customer Name</label><input type="text" id="f-name" placeholder="e.g. John Smith"></div>
-      <div class="form-group"><label>Vehicle</label><input type="text" id="f-vehicle" placeholder="e.g. 2022 BMW X5"></div>
-      <div class="form-group"><label>Date</label><input type="date" id="f-date"></div>
-      <div class="form-group"><label>Service</label>
-        <select id="f-service">
-          <option value="">Select...</option>
-          <option>Full Detail</option><option>Interior Only</option><option>Exterior Only</option>
-          <option>Clay Bar + Wax</option><option>Shampoo Extraction</option><option>Salt Removal</option>
-          <option>Ceramic Coating</option><option>Quick Detail</option><option>N/A</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Price ($)</label><input type="number" id="f-price" placeholder="0" min="0"></div>
-      <div class="form-group full"><label>Notes</label><textarea id="f-notes" placeholder="Special requests, details..."></textarea></div>
+    <div class="form-group"><label>Customer Name</label><input type="text" id="f-name" placeholder="e.g. John Smith"></div>
+    <div class="form-group"><label>Vehicle</label><input type="text" id="f-vehicle" placeholder="e.g. 2022 BMW X5"></div>
+    <div class="form-group"><label>Date</label><input type="date" id="f-date"></div>
+    <div class="form-group"><label>Service</label>
+      <select id="f-service">
+        <option value="">Select service...</option>
+        <option>Full Detail</option><option>Interior Only</option><option>Exterior Only</option>
+        <option>Clay Bar + Wax</option><option>Shampoo Extraction</option><option>Salt Removal</option>
+        <option>Ceramic Coating</option><option>Quick Detail</option><option>N/A</option>
+      </select>
     </div>
+    <div class="form-group"><label>Price ($)</label><input type="number" id="f-price" placeholder="0" min="0"></div>
+    <div class="form-group"><label>Notes</label><textarea id="f-notes" placeholder="Special requests, workers, details..."></textarea></div>
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn-primary" id="job-modal-btn" onclick="saveJob()">Add Job</button>
@@ -294,24 +435,23 @@
 <!-- COST MODAL -->
 <div class="modal-overlay" id="cost-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title cost" id="cost-modal-title">New Expense</div>
-    <div class="form-grid">
-      <div class="form-group full"><label>Description</label><input type="text" id="c-desc" placeholder="e.g. Generator purchase"></div>
-      <div class="form-group"><label>Category</label>
-        <select id="c-cat" onchange="toggleWorkerSection()">
-          <option value="">Select...</option>
-          <option>Worker Pay</option><option>Supplies</option><option>Equipment</option>
-          <option>Fuel</option><option>Marketing</option><option>Other</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Date</label><input type="date" id="c-date"></div>
-      <div class="form-group"><label>Total Amount ($)</label><input type="number" id="c-amount" placeholder="0" min="0" oninput="autoSplitWorkers()"></div>
-      <div class="form-group full"><label>Notes</label><textarea id="c-notes" placeholder="Additional details..."></textarea></div>
-      <div class="form-group full" id="worker-pay-section" style="display:none;">
-        <div class="worker-pay-label">Worker Breakdown</div>
-        <div id="worker-rows"></div>
-        <button class="add-worker-row" onclick="addWorkerRow()">+ Add Worker</button>
-      </div>
+    <div class="form-group"><label>Description</label><input type="text" id="c-desc" placeholder="e.g. Generator purchase"></div>
+    <div class="form-group"><label>Category</label>
+      <select id="c-cat" onchange="toggleWorkerSection()">
+        <option value="">Select...</option>
+        <option>Worker Pay</option><option>Supplies</option><option>Equipment</option>
+        <option>Fuel</option><option>Marketing</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Date</label><input type="date" id="c-date"></div>
+    <div class="form-group"><label>Total Amount ($)</label><input type="number" id="c-amount" placeholder="0" min="0" oninput="autoSplitWorkers()"></div>
+    <div class="form-group"><label>Notes</label><textarea id="c-notes" placeholder="Additional details..."></textarea></div>
+    <div id="worker-pay-section" style="display:none;margin-top:4px;">
+      <div class="worker-pay-label">Worker Breakdown</div>
+      <div id="worker-rows"></div>
+      <button class="add-worker-row" onclick="addWorkerRow()">+ Add Worker</button>
     </div>
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeCostModal()">Cancel</button>
@@ -383,7 +523,6 @@ const JOB_DEFAULTS=[
   {id:59,name:"Belmont Kid",vehicle:"",date:"2026-06-14",service:"Full Detail",price:200,status:"completed",notes:""}
 ];
 
-// workers field = {WorkerName: amount} — null means TBD split
 const COST_DEFAULTS=[
   {id:1,desc:"Nick & Garo — Babs Boss",cat:"Worker Pay",date:"2026-06-01",amount:300,notes:"",workers:{Nicholas:150,Garo:150}},
   {id:2,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
@@ -409,16 +548,27 @@ function save(){
   localStorage.setItem('ecd_costId',costId);
 }
 
-let jobs=loadJobs(), costs=loadCosts();
+let jobs=loadJobs(),costs=loadCosts();
 let jobId=parseInt(localStorage.getItem('ecd_jobId')||'60');
 let costId=parseInt(localStorage.getItem('ecd_costId')||'21');
-let currentStatus='all', currentYear='all', currentCostYear='all', currentView='jobs';
-let editingJobId=null, editingCostId=null;
+let currentStatus='all',currentYear='all',currentCostYear='all',currentView='jobs';
+let editingJobId=null,editingCostId=null;
+
+// Show desktop tabs on desktop
+if(window.innerWidth>=600){
+  document.querySelector('.desktop-tabs').style.display='flex';
+}
 
 function switchView(v,btn){
   currentView=v;
+  // Mobile nav
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const navBtn=document.getElementById('nav-'+v);
+  if(navBtn)navBtn.classList.add('active');
+  // Desktop tabs
   document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn&&btn.classList.contains('main-tab'))btn.classList.add('active');
+  // Views
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   if(v==='jobs'){buildYearTabs();render();}
@@ -465,27 +615,22 @@ function render(){
   const filtered=yj.filter(j=>currentStatus==='all'||j.status===currentStatus);
   updateStats();
   const list=document.getElementById('job-list');
-  if(!filtered.length){list.innerHTML='<div class="empty">No jobs here.</div>';return;}
+  if(!filtered.length){list.innerHTML='<div class="empty">No jobs here. Tap <strong>+ Job</strong> to add one.</div>';return;}
   list.innerHTML=filtered.map((job,i)=>`
     <div class="job-card">
-      <div class="job-card-row1">
-        <div class="job-num">${String(i+1).padStart(2,'00')}</div>
-        <div class="job-info">
+      <div class="job-card-top">
+        <div class="job-left">
           <div class="job-name">${job.name}</div>
-          <div class="job-meta">
-            ${job.vehicle?`<span>🚗 ${job.vehicle}</span>`:''}
-            <span>📅 ${fmtDate(job.date)}</span>
-            ${job.notes?`<span>📝 ${job.notes.slice(0,30)}${job.notes.length>30?'…':''}</span>`:''}
-          </div>
+          <div class="job-date">📅 ${fmtDate(job.date)}${job.vehicle?' · 🚗 '+job.vehicle:''}${job.notes?' · 📝 '+job.notes.slice(0,25)+(job.notes.length>25?'…':''):''}</div>
         </div>
-      </div>
-      <div class="job-card-row2">
-        <div class="job-service">${job.service}</div>
         <div class="job-price">$${job.price}</div>
+      </div>
+      <div class="job-card-bottom">
+        <div class="job-service">${job.service}</div>
         <div class="job-actions">
           <button class="status-badge ${job.status}" onclick="cycleStatus(${job.id})">${job.status}</button>
-          <button class="edit-btn" onclick="editJob(${job.id})">✏️</button>
-          <button class="delete-btn" onclick="deleteJob(${job.id})">✕</button>
+          <button class="icon-btn" onclick="editJob(${job.id})">✏️</button>
+          <button class="icon-btn" onclick="deleteJob(${job.id})">✕</button>
         </div>
       </div>
     </div>`).join('');
@@ -496,34 +641,25 @@ function renderCosts(){
   updateStats();
   const list=document.getElementById('cost-list');
   if(!filtered.length){list.innerHTML='<div class="empty">No expenses yet.</div>';return;}
-  list.innerHTML=filtered.map(c=>{
-    const workerTags=c.workers&&Object.keys(c.workers).length
-      ?Object.entries(c.workers).map(([w,a])=>`<span style="color:var(--blue);font-size:10px;margin-right:6px;">${w}: ${a!==null?'$'+a:'TBD'}</span>`).join('')
-      :'';
-    return`<div class="expense-card">
-      <div class="expense-card-row">
-        <div style="flex:1;min-width:0;">
+  list.innerHTML=filtered.map(c=>`
+    <div class="expense-card">
+      <div class="expense-top">
+        <div class="expense-info">
           <div class="expense-name">${c.desc}</div>
-          <div class="expense-meta"><span>📅 ${fmtDate(c.date)}</span>${c.notes?`<span>📝 ${c.notes}</span>`:''}</div>
-          ${workerTags?`<div style="margin-top:5px;">${workerTags}</div>`:''}
+          <div class="expense-meta">📅 ${fmtDate(c.date)}${c.notes?' · '+c.notes:''}</div>
+          <span class="expense-cat">${c.cat}</span>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-          <div class="expense-cat">${c.cat}</div>
+        <div class="expense-right">
           <div class="expense-amount">${c.amount>0?'-$'+c.amount:'TBD'}</div>
-          <button class="edit-btn" onclick="editCost(${c.id})">✏️</button>
-          <button class="delete-btn" onclick="deleteCost(${c.id})">✕</button>
+          <button class="icon-btn" onclick="editCost(${c.id})">✏️</button>
+          <button class="icon-btn" onclick="deleteCost(${c.id})">✕</button>
         </div>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
 function renderWorkers(){
-  const workerTotals={};
-  const workerJobs={};
-  const workerTBD={};
-
-  // Always include known worker pay — merge with any localStorage costs
+  const workerTotals={},workerJobs={},workerTBD={};
   const knownWorkerPay=[
     {id:1,desc:"Nick & Garo — Babs Boss",cat:"Worker Pay",date:"2026-06-01",amount:300,notes:"",workers:{Nicholas:150,Garo:150}},
     {id:2,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
@@ -532,121 +668,94 @@ function renderWorkers(){
     {id:5,desc:"Torch — Dave O'Connor",cat:"Worker Pay",date:"2026-06-03",amount:60,notes:"",workers:{Torch:60}},
   ];
   const dynamicWorkerPay=costs.filter(c=>c.cat==='Worker Pay'&&c.workers);
-  // Merge: use dynamic if any exist, otherwise use known defaults
-  const workerPaySource=dynamicWorkerPay.length>0?dynamicWorkerPay:knownWorkerPay;
+  const workerPaySource=dynamicWorkerPay.length>0?[...knownWorkerPay,...dynamicWorkerPay.filter(d=>d.id>10)]:knownWorkerPay;
 
   workerPaySource.forEach(c=>{
     Object.entries(c.workers).forEach(([w,a])=>{
       if(!workerTotals[w]){workerTotals[w]=0;workerJobs[w]=[];workerTBD[w]=false;}
-      if(a===null){workerTBD[w]=true;}
-      else{workerTotals[w]+=a;}
+      if(a===null)workerTBD[w]=true;else workerTotals[w]+=a;
       workerJobs[w].push({desc:c.desc,amount:a,date:c.date,costId:c.id});
     });
   });
 
   const grid=document.getElementById('workers-grid');
-  if(!Object.keys(workerTotals).length){
-    grid.innerHTML=`<div class="empty" style="grid-column:1/-1">No worker pay logged yet. Add a <strong>Worker Pay</strong> expense to get started.</div>`;
-    return;
-  }
+  if(!Object.keys(workerTotals).length){grid.innerHTML='<div class="empty">No worker pay logged yet.</div>';return;}
 
   grid.innerHTML=Object.entries(workerTotals).sort((a,b)=>b[1]-a[1]).map(([name,total])=>{
-    const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const initials=name.slice(0,2).toUpperCase();
     const hasTBD=workerTBD[name];
     const breakdown=workerJobs[name].map(j=>`
       <div class="worker-breakdown-row">
-        <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${j.desc.split('—')[1]?.trim()||j.desc}</span>
-        <span style="margin:0 8px;white-space:nowrap;">${j.amount!==null?'$'+j.amount:'<span class="tbd-badge">TBD</span>'}</span>
-        <button class="edit-btn" style="font-size:11px;padding:1px 4px;" onclick="editCost(${j.costId})" title="Edit">✏️</button>
+        <span class="wbr-job">${j.desc.split('—')[1]?.trim()||j.desc}</span>
+        <span class="wbr-amount">${j.amount!==null?'$'+j.amount:'<span class="tbd-badge">TBD</span>'}</span>
+        <button class="icon-btn" style="font-size:13px;min-width:28px;min-height:28px;" onclick="editCost(${j.costId})">✏️</button>
       </div>`).join('');
     return`<div class="worker-card">
-      <div class="worker-avatar">${initials}</div>
-      <div class="worker-name">${name}</div>
-      <div class="worker-total">$${total.toLocaleString()}${hasTBD?'<span style="font-size:14px;color:var(--yellow);margin-left:4px;">+TBD</span>':''}</div>
-      <div class="worker-jobs">${workerJobs[name].length} job${workerJobs[name].length!==1?'s':''}</div>
+      <div class="worker-top">
+        <div class="worker-avatar">${initials}</div>
+        <div class="worker-info">
+          <div class="worker-name">${name}</div>
+          <div class="worker-stats">
+            <div class="worker-total">$${total.toLocaleString()}</div>
+            ${hasTBD?'<span style="font-size:11px;color:var(--yellow);">+TBD</span>':''}
+          </div>
+          <div class="worker-jobs-count">${workerJobs[name].length} job${workerJobs[name].length!==1?'s':''}</div>
+        </div>
+      </div>
       <div class="worker-breakdown">${breakdown}</div>
-      <button onclick="openWorkerJobModal('${name}')" style="margin-top:12px;width:100%;background:transparent;border:1px dashed var(--blue);color:var(--blue);padding:7px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;">+ Log Pay for ${name}</button>
+      <button class="add-pay-btn" onclick="openWorkerJobModal('${name}')">+ Log Pay for ${name}</button>
     </div>`;
   }).join('');
 }
 
-// ── WORKER PAY MODAL HELPERS ───────────────────────────────────────────────
-function toggleWorkerSection(){
-  const cat=document.getElementById('c-cat').value;
-  document.getElementById('worker-pay-section').style.display=cat==='Worker Pay'?'block':'none';
+function renderGoals(){
+  const goal=parseInt(localStorage.getItem('ecd_goal')||'10000');
+  const rev2026=jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').reduce((s,j)=>s+j.price,0);
+  const remaining=Math.max(0,goal-rev2026);
+  const pct=Math.min(100,Math.round((rev2026/goal)*100));
+  const avg=jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').length?rev2026/jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').length:238;
+  const jobsNeeded=avg>0?Math.ceil(remaining/avg):0;
+  document.getElementById('g-amount-display').textContent='$'+goal.toLocaleString();
+  document.getElementById('g-input').value=goal;
+  document.getElementById('g-bar').style.width=pct+'%';
+  document.getElementById('g-pct').textContent=pct+'%';
+  document.getElementById('g-caption').textContent=pct>=100?'🎉 Goal reached!':'$'+rev2026.toLocaleString()+' of $'+goal.toLocaleString();
+  document.getElementById('g-current').textContent='$'+rev2026.toLocaleString();
+  document.getElementById('g-remaining').textContent=remaining>0?'$'+remaining.toLocaleString():'$0';
+  document.getElementById('g-jobs').textContent=remaining>0?jobsNeeded:'Done!';
 }
-function addWorkerRow(name='',amount=''){
-  const row=document.createElement('div');
-  row.className='worker-pay-row';
-  row.innerHTML=`<input type="text" placeholder="Worker name" value="${name}" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;">
-    <input type="number" placeholder="$" value="${amount}" min="0" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:70px;">
-    <button class="remove-worker" onclick="this.parentElement.remove()">✕</button>`;
-  document.getElementById('worker-rows').appendChild(row);
-}
-function autoSplitWorkers(){
-  const rows=document.querySelectorAll('#worker-rows .worker-pay-row');
-  if(!rows.length)return;
-  const total=parseFloat(document.getElementById('c-amount').value)||0;
-  const each=rows.length?Math.round(total/rows.length):0;
-  rows.forEach(r=>{const inp=r.querySelectorAll('input')[1];if(!inp.dataset.manual)inp.value=each||'';});
-}
-function getWorkerBreakdown(){
-  const workers={};
-  document.querySelectorAll('#worker-rows .worker-pay-row').forEach(r=>{
-    const inputs=r.querySelectorAll('input');
-    const name=inputs[0].value.trim();
-    const amt=parseFloat(inputs[1].value)||null;
-    if(name)workers[name]=amt;
-  });
-  return workers;
+function setGoal(){
+  const val=parseInt(document.getElementById('g-input').value);
+  if(!val||val<1){alert('Enter a valid goal.');return;}
+  localStorage.setItem('ecd_goal',val);renderGoals();
 }
 
-// ── UNDO SYSTEM ────────────────────────────────────────────────────────────
+// UNDO
 let undoTimer=null;
-
-function showUndo(message, undoFn){
+function showUndo(message,undoFn){
   clearTimeout(undoTimer);
   let toast=document.getElementById('undo-toast');
-  if(!toast){
-    toast=document.createElement('div');
-    toast.id='undo-toast';
-    toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e1e1e;border:1px solid #444;color:#f0f0f0;padding:12px 20px;font-family:DM Sans,sans-serif;font-size:13px;display:flex;align-items:center;gap:16px;z-index:999;min-width:260px;box-shadow:0 4px 20px rgba(0,0,0,.5);';
-    document.body.appendChild(toast);
-  }
-  toast.innerHTML=`<span>${message}</span><button onclick="undoAction()" style="background:var(--accent);color:#000;border:none;padding:5px 12px;font-family:DM Sans,sans-serif;font-weight:600;font-size:12px;cursor:pointer;">UNDO</button><span id="undo-countdown" style="color:var(--muted);font-size:11px;">5s</span>`;
+  if(!toast){toast=document.createElement('div');toast.id='undo-toast';toast.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1e1e1e;border:1px solid #444;color:#f0f0f0;padding:12px 16px;font-family:DM Sans,sans-serif;font-size:13px;display:flex;align-items:center;gap:12px;z-index:999;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;';document.body.appendChild(toast);}
+  toast.innerHTML=`<span>${message}</span><button onclick="undoAction()" style="background:var(--accent);color:#000;border:none;padding:5px 12px;font-family:DM Sans,sans-serif;font-weight:700;font-size:12px;cursor:pointer;border-radius:6px;">UNDO</button><span id="undo-countdown" style="color:var(--muted);font-size:11px;">5s</span>`;
   toast.style.display='flex';
   window._undoFn=undoFn;
   let secs=5;
-  undoTimer=setInterval(()=>{
-    secs--;
-    const cd=document.getElementById('undo-countdown');
-    if(cd)cd.textContent=secs+'s';
-    if(secs<=0){clearInterval(undoTimer);toast.style.display='none';}
-  },1000);
+  undoTimer=setInterval(()=>{secs--;const cd=document.getElementById('undo-countdown');if(cd)cd.textContent=secs+'s';if(secs<=0){clearInterval(undoTimer);toast.style.display='none';}},1000);
 }
+function undoAction(){clearInterval(undoTimer);document.getElementById('undo-toast').style.display='none';if(window._undoFn)window._undoFn();}
 
-function undoAction(){
-  clearInterval(undoTimer);
-  document.getElementById('undo-toast').style.display='none';
-  if(window._undoFn)window._undoFn();
-}
-
-// ── CRUD ───────────────────────────────────────────────────────────────────
+// CRUD
 function deleteJob(id){
-  const job=jobs.find(j=>j.id===id);
-  if(!job)return;
-  const snapshot=[...jobs];
-  jobs=jobs.filter(j=>j.id!==id);
+  const job=jobs.find(j=>j.id===id);if(!job)return;
+  const snap=[...jobs];jobs=jobs.filter(j=>j.id!==id);
   save();buildYearTabs();render();
-  showUndo(`"${job.name}" deleted`,()=>{jobs=snapshot;save();buildYearTabs();render();});
+  showUndo('"'+job.name+'" deleted',()=>{jobs=snap;save();buildYearTabs();render();});
 }
 function deleteCost(id){
-  const cost=costs.find(c=>c.id===id);
-  if(!cost)return;
-  const snapshot=[...costs];
-  costs=costs.filter(c=>c.id!==id);
+  const cost=costs.find(c=>c.id===id);if(!cost)return;
+  const snap=[...costs];costs=costs.filter(c=>c.id!==id);
   save();buildCostYearTabs();renderCosts();
-  showUndo(`"${cost.desc}" deleted`,()=>{costs=snapshot;save();buildCostYearTabs();renderCosts();});
+  showUndo('"'+cost.desc+'" deleted',()=>{costs=snap;save();buildCostYearTabs();renderCosts();});
 }
 function cycleStatus(id){
   const order=['scheduled','completed','cancelled'];
@@ -655,7 +764,7 @@ function cycleStatus(id){
   save();render();
 }
 
-// ── JOB MODAL ──────────────────────────────────────────────────────────────
+// JOB MODAL
 function openModal(){
   editingJobId=null;
   document.getElementById('job-modal-title').textContent='New Job';
@@ -689,21 +798,18 @@ function saveJob(){
   closeModal();save();buildYearTabs();render();
 }
 
-// ── COST MODAL ─────────────────────────────────────────────────────────────
+// COST MODAL
 function openWorkerJobModal(workerName){
   openCostModal();
   document.getElementById('cost-modal-title').textContent='Log Pay for '+workerName;
   document.getElementById('c-cat').value='Worker Pay';
   document.getElementById('c-date').value=new Date().toISOString().split('T')[0];
-  toggleWorkerSection();
-  addWorkerRow(workerName,'');
+  toggleWorkerSection();addWorkerRow(workerName,'');
 }
-
 function openWorkerPayModal(){
   openCostModal();
   document.getElementById('c-cat').value='Worker Pay';
-  toggleWorkerSection();
-  addWorkerRow();
+  toggleWorkerSection();addWorkerRow();
 }
 function openCostModal(){
   editingCostId=null;
@@ -727,10 +833,8 @@ function editCost(id){
   document.getElementById('c-amount').value=cost.amount||'';
   document.getElementById('c-notes').value=cost.notes||'';
   document.getElementById('worker-rows').innerHTML='';
-  if(cost.cat==='Worker Pay'){
-    document.getElementById('worker-pay-section').style.display='block';
-    if(cost.workers)Object.entries(cost.workers).forEach(([n,a])=>addWorkerRow(n,a!==null?a:''));
-  } else {document.getElementById('worker-pay-section').style.display='none';}
+  if(cost.cat==='Worker Pay'){document.getElementById('worker-pay-section').style.display='block';if(cost.workers)Object.entries(cost.workers).forEach(([n,a])=>addWorkerRow(n,a!==null?a:''));}
+  else{document.getElementById('worker-pay-section').style.display='none';}
   document.getElementById('cost-modal').classList.add('open');
 }
 function closeCostModal(){document.getElementById('cost-modal').classList.remove('open');editingCostId=null;}
@@ -746,43 +850,23 @@ function saveCost(){
   if(currentView==='costs')renderCosts();else if(currentView==='workers')renderWorkers();else updateStats();
 }
 
-function renderGoals(){
-  const goal = parseInt(localStorage.getItem('ecd_goal') || '10000');
-  const rev2026 = jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').reduce((s,j)=>s+j.price,0);
-  const remaining = Math.max(0, goal - rev2026);
-  const pct = Math.min(100, Math.round((rev2026/goal)*100));
-  const avg = jobs.filter(j=>j.date?.startsWith('2026')).length
-    ? rev2026/jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').length
-    : 238;
-  const jobsNeeded = avg > 0 ? Math.ceil(remaining/avg) : 0;
-
-  document.getElementById('g-amount-display').textContent = '$'+goal.toLocaleString();
-  document.getElementById('g-input').value = goal;
-  document.getElementById('g-bar').style.width = pct+'%';
-  document.getElementById('g-pct').textContent = pct+'%';
-  document.getElementById('g-caption').textContent = pct>=100 ? '🎉 Goal reached!' : `$${rev2026.toLocaleString()} of $${goal.toLocaleString()}`;
-  document.getElementById('g-current').textContent = '$'+rev2026.toLocaleString();
-  document.getElementById('g-remaining').textContent = remaining>0?'$'+remaining.toLocaleString():'$0';
-  document.getElementById('g-jobs').textContent = remaining>0?jobsNeeded:'Done!';
+function toggleWorkerSection(){
+  document.getElementById('worker-pay-section').style.display=document.getElementById('c-cat').value==='Worker Pay'?'block':'none';
 }
-
-function setGoal(){
-  const val = parseInt(document.getElementById('g-input').value);
-  if(!val||val<1){alert('Enter a valid goal amount.');return;}
-  localStorage.setItem('ecd_goal', val);
-  renderGoals();
+function addWorkerRow(name='',amount=''){
+  const row=document.createElement('div');row.className='worker-pay-row';
+  row.innerHTML=`<input type="text" placeholder="Worker name" value="${name}" style="flex:1;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;border-radius:8px;">
+    <input type="number" placeholder="$" value="${amount}" min="0" style="width:75px;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:10px 8px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;border-radius:8px;">
+    <button class="remove-worker" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('worker-rows').appendChild(row);
 }
-
-function fmtDate(d){
-  if(!d)return'—';
-  const[y,m,day]=d.split('-');
-  return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+ +day+', '+y;
+function autoSplitWorkers(){
+  const rows=document.querySelectorAll('#worker-rows .worker-pay-row');
+  if(!rows.length)return;
+  const total=parseFloat(document.getElementById('c-amount').value)||0;
+  const each=Math.round(total/rows.length);
+  rows.forEach(r=>{const inp=r.querySelectorAll('input')[1];if(!inp.dataset.manual)inp.value=each||'';});
 }
-
-document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-document.getElementById('cost-modal').addEventListener('click',function(e){if(e.target===this)closeCostModal();});
-
-buildYearTabs();render();
-</script>
-</body>
-</html>
+function getWorkerBreakdown(){
+  const workers={};
+  document.querySelectorAll('#worker-rows .worker-pay-row').forEac
