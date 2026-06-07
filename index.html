@@ -12,25 +12,35 @@
     --green:#4ade80;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c;--blue:#60a5fa;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:16px;}
 
-  .header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);}
-  .brand-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px;}
-  .brand-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;}
-  .header-btns{display:flex;gap:8px;}
-  .add-btn{background:var(--accent);color:#000;border:none;padding:10px 18px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);gap:12px;}
+  .brand-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:2px;}
+  .brand-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;white-space:nowrap;}
+  .header-btns{display:flex;gap:6px;flex-shrink:0;}
+  .add-btn{background:var(--accent);color:#000;border:none;padding:8px 12px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:all .15s;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));white-space:nowrap;}
   .add-btn:hover{background:#fff;}
   .add-btn.cost{background:var(--card);color:var(--orange);border:1px solid var(--orange);clip-path:none;}
   .add-btn.cost:hover{background:var(--orange);color:#000;}
 
-  .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px;}
-  .stat-card{background:var(--card);border:1px solid var(--border);padding:15px 17px;position:relative;overflow:hidden;}
+  .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px;}
+  .stats-row .stat-card:nth-child(4){grid-column:span 2;}
+  .stat-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;position:relative;overflow:hidden;}
   .stat-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);}
   .stat-card.red::before{background:var(--red);}
   .stat-card.profit::before{background:var(--green);}
-  .stat-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px;}
-  .stat-value{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;line-height:1;}
+  .stat-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;}
+  .stat-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1;}
   .stat-value.green{color:var(--green);}.stat-value.yellow{color:var(--yellow);}.stat-value.accent{color:var(--accent);}.stat-value.red{color:var(--red);}.stat-value.profit{color:var(--green);}
+
+  @media(min-width:600px){
+    body{padding:24px;}
+    .brand-title{font-size:42px;}
+    .stats-row{grid-template-columns:repeat(5,1fr);}
+    .stats-row .stat-card:nth-child(4){grid-column:span 1;}
+    .stat-value{font-size:28px;}
+    .add-btn{padding:10px 18px;font-size:13px;}
+  }
 
   .main-tabs{display:flex;margin-bottom:18px;border-bottom:1px solid var(--border);}
   .main-tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-bottom:-1px;transition:all .15s;}
@@ -51,28 +61,33 @@
 
   .job-list{display:flex;flex-direction:column;gap:8px;}
 
-  .job-card{background:var(--card);border:1px solid var(--border);padding:14px 17px;display:grid;grid-template-columns:42px 1fr auto auto auto auto auto;align-items:center;gap:11px;transition:border-color .15s;}
+  .job-card{background:var(--card);border:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s;}
   .job-card:hover{border-color:#444;}
-  .job-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--muted);text-align:center;}
+  .job-card-row1{display:flex;align-items:center;gap:10px;}
+  .job-card-row2{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;}
+  .job-num{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);min-width:26px;}
+  .job-info{flex:1;min-width:0;}
   .job-name{font-size:14px;font-weight:600;margin-bottom:2px;}
-  .job-meta{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;}
-  .job-service{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:3px 8px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;}
-  .job-price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--accent);white-space:nowrap;min-width:68px;text-align:right;}
-  .status-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+  .job-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}
+  .job-service{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:3px 7px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;}
+  .job-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);white-space:nowrap;}
+  .job-actions{display:flex;align-items:center;gap:2px;margin-left:auto;}
+  .status-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:4px 8px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;white-space:nowrap;}
   .status-badge.scheduled{background:rgba(251,191,36,.12);color:var(--yellow);}
   .status-badge.completed{background:rgba(74,222,128,.12);color:var(--green);}
   .status-badge.cancelled{background:rgba(248,113,113,.1);color:var(--red);}
-  .edit-btn{background:transparent;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:3px 5px;transition:color .15s;}
+  .edit-btn{background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:5px;transition:color .15s;}
   .edit-btn:hover{color:var(--accent);}
-  .delete-btn{background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:3px 5px;transition:color .15s;}
+  .delete-btn{background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:5px;transition:color .15s;}
   .delete-btn:hover{color:var(--red);}
 
-  .expense-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);padding:13px 17px;display:grid;grid-template-columns:1fr auto auto auto auto;align-items:center;gap:11px;}
+  .expense-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
   .expense-card:hover{border-color:#444;border-left-color:var(--orange);}
+  .expense-card-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
   .expense-name{font-size:14px;font-weight:600;margin-bottom:2px;}
-  .expense-meta{font-size:11px;color:var(--muted);display:flex;gap:10px;}
-  .expense-cat{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:3px 8px;border:1px solid rgba(251,146,60,.3);color:var(--orange);white-space:nowrap;}
-  .expense-amount{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);white-space:nowrap;min-width:68px;text-align:right;}
+  .expense-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}
+  .expense-cat{font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:3px 7px;border:1px solid rgba(251,146,60,.3);color:var(--orange);white-space:nowrap;}
+  .expense-amount{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);white-space:nowrap;}
 
   /* WORKERS */
   .workers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px;}
@@ -371,15 +386,8 @@ const JOB_DEFAULTS=[
 // workers field = {WorkerName: amount} — null means TBD split
 const COST_DEFAULTS=[
   {id:1,desc:"Nick & Garo — Babs Boss",cat:"Worker Pay",date:"2026-06-01",amount:300,notes:"",workers:{Nicholas:150,Garo:150}},
-  {id:2,desc:"Torch supply — Vesela",cat:"Supplies",date:"2026-06-02",amount:50,notes:"",workers:{}},
-  {id:3,desc:"Torch supply — Dave O'Connor",cat:"Supplies",date:"2026-06-03",amount:60,notes:"",workers:{}},
-  {id:4,desc:"Nicholas & Garo — Dave's Other Sister",cat:"Worker Pay",date:"2026-06-05",amount:20,notes:"",workers:{Nicholas:10,Garo:10}},
-  {id:5,desc:"Nicholas, Garo, Savva — Tom Tom",cat:"Worker Pay",date:"2026-06-06",amount:0,notes:"Amount TBD",workers:{Nicholas:null,Garo:null,Savva:null}},
-  {id:6,desc:"Nicholas, Garo, Savva — Avery Grandma",cat:"Worker Pay",date:"2026-06-07",amount:0,notes:"Amount TBD",workers:{Nicholas:null,Garo:null,Savva:null}},
-  {id:7,desc:"Nicholas & Garo — Val x2",cat:"Worker Pay",date:"2026-06-08",amount:0,notes:"Amount TBD",workers:{Nicholas:null,Garo:null}},
-  {id:8,desc:"Savva & Garo — Dave D",cat:"Worker Pay",date:"2026-06-09",amount:0,notes:"Amount TBD",workers:{Savva:null,Garo:null}},
-  {id:9,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
-  {id:10,desc:"Garo — Jen",cat:"Worker Pay",date:"2026-06-13",amount:60,notes:"",workers:{Garo:60}},
+  {id:2,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
+  {id:3,desc:"Garo — Jen",cat:"Worker Pay",date:"2026-06-13",amount:60,notes:"",workers:{Garo:60}},
   {id:11,desc:"Tool Bag",cat:"Equipment",date:"2025-10-19",amount:35,notes:"",workers:{}},
   {id:12,desc:"Carpet Stain Remover",cat:"Supplies",date:"2025-10-19",amount:9,notes:"",workers:{}},
   {id:13,desc:"TikTok Ads",cat:"Marketing",date:"2025-10-19",amount:39,notes:"",workers:{}},
@@ -460,25 +468,31 @@ function render(){
   if(!filtered.length){list.innerHTML='<div class="empty">No jobs here.</div>';return;}
   list.innerHTML=filtered.map((job,i)=>`
     <div class="job-card">
-      <div class="job-num">${String(i+1).padStart(2,'0')}</div>
-      <div>
-        <div class="job-name">${job.name}</div>
-        <div class="job-meta">
-          ${job.vehicle?`<span>🚗 ${job.vehicle}</span>`:''}
-          <span>📅 ${fmtDate(job.date)}</span>
-          ${job.notes?`<span>📝 ${job.notes.slice(0,35)}${job.notes.length>35?'…':''}</span>`:''}
+      <div class="job-card-row1">
+        <div class="job-num">${String(i+1).padStart(2,'00')}</div>
+        <div class="job-info">
+          <div class="job-name">${job.name}</div>
+          <div class="job-meta">
+            ${job.vehicle?`<span>🚗 ${job.vehicle}</span>`:''}
+            <span>📅 ${fmtDate(job.date)}</span>
+            ${job.notes?`<span>📝 ${job.notes.slice(0,30)}${job.notes.length>30?'…':''}</span>`:''}
+          </div>
         </div>
       </div>
-      <div class="job-service">${job.service}</div>
-      <div class="job-price">$${job.price}</div>
-      <button class="status-badge ${job.status}" onclick="cycleStatus(${job.id})">${job.status}</button>
-      <button class="edit-btn" onclick="editJob(${job.id})" title="Edit">✏️</button>
-      <button class="delete-btn" onclick="deleteJob(${job.id})" title="Delete">✕</button>
+      <div class="job-card-row2">
+        <div class="job-service">${job.service}</div>
+        <div class="job-price">$${job.price}</div>
+        <div class="job-actions">
+          <button class="status-badge ${job.status}" onclick="cycleStatus(${job.id})">${job.status}</button>
+          <button class="edit-btn" onclick="editJob(${job.id})">✏️</button>
+          <button class="delete-btn" onclick="deleteJob(${job.id})">✕</button>
+        </div>
+      </div>
     </div>`).join('');
 }
 
 function renderCosts(){
-  const filtered=currentCostYear==='all'?costs:costs.filter(c=>c.date?.startsWith(currentCostYear));
+  const filtered=(currentCostYear==='all'?costs:costs.filter(c=>c.date?.startsWith(currentCostYear))).filter(c=>c.cat!=='Worker Pay');
   updateStats();
   const list=document.getElementById('cost-list');
   if(!filtered.length){list.innerHTML='<div class="empty">No expenses yet.</div>';return;}
@@ -487,15 +501,19 @@ function renderCosts(){
       ?Object.entries(c.workers).map(([w,a])=>`<span style="color:var(--blue);font-size:10px;margin-right:6px;">${w}: ${a!==null?'$'+a:'TBD'}</span>`).join('')
       :'';
     return`<div class="expense-card">
-      <div>
-        <div class="expense-name">${c.desc}</div>
-        <div class="expense-meta"><span>📅 ${fmtDate(c.date)}</span>${c.notes?`<span>📝 ${c.notes}</span>`:''}</div>
-        ${workerTags?`<div style="margin-top:5px;">${workerTags}</div>`:''}
+      <div class="expense-card-row">
+        <div style="flex:1;min-width:0;">
+          <div class="expense-name">${c.desc}</div>
+          <div class="expense-meta"><span>📅 ${fmtDate(c.date)}</span>${c.notes?`<span>📝 ${c.notes}</span>`:''}</div>
+          ${workerTags?`<div style="margin-top:5px;">${workerTags}</div>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <div class="expense-cat">${c.cat}</div>
+          <div class="expense-amount">${c.amount>0?'-$'+c.amount:'TBD'}</div>
+          <button class="edit-btn" onclick="editCost(${c.id})">✏️</button>
+          <button class="delete-btn" onclick="deleteCost(${c.id})">✕</button>
+        </div>
       </div>
-      <div class="expense-cat">${c.cat}</div>
-      <div class="expense-amount">${c.amount>0?'-$'+c.amount:'TBD'}</div>
-      <button class="edit-btn" onclick="editCost(${c.id})" title="Edit">✏️</button>
-      <button class="delete-btn" onclick="deleteCost(${c.id})" title="Delete">✕</button>
     </div>`;
   }).join('');
 }
@@ -504,7 +522,20 @@ function renderWorkers(){
   const workerTotals={};
   const workerJobs={};
   const workerTBD={};
-  costs.filter(c=>c.cat==='Worker Pay'&&c.workers).forEach(c=>{
+
+  // Always include known worker pay — merge with any localStorage costs
+  const knownWorkerPay=[
+    {id:1,desc:"Nick & Garo — Babs Boss",cat:"Worker Pay",date:"2026-06-01",amount:300,notes:"",workers:{Nicholas:150,Garo:150}},
+    {id:2,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
+    {id:3,desc:"Garo — Jen",cat:"Worker Pay",date:"2026-06-13",amount:60,notes:"",workers:{Garo:60}},
+    {id:4,desc:"Torch — Vesela",cat:"Worker Pay",date:"2026-06-02",amount:50,notes:"",workers:{Torch:50}},
+    {id:5,desc:"Torch — Dave O'Connor",cat:"Worker Pay",date:"2026-06-03",amount:60,notes:"",workers:{Torch:60}},
+  ];
+  const dynamicWorkerPay=costs.filter(c=>c.cat==='Worker Pay'&&c.workers);
+  // Merge: use dynamic if any exist, otherwise use known defaults
+  const workerPaySource=dynamicWorkerPay.length>0?dynamicWorkerPay:knownWorkerPay;
+
+  workerPaySource.forEach(c=>{
     Object.entries(c.workers).forEach(([w,a])=>{
       if(!workerTotals[w]){workerTotals[w]=0;workerJobs[w]=[];workerTBD[w]=false;}
       if(a===null){workerTBD[w]=true;}
@@ -526,7 +557,7 @@ function renderWorkers(){
       <div class="worker-breakdown-row">
         <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${j.desc.split('—')[1]?.trim()||j.desc}</span>
         <span style="margin:0 8px;white-space:nowrap;">${j.amount!==null?'$'+j.amount:'<span class="tbd-badge">TBD</span>'}</span>
-        <button class="edit-btn" style="font-size:11px;padding:1px 4px;" onclick="editCost(${j.costId})" title="Edit this entry">✏️</button>
+        <button class="edit-btn" style="font-size:11px;padding:1px 4px;" onclick="editCost(${j.costId})" title="Edit">✏️</button>
       </div>`).join('');
     return`<div class="worker-card">
       <div class="worker-avatar">${initials}</div>
@@ -534,6 +565,7 @@ function renderWorkers(){
       <div class="worker-total">$${total.toLocaleString()}${hasTBD?'<span style="font-size:14px;color:var(--yellow);margin-left:4px;">+TBD</span>':''}</div>
       <div class="worker-jobs">${workerJobs[name].length} job${workerJobs[name].length!==1?'s':''}</div>
       <div class="worker-breakdown">${breakdown}</div>
+      <button onclick="openWorkerJobModal('${name}')" style="margin-top:12px;width:100%;background:transparent;border:1px dashed var(--blue);color:var(--blue);padding:7px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;">+ Log Pay for ${name}</button>
     </div>`;
   }).join('');
 }
@@ -569,9 +601,53 @@ function getWorkerBreakdown(){
   return workers;
 }
 
+// ── UNDO SYSTEM ────────────────────────────────────────────────────────────
+let undoTimer=null;
+
+function showUndo(message, undoFn){
+  clearTimeout(undoTimer);
+  let toast=document.getElementById('undo-toast');
+  if(!toast){
+    toast=document.createElement('div');
+    toast.id='undo-toast';
+    toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e1e1e;border:1px solid #444;color:#f0f0f0;padding:12px 20px;font-family:DM Sans,sans-serif;font-size:13px;display:flex;align-items:center;gap:16px;z-index:999;min-width:260px;box-shadow:0 4px 20px rgba(0,0,0,.5);';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML=`<span>${message}</span><button onclick="undoAction()" style="background:var(--accent);color:#000;border:none;padding:5px 12px;font-family:DM Sans,sans-serif;font-weight:600;font-size:12px;cursor:pointer;">UNDO</button><span id="undo-countdown" style="color:var(--muted);font-size:11px;">5s</span>`;
+  toast.style.display='flex';
+  window._undoFn=undoFn;
+  let secs=5;
+  undoTimer=setInterval(()=>{
+    secs--;
+    const cd=document.getElementById('undo-countdown');
+    if(cd)cd.textContent=secs+'s';
+    if(secs<=0){clearInterval(undoTimer);toast.style.display='none';}
+  },1000);
+}
+
+function undoAction(){
+  clearInterval(undoTimer);
+  document.getElementById('undo-toast').style.display='none';
+  if(window._undoFn)window._undoFn();
+}
+
 // ── CRUD ───────────────────────────────────────────────────────────────────
-function deleteJob(id){if(!confirm('Delete this job?'))return;jobs=jobs.filter(j=>j.id!==id);save();buildYearTabs();render();}
-function deleteCost(id){if(!confirm('Delete this expense?'))return;costs=costs.filter(c=>c.id!==id);save();buildCostYearTabs();renderCosts();}
+function deleteJob(id){
+  const job=jobs.find(j=>j.id===id);
+  if(!job)return;
+  const snapshot=[...jobs];
+  jobs=jobs.filter(j=>j.id!==id);
+  save();buildYearTabs();render();
+  showUndo(`"${job.name}" deleted`,()=>{jobs=snapshot;save();buildYearTabs();render();});
+}
+function deleteCost(id){
+  const cost=costs.find(c=>c.id===id);
+  if(!cost)return;
+  const snapshot=[...costs];
+  costs=costs.filter(c=>c.id!==id);
+  save();buildCostYearTabs();renderCosts();
+  showUndo(`"${cost.desc}" deleted`,()=>{costs=snapshot;save();buildCostYearTabs();renderCosts();});
+}
 function cycleStatus(id){
   const order=['scheduled','completed','cancelled'];
   const job=jobs.find(j=>j.id===id);
@@ -614,6 +690,15 @@ function saveJob(){
 }
 
 // ── COST MODAL ─────────────────────────────────────────────────────────────
+function openWorkerJobModal(workerName){
+  openCostModal();
+  document.getElementById('cost-modal-title').textContent='Log Pay for '+workerName;
+  document.getElementById('c-cat').value='Worker Pay';
+  document.getElementById('c-date').value=new Date().toISOString().split('T')[0];
+  toggleWorkerSection();
+  addWorkerRow(workerName,'');
+}
+
 function openWorkerPayModal(){
   openCostModal();
   document.getElementById('c-cat').value='Worker Pay';
