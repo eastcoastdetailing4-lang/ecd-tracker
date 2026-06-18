@@ -276,6 +276,54 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 .view{display:none;padding:0 0 8px;}
 .view.active{display:block;}
 
+/* ── SEARCH ── */
+.search-row{padding:0 16px 12px;}
+.search-row input{
+  background:var(--card);border:1.5px solid var(--border);color:var(--text);
+  padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
+  border-radius:20px;width:100%;-webkit-appearance:none;
+}
+.search-row input:focus{border-color:var(--accent);}
+
+/* ── BACKUP ── */
+.header-icon{color:var(--muted);font-size:19px;}
+.header-icon:active{background:rgba(255,255,255,.08);}
+.backup-note{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:18px;}
+.backup-stat{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;}
+.backup-stat strong{color:var(--text);}
+
+/* ── SYNC ── */
+.sync-box{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:12px;padding:14px;margin-bottom:16px;}
+.sync-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;}
+.sync-title{font-size:15px;font-weight:600;}
+.sync-status{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:3px 9px;border-radius:6px;background:rgba(255,255,255,.05);}
+.sync-status.ok{color:var(--green);background:rgba(74,222,128,.12);}
+.sync-status.warn{color:var(--yellow);background:rgba(251,191,36,.12);}
+.sync-status.err{color:var(--red);background:rgba(248,113,113,.12);}
+.sync-id-show{font-size:13px;color:var(--blue);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px;margin-bottom:10px;word-break:break-all;}
+.sync-divider{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:0 0 14px;}
+
+/* ── CONTACT BUTTONS ── */
+.job-contact{display:flex;gap:8px;margin:0 0 10px;}
+.contact-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;border-radius:8px;padding:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;border:1.5px solid var(--border);}
+.contact-btn.text{color:var(--green);border-color:rgba(74,222,128,.4);}
+.contact-btn.call{color:var(--blue);border-color:rgba(96,165,250,.4);}
+.contact-btn:active{background:rgba(255,255,255,.05);}
+
+/* ── REPORTS ── */
+.report-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.rq-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.rq-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:5px;}
+.rq-value{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.5px;}
+.rq-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.report-toggle{display:flex;gap:6px;margin-bottom:14px;}
+.report-toggle button{flex:1;background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border-radius:8px;}
+.report-toggle button.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.report-row{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:7px;}
+.rr-period{font-size:14px;font-weight:600;}
+.rr-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.rr-rev{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:.5px;}
+
 /* ── DESKTOP OVERRIDES ── */
 @media(min-width:600px){
   body{padding-bottom:0;}
@@ -313,6 +361,8 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
     <div class="brand-title">JOB TRACKER</div>
   </div>
   <div class="header-btns">
+    <button class="icon-btn header-icon" onclick="openReportsModal()" title="Reports" aria-label="Reports">📊</button>
+    <button class="icon-btn header-icon" onclick="openBackupModal()" title="Backup & Restore" aria-label="Backup and Restore">⚙</button>
     <button class="add-btn cost" onclick="openCostModal()">+ Cost</button>
     <button class="add-btn" onclick="openModal()">+ Job</button>
   </div>
@@ -337,6 +387,9 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 <!-- JOBS VIEW -->
 <div class="view active" id="view-jobs">
   <div class="year-bar" id="year-bar"></div>
+  <div class="search-row">
+    <input type="search" id="job-search" placeholder="🔍 Search name, vehicle, service, notes…" oninput="setSearch(this.value)">
+  </div>
   <div class="filters">
     <button class="filter-btn active" onclick="setStatus('all',this)">All</button>
     <button class="filter-btn" onclick="setStatus('scheduled',this)">Scheduled</button>
@@ -414,6 +467,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
     <div class="modal-title" id="job-modal-title">New Job</div>
     <div class="form-group"><label>Customer Name</label><input type="text" id="f-name" placeholder="e.g. John Smith"></div>
     <div class="form-group"><label>Vehicle</label><input type="text" id="f-vehicle" placeholder="e.g. 2022 BMW X5"></div>
+    <div class="form-group"><label>Phone (optional)</label><input type="tel" id="f-phone" placeholder="e.g. (781) 555-0142"></div>
     <div class="form-group"><label>Date</label><input type="date" id="f-date"></div>
     <div class="form-group"><label>Service</label>
       <select id="f-service">
@@ -456,6 +510,60 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeCostModal()">Cancel</button>
       <button class="btn-primary cost" id="cost-modal-btn" onclick="saveCost()">Add Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- BACKUP MODAL -->
+<div class="modal-overlay" id="backup-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Sync &amp; Backup</div>
+
+    <div class="sync-box">
+      <div class="sync-head"><span class="sync-title">☁️ Auto-Sync</span><span class="sync-status" id="sync-status">Off</span></div>
+      <div id="sync-off-view">
+        <p class="backup-note" style="margin:10px 0 12px;">Enter the same Sync ID on every device and your jobs stay matched automatically — add a job on your phone and it appears on your computer, and back.</p>
+        <input type="text" id="sync-id-input" placeholder="Paste your Sync ID" autocomplete="off" spellcheck="false" style="margin-bottom:8px;">
+        <button class="btn-primary" style="width:100%;margin-bottom:8px;" onclick="connectSync()">Turn On Auto-Sync</button>
+        <button class="btn-ghost" style="width:100%;" onclick="window.open('https://getpantry.cloud/','_blank')">Get a free Sync ID →</button>
+      </div>
+      <div id="sync-on-view" style="display:none;">
+        <p class="backup-note" style="margin:10px 0 8px;">Auto-sync is <strong>on</strong>. Enter this same Sync ID on your other devices:</p>
+        <div class="sync-id-show" id="sync-id-show"></div>
+        <button class="btn-ghost" style="width:100%;" onclick="disconnectSync()">Turn Off Auto-Sync</button>
+      </div>
+    </div>
+
+    <div class="sync-divider">— or save a file —</div>
+
+    <button class="btn-ghost" style="width:100%;margin-bottom:8px;" onclick="exportData()">⬇  Download Backup</button>
+    <button class="btn-ghost" style="width:100%;" onclick="document.getElementById('import-file').click()">⬆  Restore from Backup</button>
+    <input type="file" id="import-file" accept="application/json,.json" style="display:none;" onchange="importData(event)">
+    <div class="backup-stat" id="backup-stat"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" style="flex:1;" onclick="closeBackupModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- REPORTS MODAL -->
+<div class="modal-overlay" id="reports-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📊 Reports</div>
+    <div class="report-quick">
+      <div class="rq-card"><div class="rq-label">This Month</div><div class="rq-value" style="color:var(--green)" id="rq-month-rev">$0</div><div class="rq-sub" id="rq-month-cars">0 cars</div></div>
+      <div class="rq-card"><div class="rq-label">Avg Ticket</div><div class="rq-value" style="color:var(--accent)" id="rq-avg">$0</div></div>
+      <div class="rq-card"><div class="rq-label">Repeat Clients</div><div class="rq-value" style="color:var(--blue)" id="rq-repeat">0</div></div>
+    </div>
+    <div class="report-toggle">
+      <button id="rt-month" class="active" onclick="setReportMode('month')">By Month</button>
+      <button id="rt-week" onclick="setReportMode('week')">By Week</button>
+    </div>
+    <div id="report-list"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" style="flex:1;" onclick="closeReportsModal()">Close</button>
     </div>
   </div>
 </div>
@@ -541,17 +649,18 @@ const COST_DEFAULTS=[
 
 function loadJobs(){try{const s=localStorage.getItem('ecd_jobs');return s?JSON.parse(s):JOB_DEFAULTS;}catch(e){return JOB_DEFAULTS;}}
 function loadCosts(){try{const s=localStorage.getItem('ecd_costs');return s?JSON.parse(s):COST_DEFAULTS;}catch(e){return COST_DEFAULTS;}}
-function save(){
+function saveLocal(){
   localStorage.setItem('ecd_jobs',JSON.stringify(jobs));
   localStorage.setItem('ecd_costs',JSON.stringify(costs));
   localStorage.setItem('ecd_jobId',jobId);
   localStorage.setItem('ecd_costId',costId);
 }
+function save(){saveLocal();markChanged();}
 
 let jobs=loadJobs(),costs=loadCosts();
 let jobId=parseInt(localStorage.getItem('ecd_jobId')||'60');
 let costId=parseInt(localStorage.getItem('ecd_costId')||'21');
-let currentStatus='all',currentYear='all',currentCostYear='all',currentView='jobs';
+let currentStatus='all',currentYear='all',currentCostYear='all',currentView='jobs',currentSearch='';
 let editingJobId=null,editingCostId=null;
 
 // Show desktop tabs on desktop
@@ -612,10 +721,12 @@ function updateStats(){
 
 function render(){
   const yj=currentYear==='all'?jobs:jobs.filter(j=>j.date?.startsWith(currentYear));
-  const filtered=yj.filter(j=>currentStatus==='all'||j.status===currentStatus);
+  let filtered=yj.filter(j=>currentStatus==='all'||j.status===currentStatus);
+  if(currentSearch){filtered=filtered.filter(j=>(j.name+' '+(j.vehicle||'')+' '+(j.service||'')+' '+(j.notes||'')+' '+(j.phone||'')).toLowerCase().includes(currentSearch));}
+  filtered=filtered.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   updateStats();
   const list=document.getElementById('job-list');
-  if(!filtered.length){list.innerHTML='<div class="empty">No jobs here. Tap <strong>+ Job</strong> to add one.</div>';return;}
+  if(!filtered.length){list.innerHTML='<div class="empty">'+(currentSearch?'No jobs match your search.':'No jobs here. Tap <strong>+ Job</strong> to add one.')+'</div>';return;}
   list.innerHTML=filtered.map((job,i)=>`
     <div class="job-card">
       <div class="job-card-top">
@@ -625,6 +736,7 @@ function render(){
         </div>
         <div class="job-price">$${job.price}</div>
       </div>
+      ${job.phone?`<div class="job-contact"><a class="contact-btn text" href="sms:${(job.phone+'').replace(/[^\d+]/g,'')}">💬 Text</a><a class="contact-btn call" href="tel:${(job.phone+'').replace(/[^\d+]/g,'')}">📞 Call</a></div>`:''}
       <div class="job-card-bottom">
         <div class="job-service">${job.service}</div>
         <div class="job-actions">
@@ -727,7 +839,7 @@ function renderGoals(){
 function setGoal(){
   const val=parseInt(document.getElementById('g-input').value);
   if(!val||val<1){alert('Enter a valid goal.');return;}
-  localStorage.setItem('ecd_goal',val);renderGoals();
+  localStorage.setItem('ecd_goal',val);markChanged();renderGoals();
 }
 
 // UNDO
@@ -770,7 +882,7 @@ function openModal(){
   document.getElementById('job-modal-title').textContent='New Job';
   document.getElementById('job-modal-btn').textContent='Add Job';
   document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
-  ['f-name','f-vehicle','f-price','f-notes'].forEach(id=>document.getElementById(id).value='');
+  ['f-name','f-vehicle','f-phone','f-price','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-service').value='';
   document.getElementById('modal').classList.add('open');
 }
@@ -781,6 +893,7 @@ function editJob(id){
   document.getElementById('job-modal-btn').textContent='Save Changes';
   document.getElementById('f-name').value=job.name;
   document.getElementById('f-vehicle').value=job.vehicle||'';
+  document.getElementById('f-phone').value=job.phone||'';
   document.getElementById('f-date').value=job.date||'';
   document.getElementById('f-service').value=job.service||'';
   document.getElementById('f-price').value=job.price||'';
@@ -792,7 +905,7 @@ function saveJob(){
   const name=document.getElementById('f-name').value.trim();
   const service=document.getElementById('f-service').value;
   if(!name||!service){alert('Enter a customer name and service.');return;}
-  const data={name,vehicle:document.getElementById('f-vehicle').value.trim(),date:document.getElementById('f-date').value,service,price:parseFloat(document.getElementById('f-price').value)||0,notes:document.getElementById('f-notes').value.trim()};
+  const data={name,vehicle:document.getElementById('f-vehicle').value.trim(),phone:document.getElementById('f-phone').value.trim(),date:document.getElementById('f-date').value,service,price:parseFloat(document.getElementById('f-price').value)||0,notes:document.getElementById('f-notes').value.trim()};
   if(editingJobId!==null){Object.assign(jobs.find(j=>j.id===editingJobId),data);}
   else{jobs.push({id:jobId++,status:'completed',...data});}
   closeModal();save();buildYearTabs();render();
@@ -883,10 +996,183 @@ function fmtDate(d){
   return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+ +day+', '+y;
 }
 
+// REPORTS
+const MONTHS_FULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let reportMode='month';
+function openReportsModal(){renderReports();document.getElementById('reports-modal').classList.add('open');}
+function closeReportsModal(){document.getElementById('reports-modal').classList.remove('open');}
+function setReportMode(m){
+  reportMode=m;
+  document.getElementById('rt-month').classList.toggle('active',m==='month');
+  document.getElementById('rt-week').classList.toggle('active',m==='week');
+  renderReportList();
+}
+function weekStartStr(dateStr){const d=new Date(dateStr+'T00:00:00');d.setDate(d.getDate()-d.getDay());return d.toISOString().slice(0,10);}
+function weekLabel(ws){
+  const s=new Date(ws+'T00:00:00'),e=new Date(ws+'T00:00:00');e.setDate(e.getDate()+6);
+  if(s.getMonth()===e.getMonth())return MONTHS_SHORT[s.getMonth()]+' '+s.getDate()+'–'+e.getDate()+', '+s.getFullYear();
+  return MONTHS_SHORT[s.getMonth()]+' '+s.getDate()+' – '+MONTHS_SHORT[e.getMonth()]+' '+e.getDate()+', '+e.getFullYear();
+}
+function renderReports(){
+  const completed=jobs.filter(j=>j.status==='completed');
+  const now=new Date();
+  const ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const mj=completed.filter(j=>(j.date||'').startsWith(ym));
+  const mRev=mj.reduce((s,j)=>s+j.price,0);
+  document.getElementById('rq-month-rev').textContent='$'+mRev.toLocaleString();
+  document.getElementById('rq-month-cars').textContent=mj.length+' car'+(mj.length!==1?'s':'');
+  const avg=completed.length?Math.round(completed.reduce((s,j)=>s+j.price,0)/completed.length):0;
+  document.getElementById('rq-avg').textContent='$'+avg.toLocaleString();
+  const counts={};
+  completed.forEach(j=>{const n=(j.name||'').trim().toLowerCase();if(n)counts[n]=(counts[n]||0)+1;});
+  document.getElementById('rq-repeat').textContent=Object.values(counts).filter(c=>c>1).length;
+  renderReportList();
+}
+function renderReportList(){
+  const completed=jobs.filter(j=>j.status==='completed'&&j.date);
+  const groups={};
+  completed.forEach(j=>{
+    let key,label;
+    if(reportMode==='month'){key=j.date.slice(0,7);const[y,m]=key.split('-');label=MONTHS_FULL[+m-1]+' '+y;}
+    else{key=weekStartStr(j.date);label=weekLabel(key);}
+    if(!groups[key])groups[key]={key,label,cars:0,rev:0};
+    groups[key].cars++;groups[key].rev+=j.price;
+  });
+  let arr=Object.values(groups).sort((a,b)=>b.key.localeCompare(a.key));
+  if(reportMode==='week')arr=arr.slice(0,26);
+  const el=document.getElementById('report-list');
+  if(!arr.length){el.innerHTML='<div class="empty">No completed jobs yet.</div>';return;}
+  el.innerHTML=arr.map(g=>`<div class="report-row"><div><div class="rr-period">${g.label}</div><div class="rr-sub">${g.cars} car${g.cars!==1?'s':''}</div></div><div class="rr-rev">$${g.rev.toLocaleString()}</div></div>`).join('');
+}
+
+// SEARCH
+function setSearch(v){currentSearch=v.toLowerCase().trim();render();}
+
+// BACKUP & RESTORE
+function openBackupModal(){
+  document.getElementById('backup-stat').innerHTML='Currently tracking <strong>'+jobs.length+'</strong> jobs and <strong>'+costs.length+'</strong> expenses.';
+  updateSyncUI();
+  document.getElementById('backup-modal').classList.add('open');
+}
+function closeBackupModal(){document.getElementById('backup-modal').classList.remove('open');}
+function exportData(){
+  const data={app:'ecd-tracker',version:1,exported:new Date().toISOString(),
+    goal:localStorage.getItem('ecd_goal')||'10000',jobId,costId,jobs,costs};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='ecd-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function importData(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(!Array.isArray(d.jobs)||!Array.isArray(d.costs))throw new Error('bad');
+      if(!confirm('Restore from this backup?\n\nThis replaces ALL current jobs and expenses with '+d.jobs.length+' jobs and '+d.costs.length+' expenses from the file.')){e.target.value='';return;}
+      jobs=d.jobs;costs=d.costs;
+      if(d.goal)localStorage.setItem('ecd_goal',d.goal);
+      if(d.jobId)jobId=d.jobId;if(d.costId)costId=d.costId;
+      save();closeBackupModal();
+      switchView('jobs',document.getElementById('nav-jobs'));
+      alert('✅ Restored '+jobs.length+' jobs and '+costs.length+' expenses.');
+    }catch(err){alert('That file does not look like a valid ECD backup.');}
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ── CLOUD AUTO-SYNC (free, no per-use key; one Sync ID shared across devices) ──
+function syncOn(){return localStorage.getItem('ecd_sync_on')==='1' && !!localStorage.getItem('ecd_sync_id');}
+function syncId(){return localStorage.getItem('ecd_sync_id')||'';}
+function cloudUrl(){return 'https://getpantry.cloud/apiv1/pantry/'+encodeURIComponent(syncId())+'/basket/ecdtracker';}
+function setSyncStatus(s){
+  const el=document.getElementById('sync-status');if(!el)return;
+  if(!syncOn()){el.textContent='Off';el.className='sync-status';return;}
+  if(s==='saving'){el.textContent='Syncing…';el.className='sync-status warn';}
+  else if(s==='err'){el.textContent='Offline';el.className='sync-status err';}
+  else{el.textContent='On ✓';el.className='sync-status ok';}
+}
+function markChanged(){if(syncOn()){localStorage.setItem('ecd_updatedAt',String(Date.now()));schedulePush();}}
+let _pushT=null;
+function schedulePush(){clearTimeout(_pushT);_pushT=setTimeout(pushCloud,800);}
+function pushCloud(){
+  if(!syncOn())return;
+  const at=Date.now();localStorage.setItem('ecd_updatedAt',String(at));
+  setSyncStatus('saving');
+  fetch(cloudUrl(),{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({jobs,costs,goal:localStorage.getItem('ecd_goal')||'10000',jobId,costId,updatedAt:at})})
+    .then(r=>{if(!r.ok)throw 0;setSyncStatus('ok');}).catch(()=>setSyncStatus('err'));
+}
+function pullCloud(){
+  if(!syncOn())return Promise.resolve();
+  return fetch(cloudUrl(),{headers:{'Accept':'application/json'},cache:'no-store'})
+    .then(r=>{if(r.status===400||r.status===404)return '__empty__';if(!r.ok)throw 0;return r.json();})
+    .then(d=>{
+      if(d==='__empty__'||!d||!Array.isArray(d.jobs)||!Array.isArray(d.costs)){pushCloud();return;}
+      const localAt=Number(localStorage.getItem('ecd_updatedAt')||0),remoteAt=Number(d.updatedAt||0);
+      if(remoteAt>localAt){
+        jobs=d.jobs;costs=d.costs;
+        if(d.goal)localStorage.setItem('ecd_goal',String(d.goal));
+        if(d.jobId)jobId=d.jobId;if(d.costId)costId=d.costId;
+        saveLocal();localStorage.setItem('ecd_updatedAt',String(remoteAt));refreshAll();
+      }else if(localAt>remoteAt){pushCloud();}
+      setSyncStatus('ok');
+    }).catch(()=>setSyncStatus('err'));
+}
+let _syncTimer=null;
+function startSyncTimer(){clearInterval(_syncTimer);_syncTimer=setInterval(function(){if(syncOn())pullCloud();},20000);}
+function connectSync(){
+  const id=document.getElementById('sync-id-input').value.trim();
+  if(!id){alert('Paste your Sync ID first.');return;}
+  setSyncStatus('saving');
+  fetch('https://getpantry.cloud/apiv1/pantry/'+encodeURIComponent(id)+'/basket/ecdtracker',{headers:{'Accept':'application/json'},cache:'no-store'})
+    .then(r=>{if(r.status===400||r.status===404)return null;if(!r.ok)throw 0;return r.json();})
+    .then(remote=>{
+      localStorage.setItem('ecd_sync_id',id);
+      localStorage.setItem('ecd_sync_on','1');
+      if(remote&&Array.isArray(remote.jobs)){
+        const useCloud=confirm('This Sync ID already has '+remote.jobs.length+' jobs saved in the cloud.\n\nOK  = load the cloud data onto THIS device (do this when adding a second device).\n\nCancel = replace the cloud with this device’s '+jobs.length+' jobs.');
+        if(useCloud){
+          jobs=remote.jobs;costs=Array.isArray(remote.costs)?remote.costs:costs;
+          if(remote.goal)localStorage.setItem('ecd_goal',String(remote.goal));
+          if(remote.jobId)jobId=remote.jobId;if(remote.costId)costId=remote.costId;
+          saveLocal();localStorage.setItem('ecd_updatedAt',String(Number(remote.updatedAt)||Date.now()));refreshAll();setSyncStatus('ok');
+        }else{localStorage.setItem('ecd_updatedAt',String(Date.now()));pushCloud();}
+      }else{localStorage.setItem('ecd_updatedAt',String(Date.now()));pushCloud();}
+      updateSyncUI();startSyncTimer();
+    })
+    .catch(()=>{setSyncStatus('err');alert('Could not reach the sync service. Double-check the Sync ID and your internet connection, then try again.');});
+}
+function disconnectSync(){localStorage.setItem('ecd_sync_on','0');clearInterval(_syncTimer);updateSyncUI();}
+function updateSyncUI(){
+  const on=syncOn(),off=document.getElementById('sync-off-view'),onv=document.getElementById('sync-on-view');
+  if(off)off.style.display=on?'none':'block';
+  if(onv)onv.style.display=on?'block':'none';
+  if(on){const s=document.getElementById('sync-id-show');if(s)s.textContent=syncId();}
+  setSyncStatus('ok');
+}
+function refreshAll(){
+  buildYearTabs();buildCostYearTabs();
+  if(currentView==='jobs')render();
+  else if(currentView==='costs')renderCosts();
+  else if(currentView==='workers')renderWorkers();
+  else if(currentView==='goals')renderGoals();
+  else updateStats();
+}
+
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 document.getElementById('cost-modal').addEventListener('click',function(e){if(e.target===this)closeCostModal();});
+document.getElementById('backup-modal').addEventListener('click',function(e){if(e.target===this)closeBackupModal();});
+document.getElementById('reports-modal').addEventListener('click',function(e){if(e.target===this)closeReportsModal();});
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&syncOn())pullCloud();});
 
 buildYearTabs();render();
+if(syncOn()){updateSyncUI();pullCloud();startSyncTimer();}
 </script>
 </body>
 </html>
