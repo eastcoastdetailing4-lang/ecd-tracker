@@ -12,7 +12,7 @@ jobs:
   check-and-notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check upcoming jobs and notify via ntfy
         env:
@@ -24,12 +24,20 @@ jobs:
           mkdir -p .github/state
           [ -f "$STATE_FILE" ] || echo '[]' > "$STATE_FILE"
 
+          PANTRY_ID=$(printf '%s' "$PANTRY_ID" | tr -d '[:space:]')
+          NTFY_TOPIC=$(printf '%s' "$NTFY_TOPIC" | tr -d '[:space:]')
+
           if [ -z "$PANTRY_ID" ] || [ -z "$NTFY_TOPIC" ]; then
-            echo "PANTRY_ID or NTFY_TOPIC secret not set — skipping."
+            echo "Secret A (Sync ID) or AZ (ntfy topic) not set — skipping."
             exit 0
           fi
 
-          DATA=$(curl -s "https://getpantry.cloud/apiv1/pantry/$PANTRY_ID/basket/ecdtracker")
+          if ! printf '%s' "$PANTRY_ID" | grep -Eq '^[0-9a-fA-F-]{30,40}$'; then
+            echo "ERROR: Secret A doesn't look like a Sync ID (got ${#PANTRY_ID} characters; expected a 36-char code like 1a2b3c4d-...). Re-check the A secret's value."
+            exit 1
+          fi
+
+          DATA=$(curl -s "https://getpantry.cloud/apiv1/pantry/$PANTRY_ID/basket/ecdtracker" || true)
           if [ -z "$DATA" ] || [ "$(echo "$DATA" | jq -r 'has("jobs")')" != "true" ]; then
             echo "Pantry fetch failed or malformed — skipping this run."
             exit 0
