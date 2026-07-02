@@ -1,0 +1,78 @@
+name: Job Reminders
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check upcoming jobs and notify via ntfy
+        env:
+          PANTRY_ID: ${{ secrets.A }}
+          NTFY_TOPIC: ${{ secrets.AZ }}
+        run: |
+          set -e
+          STATE_FILE=.github/state/notified.json
+          mkdir -p .github/state
+          [ -f "$STATE_FILE" ] || echo '[]' > "$STATE_FILE"
+
+          if [ -z "$PANTRY_ID" ] || [ -z "$NTFY_TOPIC" ]; then
+            echo "PANTRY_ID or NTFY_TOPIC secret not set — skipping."
+            exit 0
+          fi
+
+          DATA=$(curl -s "https://getpantry.cloud/apiv1/pantry/$PANTRY_ID/basket/ecdtracker")
+          if [ -z "$DATA" ] || [ "$(echo "$DATA" | jq -r 'has("jobs")')" != "true" ]; then
+            echo "Pantry fetch failed or malformed — skipping this run."
+            exit 0
+          fi
+
+          NOW_EPOCH=$(date -u +%s)
+          NOTIFIED=$(cat "$STATE_FILE")
+          rm -f /tmp/newly_notified.txt
+
+          echo "$DATA" | jq -c '[.jobs[] | select(.status=="scheduled" and (.time // "") != "")] | .[]' | while read -r job; do
+            id=$(echo "$job" | jq -r '.id')
+            date=$(echo "$job" | jq -r '.date')
+            time=$(echo "$job" | jq -r '.time')
+            name=$(echo "$job" | jq -r '.name')
+            service=$(echo "$job" | jq -r '.service // ""')
+
+            already=$(echo "$NOTIFIED" | jq --argjson id "$id" 'index($id) != null')
+            if [ "$already" = "true" ]; then continue; fi
+
+            JOB_EPOCH=$(TZ=America/New_York date -d "$date $time" +%s 2>/dev/null || echo 0)
+            if [ "$JOB_EPOCH" -eq 0 ]; then continue; fi
+            DIFF_MIN=$(( (JOB_EPOCH - NOW_EPOCH) / 60 ))
+
+            if [ "$DIFF_MIN" -ge 30 ] && [ "$DIFF_MIN" -le 90 ]; then
+              curl -s -H "Title: Upcoming ECD Job" -H "Priority: high" -H "Tags: wrench" \
+                -d "$name — $service at $time today (starts in about 1 hour)" \
+                "https://ntfy.sh/$NTFY_TOPIC" > /dev/null
+              echo "$id" >> /tmp/newly_notified.txt
+            fi
+          done
+
+          if [ -f /tmp/newly_notified.txt ]; then
+            NEW_IDS=$(jq -R . < /tmp/newly_notified.txt | jq -s .)
+            LIVE_IDS=$(echo "$DATA" | jq '[.jobs[] | select(.status=="scheduled") | .id]')
+            UPDATED=$(jq -n --argjson old "$NOTIFIED" --argjson new "$NEW_IDS" --argjson live "$LIVE_IDS" \
+              '($old + $new | unique) | map(select(. as $i | $live | index($i) != null))')
+            echo "$UPDATED" > "$STATE_FILE"
+
+            git config user.name "ecd-reminder-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add "$STATE_FILE"
+            git commit -m "Update notified-jobs state" || echo "Nothing to commit"
+            git push
+          else
+            echo "No jobs due for a reminder this run."
+          fi
