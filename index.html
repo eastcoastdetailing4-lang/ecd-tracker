@@ -72,6 +72,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0;
 }
 .filter-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
+.cat-filter-btn{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:6px 14px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.cat-filter-btn.active{background:var(--orange);color:#000;border-color:var(--orange);font-weight:700;}
 
 /* ── CONTENT ── */
 .content{padding:0 16px;}
@@ -128,6 +130,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   border:1px solid rgba(251,146,60,.3);color:var(--orange);
   white-space:nowrap;margin-top:6px;display:inline-block;
 }
+.expense-group{display:flex;align-items:center;justify-content:space-between;margin:18px 0 8px;padding:0 2px;}
+.expense-group:first-child{margin-top:2px;}
+.expense-group-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--orange);font-weight:700;}
+.expense-group-label .count{color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0;}
+.expense-group-total{font-size:13px;color:var(--text);font-weight:600;font-family:'Bebas Neue',sans-serif;letter-spacing:.5px;}
 
 /* ── WORKER CARDS ── */
 .workers-grid{display:flex;flex-direction:column;gap:10px;}
@@ -177,15 +184,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .progress-pct{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#fff;margin-top:8px;}
 .progress-caption{font-size:12px;color:var(--muted);}
 .goal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.goal-stat.wide{grid-column:1/-1;}
 .goal-stat{background:var(--card);border-radius:10px;padding:12px;border:1px solid var(--border);}
 .gs-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;}
 .gs-value{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
-.gs-value.accent{color:#a78bfa;}.gs-value.green{color:var(--green);}.gs-value.yellow{color:var(--yellow);}
-.goal-rationale{background:var(--card);border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid var(--border);border-left:3px solid #a78bfa;}
-.goal-rationale h3{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;margin-bottom:10px;}
-.goal-rationale p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:8px;}
-.goal-rationale p:last-child{margin-bottom:0;}
-.goal-rationale strong{color:var(--text);}
+.gs-value.accent{color:#a78bfa;}.gs-value.green{color:var(--green);}.gs-value.yellow{color:var(--yellow);}.gs-value.pink{color:#f472b6;}.gs-value.red{color:var(--red);}
+.gs-value.small{font-size:14px;letter-spacing:.2px;line-height:1.3;word-break:break-word;}
 .goal-adjust{display:flex;gap:8px;align-items:center;}
 .goal-adjust input{
   flex:1;background:var(--card);border:1.5px solid var(--border);color:var(--text);
@@ -198,6 +202,34 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;
   cursor:pointer;border-radius:8px;white-space:nowrap;
 }
+
+.az-scope-note{text-align:center;font-size:11px;color:var(--muted);margin:-6px 0 12px;letter-spacing:.3px;}
+.az-hero{background:var(--card);border-radius:14px;padding:22px 20px;text-align:center;margin-bottom:14px;border:1px solid var(--border);}
+.az-verdict-badge{display:inline-block;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.az-verdict-badge.good{background:rgba(74,222,128,.15);color:var(--green);}
+.az-verdict-badge.watch{background:rgba(251,191,36,.15);color:var(--yellow);}
+.az-verdict-badge.warn{background:rgba(248,113,113,.15);color:var(--red);}
+.az-headline{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:.5px;line-height:1.3;color:var(--text);}
+.az-sub{font-size:12.5px;color:var(--muted);margin-top:8px;}
+.az-section-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#f472b6;margin:18px 0 10px;}
+.az-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid var(--border);border-left:3px solid var(--muted);}
+.az-card.good{border-left-color:var(--green);}
+.az-card.watch{border-left-color:var(--yellow);}
+.az-card.warn{border-left-color:var(--red);}
+.az-card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.az-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:0;}
+.az-card p strong{color:var(--text);}
+.az-scenario{background:var(--card);border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid var(--border);border-left:3px solid #f472b6;}
+.az-scenario h3{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#f472b6;margin-bottom:12px;}
+.az-scenario-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.az-scenario-row label{font-size:12.5px;color:var(--muted);}
+.az-input-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.az-input-wrap input{width:72px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;text-align:right;}
+.az-input-wrap span{font-size:12px;color:var(--muted);}
+.az-scenario-result{background:var(--surface);border-radius:10px;padding:12px 14px;margin-top:4px;}
+.az-res-row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;color:var(--muted);}
+.az-res-row strong{color:var(--text);font-weight:600;}
+.az-scenario-delta{text-align:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;}
 
 /* ── BOTTOM NAV ── */
 .bottom-nav{
@@ -217,7 +249,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .nav-icon{font-size:20px;line-height:1;transition:transform .15s;}
 .nav-costs-btn.active{color:var(--orange);}
 .nav-workers-btn.active{color:var(--blue);}
-.nav-goals-btn.active{color:#a78bfa;}
+.nav-analyze-btn.active{color:#f472b6;}
 
 /* ── MODALS ── */
 .modal-overlay{
@@ -368,6 +400,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 /* ── SHARE SCHEDULE ── */
 .cal-share-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:10px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;}
 .cal-share-btn:active{opacity:.85;}
+.cal-share-btn.secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent);margin-top:-8px;}
 .share-note{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:14px;}
 .share-range{display:flex;gap:6px;margin-bottom:12px;}
 .share-range .filter-btn{flex:1;text-align:center;}
@@ -394,7 +427,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   .main-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
   .main-tab.costs-tab.active{color:var(--orange);border-bottom-color:var(--orange);}
   .main-tab.workers-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-  .main-tab.goals-tab.active{color:#a78bfa;border-bottom-color:#a78bfa;}
+  .main-tab.analyze-tab.active{color:#f472b6;border-bottom-color:#f472b6;}
   .modal-overlay{align-items:center;}
   .modal{border-radius:16px;padding:28px;max-width:460px;max-height:85vh;}
   .modal-handle{display:none;}
@@ -432,7 +465,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   <button class="main-tab cal-tab" onclick="switchView('calendar',this)">Calendar</button>
   <button class="main-tab costs-tab" onclick="switchView('costs',this)">Expenses</button>
   <button class="main-tab workers-tab" onclick="switchView('workers',this)">Workers</button>
-  <button class="main-tab goals-tab" onclick="switchView('goals',this)">Goals</button>
+  <button class="main-tab analyze-tab" onclick="switchView('analyze',this)">Analyze</button>
 </div>
 
 <!-- JOBS VIEW -->
@@ -454,6 +487,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 <div class="view" id="view-calendar">
   <div class="content">
     <button class="cal-share-btn" onclick="openShareModal()">📤 Share Schedule with Crew</button>
+    <button class="cal-share-btn secondary" onclick="syncAllToCalendar()">📲 Sync Reminders to Phone</button>
     <div class="cal-head">
       <button class="cal-nav" onclick="calShift(-1)" aria-label="Previous month">‹</button>
       <div class="cal-title" id="cal-title">—</div>
@@ -475,6 +509,14 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 <!-- EXPENSES VIEW -->
 <div class="view" id="view-costs">
   <div class="year-bar" id="cost-year-bar"></div>
+  <div class="filters" id="cost-cat-filters">
+    <button class="cat-filter-btn active" onclick="setCostCat('all',this)">All</button>
+    <button class="cat-filter-btn" onclick="setCostCat('Supplies',this)">🧴 Supplies</button>
+    <button class="cat-filter-btn" onclick="setCostCat('Equipment',this)">🛠️ Equipment</button>
+    <button class="cat-filter-btn" onclick="setCostCat('Fuel',this)">⛽ Fuel</button>
+    <button class="cat-filter-btn" onclick="setCostCat('Marketing',this)">📣 Marketing</button>
+    <button class="cat-filter-btn" onclick="setCostCat('Other',this)">📋 Other</button>
+  </div>
   <div class="content" id="cost-list"></div>
 </div>
 
@@ -488,31 +530,75 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   </div>
 </div>
 
-<!-- GOALS VIEW -->
-<div class="view" id="view-goals">
-  <div class="content goal-wrapper">
+<!-- ANALYZE VIEW -->
+<div class="view" id="view-analyze">
+  <div class="year-bar" id="az-year-bar"></div>
+  <div class="az-scope-note">🌞 Summer season only (May–Sep)</div>
+  <div class="content az-wrapper">
+    <div class="az-hero">
+      <div class="az-verdict-badge" id="az-badge">—</div>
+      <div class="az-headline" id="az-headline">Add a few completed jobs and expenses to get your first read.</div>
+      <div class="az-sub" id="az-sub"></div>
+    </div>
+    <div class="goal-stats">
+      <div class="goal-stat"><div class="gs-label">Net Margin</div><div class="gs-value" id="az-margin">—</div></div>
+      <div class="goal-stat"><div class="gs-label">Avg Ticket</div><div class="gs-value pink" id="az-avgticket">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">Booked</div><div class="gs-value yellow" id="az-booked">$0</div></div>
+    </div>
+    <div class="az-section-label">📊 Key Metrics</div>
+    <div class="goal-stats">
+      <div class="goal-stat"><div class="gs-label">Top Service</div><div class="gs-value pink small" id="az-m-topservice">—</div></div>
+      <div class="goal-stat"><div class="gs-label">Best Day</div><div class="gs-value pink" id="az-m-bestday">—</div></div>
+      <div class="goal-stat"><div class="gs-label">Avg Customer Value</div><div class="gs-value pink small" id="az-m-custvalue">$0</div></div>
+    </div>
+    <div class="goal-stats">
+      <div class="goal-stat"><div class="gs-label">Break-even Jobs</div><div class="gs-value pink" id="az-m-breakeven">0</div></div>
+      <div class="goal-stat"><div class="gs-label">Rev / Active Day</div><div class="gs-value pink" id="az-m-perday">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">New Customers</div><div class="gs-value pink" id="az-m-newcust">0</div></div>
+    </div>
+    <div class="goal-stats">
+      <div class="goal-stat wide"><div class="gs-label">Profit / Job (Avg)</div><div class="gs-value" id="az-m-profitperjob">$0</div></div>
+    </div>
+    <div class="az-section-label">Your Business Manager Says</div>
+    <div id="az-cards"></div>
+    <div class="az-section-label">🎯 Goal Progress (Live)</div>
     <div class="goal-hero">
-      <div class="goal-label">2026 Revenue Goal</div>
-      <div class="goal-amount" id="g-amount-display">$10,000</div>
+      <div class="goal-label" id="az-goal-label">Summer Goal</div>
+      <div class="goal-amount" id="az-goal-amount">$10,000</div>
       <div class="progress-wrap">
-        <div class="progress-track"><div class="progress-fill" id="g-bar" style="width:0%"></div></div>
-        <div class="progress-pct" id="g-pct">0%</div>
-        <div class="progress-caption" id="g-caption"></div>
+        <div class="progress-track"><div class="progress-fill" id="az-goal-bar" style="width:0%"></div></div>
+        <div class="progress-pct" id="az-goal-pct">0%</div>
+        <div class="progress-caption" id="az-goal-caption"></div>
       </div>
     </div>
     <div class="goal-stats">
-      <div class="goal-stat"><div class="gs-label">So Far</div><div class="gs-value green" id="g-current">$0</div></div>
-      <div class="goal-stat"><div class="gs-label">Remaining</div><div class="gs-value yellow" id="g-remaining">$0</div></div>
-      <div class="goal-stat"><div class="gs-label">Jobs Left</div><div class="gs-value accent" id="g-jobs">0</div></div>
-    </div>
-    <div class="goal-rationale">
-      <h3>Why $10,000</h3>
-      <p>Your average job value jumped from <strong>$134 in 2024</strong> to <strong>$238 this summer</strong> — a 77% increase. That's your workers letting you take on larger jobs.</p>
-      <p>At just <strong>3 jobs per week</strong> for the remaining 11 weeks of summer, you hit <strong>$11,200</strong>. $10k is your floor, not your ceiling.</p>
+      <div class="goal-stat"><div class="gs-label">So Far</div><div class="gs-value green" id="az-goal-current">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">Remaining</div><div class="gs-value yellow" id="az-goal-remaining">$0</div></div>
+      <div class="goal-stat"><div class="gs-label">Jobs Left</div><div class="gs-value pink" id="az-goal-jobsleft">0</div></div>
     </div>
     <div class="goal-adjust">
-      <input type="number" id="g-input" placeholder="10000" min="0">
-      <button class="btn-set" onclick="setGoal()">Update</button>
+      <input type="number" id="az-goal-input" placeholder="10000" min="0">
+      <button class="btn-set" onclick="setAnalyzeGoal()">Update</button>
+    </div>
+    <div class="az-scenario">
+      <h3>🔮 What If…</h3>
+      <div class="az-scenario-row">
+        <label>Raise avg ticket by ($)</label>
+        <div class="az-input-wrap"><input type="number" id="az-in-price" value="0" oninput="renderScenario()"></div>
+      </div>
+      <div class="az-scenario-row">
+        <label>Extra jobs per month</label>
+        <div class="az-input-wrap"><input type="number" id="az-in-jobs" value="0" oninput="renderScenario()"></div>
+      </div>
+      <div class="az-scenario-row">
+        <label id="az-cut-label">Cut top expense category by</label>
+        <div class="az-input-wrap"><input type="number" id="az-in-cut" value="0" min="0" max="100" oninput="renderScenario()"><span>%</span></div>
+      </div>
+      <div class="az-scenario-result">
+        <div class="az-res-row"><span>Current pace (summer season)</span><strong id="az-res-current">$0 rev / $0 profit</strong></div>
+        <div class="az-res-row"><span>With these changes</span><strong id="az-res-new">$0 rev / $0 profit</strong></div>
+      </div>
+      <div class="az-scenario-delta" id="az-res-delta">+$0/season</div>
     </div>
   </div>
 </div>
@@ -531,8 +617,8 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   <button class="nav-btn nav-workers-btn" id="nav-workers" onclick="switchView('workers', document.getElementById('nav-workers'))">
     <span class="nav-icon">👥</span>Workers
   </button>
-  <button class="nav-btn nav-goals-btn" id="nav-goals" onclick="switchView('goals', document.getElementById('nav-goals'))">
-    <span class="nav-icon">🎯</span>Goals
+  <button class="nav-btn nav-analyze-btn" id="nav-analyze" onclick="switchView('analyze', document.getElementById('nav-analyze'))">
+    <span class="nav-icon">🧠</span>Analyze
   </button>
 </nav>
 
@@ -726,7 +812,26 @@ const JOB_DEFAULTS=[
   {id:56,name:"T",vehicle:"",date:"2026-06-11",service:"Interior Only",price:110,status:"completed",notes:""},
   {id:57,name:"Bruce",vehicle:"",date:"2026-06-12",service:"Full Detail",price:80,status:"completed",notes:""},
   {id:58,name:"Jen",vehicle:"",date:"2026-06-13",service:"Interior Only",price:150,status:"completed",notes:""},
-  {id:59,name:"Belmont Kid",vehicle:"",date:"2026-06-14",service:"Full Detail",price:200,status:"completed",notes:""}
+  {id:59,name:"Belmont Kid",vehicle:"",date:"2026-06-14",service:"Full Detail",price:200,status:"completed",notes:""},
+  {id:66,status:"completed",name:"Dave D",vehicle:"UCONN",phone:"",address:"",date:"2026-06-15",time:"",service:"Full Detail",price:300,notes:""},
+  {id:67,status:"completed",name:"Val",vehicle:"UCONN",phone:"",address:"",date:"2026-06-15",time:"",service:"Full Detail",price:250,notes:""},
+  {id:68,status:"completed",name:"Stacy Temepsta",vehicle:"Honda SUV",phone:"+1 (617) 276-2360",address:"",date:"2026-06-16",time:"",service:"Full Detail",price:240,notes:""},
+  {id:69,status:"completed",name:"Random",vehicle:"Expedition",phone:"",address:"",date:"2026-06-16",time:"10:33",service:"Exterior Only",price:50,notes:""},
+  {id:70,status:"completed",name:"Andy",vehicle:"Jeep Weangler",phone:"",address:"",date:"2026-06-16",time:"",service:"Full Detail",price:180,notes:""},
+  {id:71,status:"completed",name:"T sister",vehicle:"Civic",phone:"",address:"",date:"2026-06-07",time:"",service:"Interior Only",price:110,notes:""},
+  {id:72,status:"completed",name:"Jt",vehicle:"Jeep",phone:"",address:"",date:"2026-06-13",time:"",service:"Full Detail",price:180,notes:""},
+  {id:73,status:"completed",name:"Nuran parents",vehicle:"Mercedes sedan",phone:"+1 (617) 610-7229",address:"",date:"2026-06-17",time:"",service:"Full Detail",price:200,notes:""},
+  {id:74,status:"completed",name:"Irachi",vehicle:"F150",phone:"",address:"",date:"2026-06-17",time:"",service:"Full Detail",price:240,notes:""},
+  {id:75,status:"completed",name:"Irachi friend",vehicle:"Ford SUV",phone:"",address:"",date:"2026-06-17",time:"",service:"Full Detail",price:250,notes:""},
+  {id:76,status:"completed",name:"Bruce",vehicle:"",phone:"",address:"",date:"2026-06-05",time:"",service:"Full Detail",price:80,notes:""},
+  {id:77,status:"completed",name:"Nuran Personal",vehicle:"Porchee",phone:"+1 (617) 610-7229",address:"",date:"2026-06-19",time:"",service:"Full Detail",price:190,notes:"Savva broke a piece, might have to pay"},
+  {id:78,status:"completed",name:"Cabot’s Ice cream",vehicle:"Lexus SUV",phone:"+1 (617) 909-1458",address:"",date:"2026-06-25",time:"",service:"Full Detail",price:240,notes:""},
+  {id:79,status:"completed",name:"Belmont mom",vehicle:"Suv",phone:"",address:"",date:"2026-06-25",time:"",service:"Full Detail",price:270,notes:""},
+  {id:80,status:"completed",name:"Doug V",vehicle:"Truck",phone:"+1 (774) 259-4959",address:"",date:"2026-06-25",time:"",service:"Full Detail",price:260,notes:""},
+  {id:81,status:"completed",name:"Ryan Goode Dad",vehicle:"Yukon XL",phone:"",address:"",date:"2026-06-27",time:"",service:"Full Detail",price:300,notes:""},
+  {id:82,status:"completed",name:"Petterson",vehicle:"",phone:"",address:"",date:"2026-06-25",time:"",service:"Full Detail",price:200,notes:""},
+  {id:83,status:"completed",name:"Nicholas Oakley",vehicle:"Volvo",phone:"",address:"",date:"2026-07-02",time:"",service:"Full Detail",price:200,notes:""},
+  {id:84,status:"completed",name:"Steve Tokatlyan",vehicle:"Volvo",phone:"(617) 955-0719",address:"",date:"2026-07-02",time:"",service:"Full Detail",price:300,notes:"50 tip"}
 ];
 
 const COST_DEFAULTS=[
@@ -742,7 +847,41 @@ const COST_DEFAULTS=[
   {id:17,desc:"Cherry Suds",cat:"Supplies",date:"2026-06-01",amount:20,notes:"",workers:{}},
   {id:18,desc:"Truck Setup",cat:"Equipment",date:"2026-06-01",amount:351,notes:"",workers:{}},
   {id:19,desc:"Foam Cannon",cat:"Equipment",date:"2026-06-01",amount:22,notes:"",workers:{}},
-  {id:20,desc:"Steering Wheel Cover",cat:"Supplies",date:"2026-06-01",amount:8,notes:"",workers:{}}
+  {id:20,desc:"Steering Wheel Cover",cat:"Supplies",date:"2026-06-01",amount:8,notes:"",workers:{}},
+  {id:21,desc:"Dave D",cat:"Worker Pay",date:"2026-06-25",amount:250,notes:"",workers:{Garo:250}},
+  {id:22,desc:"Ta ssister",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{Nicholas:50}},
+  {id:23,desc:"Savva",cat:"Worker Pay",date:"2026-06-25",amount:100,notes:"Jt Logue",workers:{}},
+  {id:24,desc:"Jt logue",cat:"Worker Pay",date:"2026-06-25",amount:100,notes:"",workers:{}},
+  {id:25,desc:"Savva",cat:"Worker Pay",date:"2026-06-25",amount:100,notes:"Jt Lovue",workers:{Savva:100}},
+  {id:26,desc:"Andy",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{Garo:50}},
+  {id:27,desc:"Nuran",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{Garo:50}},
+  {id:28,desc:"Irachi",cat:"Worker Pay",date:"2026-06-25",amount:70,notes:"",workers:{Garo:70}},
+  {id:29,desc:"Irachi Friend",cat:"Worker Pay",date:"2026-06-25",amount:80,notes:"",workers:{Garo:80}},
+  {id:30,desc:"Belmont Mom",cat:"Worker Pay",date:"2026-06-25",amount:70,notes:"",workers:{Garo:70}},
+  {id:31,desc:"Val",cat:"Worker Pay",date:"2026-06-25",amount:200,notes:"",workers:{Garo:200}},
+  {id:32,desc:"Andy",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{Savva:50}},
+  {id:33,desc:"Jt",cat:"Worker Pay",date:"2026-06-25",amount:100,notes:"",workers:{Savva:100}},
+  {id:34,desc:"Nuran",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{}},
+  {id:35,desc:"Irachi",cat:"Worker Pay",date:"2026-06-25",amount:70,notes:"",workers:{Savva:70}},
+  {id:36,desc:"Nuran",cat:"Worker Pay",date:"2026-06-25",amount:50,notes:"",workers:{Savva:50}},
+  {id:37,desc:"Irachi friend",cat:"Worker Pay",date:"2026-06-25",amount:80,notes:"",workers:{Savva:80}},
+  {id:38,desc:"Cabots",cat:"Worker Pay",date:"2026-06-25",amount:120,notes:"",workers:{Savva:120}},
+  {id:39,desc:"Micro Fiber/ Tire Shine",cat:"Equipment",date:"2026-06-25",amount:60,notes:"",workers:{}},
+  {id:40,desc:"Paint spray gun",cat:"Equipment",date:"2026-06-25",amount:15,notes:"",workers:{}},
+  {id:41,desc:"Viking wheel well brush",cat:"Equipment",date:"2026-06-25",amount:20,notes:"",workers:{}},
+  {id:42,desc:"Gas",cat:"Fuel",date:"2026-06-25",amount:100,notes:"",workers:{}},
+  {id:43,desc:"Flyers",cat:"Marketing",date:"2026-06-25",amount:148,notes:"",workers:{}},
+  {id:44,desc:"Quick connect pressure hise",cat:"Equipment",date:"2026-06-25",amount:5,notes:"",workers:{}},
+  {id:45,desc:"Bio Bomb odor removal",cat:"Equipment",date:"2026-06-25",amount:35,notes:"",workers:{}},
+  {id:46,desc:"Petterson",cat:"Worker Pay",date:"2026-06-26",amount:50,notes:"",workers:{Garo:50}},
+  {id:47,desc:"Petterson",cat:"Worker Pay",date:"2026-06-26",amount:50,notes:"",workers:{Nicholas:50}},
+  {id:48,desc:"RGG",cat:"Worker Pay",date:"2026-06-28",amount:60,notes:"+30 tip",workers:{Savva:60}},
+  {id:49,desc:"RGG",cat:"Worker Pay",date:"2026-06-28",amount:60,notes:"+30 tip",workers:{Khamran:60}},
+  {id:50,desc:"Meta glasses",cat:"Marketing",date:"2026-06-30",amount:240,notes:"",workers:{}},
+  {id:51,desc:"Oakley",cat:"Worker Pay",date:"2026-07-02",amount:65,notes:"",workers:{Garo:65}},
+  {id:52,desc:"Steve tonakiyan",cat:"Worker Pay",date:"2026-07-02",amount:100,notes:"",workers:{Garo:100}},
+  {id:53,desc:"Oakley",cat:"Worker Pay",date:"2026-07-02",amount:65,notes:"",workers:{Nicholas:65}},
+  {id:54,desc:"Steve tonakiyan",cat:"Worker Pay",date:"2026-07-02",amount:100,notes:"",workers:{Nicholas:100}}
 ];
 
 function loadJobs(){try{const s=localStorage.getItem('ecd_jobs');const a=s?JSON.parse(s):null;return(Array.isArray(a)&&a.length)?a:JOB_DEFAULTS;}catch(e){return JOB_DEFAULTS;}}
@@ -756,9 +895,10 @@ function saveLocal(){
 function save(){saveLocal();markChanged();}
 
 let jobs=loadJobs(),costs=loadCosts();
-let jobId=parseInt(localStorage.getItem('ecd_jobId')||'60');
-let costId=parseInt(localStorage.getItem('ecd_costId')||'21');
-let currentStatus='all',currentYear='all',currentCostYear='all',currentView='jobs',currentSearch='';
+let jobId=parseInt(localStorage.getItem('ecd_jobId')||'85');
+let costId=parseInt(localStorage.getItem('ecd_costId')||'55');
+let currentStatus='all',currentYear='all',currentCostYear='all',currentCostCat='all',currentAnalyzeYear='all',currentView='jobs',currentSearch='';
+const COST_CAT_ICONS={Supplies:'🧴',Equipment:'🛠️',Fuel:'⛽',Marketing:'📣',Other:'📋'};
 let editingJobId=null,editingCostId=null;
 
 // Show desktop tabs on desktop
@@ -782,7 +922,7 @@ function switchView(v,btn){
   else if(v==='calendar'){renderCalendar();}
   else if(v==='costs'){buildCostYearTabs();renderCosts();}
   else if(v==='workers'){renderWorkers();}
-  else if(v==='goals'){renderGoals();}
+  else if(v==='analyze'){buildAnalyzeYearTabs();renderAnalyze();}
 }
 
 function getJobYears(){return[...new Set(jobs.map(j=>j.date?.split('-')[0]).filter(Boolean))].sort((a,b)=>b-a);}
@@ -865,18 +1005,15 @@ function render(){
     </div>`).join('');
 }
 
-function renderCosts(){
-  const filtered=(currentCostYear==='all'?costs:costs.filter(c=>c.date?.startsWith(currentCostYear))).filter(c=>c.cat!=='Worker Pay');
-  updateStats();
-  const list=document.getElementById('cost-list');
-  if(!filtered.length){list.innerHTML='<div class="empty">No expenses yet.</div>';return;}
-  list.innerHTML=filtered.map(c=>`
+function setCostCat(cat,btn){currentCostCat=cat;document.querySelectorAll('#cost-cat-filters .cat-filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCosts();}
+
+function expenseCardHtml(c){
+  return`
     <div class="expense-card">
       <div class="expense-top">
         <div class="expense-info">
           <div class="expense-name">${c.desc}</div>
           <div class="expense-meta">📅 ${fmtDate(c.date)}${c.notes?' · '+c.notes:''}</div>
-          <span class="expense-cat">${c.cat}</span>
         </div>
         <div class="expense-right">
           <div class="expense-amount">${c.amount>0?'-$'+c.amount:'TBD'}</div>
@@ -884,7 +1021,30 @@ function renderCosts(){
           <button class="icon-btn" onclick="deleteCost(${c.id})">✕</button>
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+function renderCosts(){
+  const yearFiltered=(currentCostYear==='all'?costs:costs.filter(c=>c.date?.startsWith(currentCostYear))).filter(c=>c.cat!=='Worker Pay');
+  updateStats();
+  const list=document.getElementById('cost-list');
+  const filtered=currentCostCat==='all'?yearFiltered:yearFiltered.filter(c=>(c.cat||'Other')===currentCostCat);
+  if(!filtered.length){list.innerHTML='<div class="empty">No expenses'+(currentCostCat==='all'?' yet.':' in this category.')+'</div>';return;}
+
+  if(currentCostCat!=='all'){
+    list.innerHTML=filtered.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(expenseCardHtml).join('');
+    return;
+  }
+
+  const groups={};
+  filtered.forEach(c=>{const k=c.cat||'Other';(groups[k]=groups[k]||[]).push(c);});
+  const catArr=Object.entries(groups).map(([cat,items])=>({cat,items,total:items.reduce((s,c)=>s+(c.amount||0),0)})).sort((a,b)=>b.total-a.total);
+  list.innerHTML=catArr.map(g=>
+    `<div class="expense-group">
+      <div class="expense-group-label">${COST_CAT_ICONS[g.cat]||'📋'} ${g.cat} <span class="count">(${g.items.length})</span></div>
+      <div class="expense-group-total">-$${g.total.toLocaleString()}</div>
+    </div>`+
+    g.items.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(expenseCardHtml).join('')
+  ).join('');
 }
 
 function renderWorkers(){
@@ -937,27 +1097,268 @@ function renderWorkers(){
   }).join('');
 }
 
-function renderGoals(){
+// ── ANALYZE (rule-based business manager, scoped to summer season: May–Sep) ──
+function isSummer(dateStr){if(!dateStr)return false;const m=+dateStr.slice(5,7);return m>=5&&m<=9;}
+function summerWindow(year){const start=new Date(year,4,1),end=new Date(year,8,30);return{start,end,totalDays:Math.round((end-start)/86400000)+1};}
+function buildAnalyzeYearTabs(){
+  document.getElementById('az-year-bar').innerHTML=
+    `<button class="year-tab ${currentAnalyzeYear==='all'?'active':''}" onclick="setAnalyzeYear('all',this)">All Years</button>`+
+    getBizYears().map(y=>`<button class="year-tab ${currentAnalyzeYear===y?'active':''}" onclick="setAnalyzeYear('${y}',this)">${y}</button>`).join('');
+}
+function setAnalyzeYear(y,btn){currentAnalyzeYear=y;document.querySelectorAll('#az-year-bar .year-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderAnalyze();}
+
+function renderAnalyze(){
+  const yr=currentAnalyzeYear;
+  const now=new Date();
+  const thisYearStr=String(now.getFullYear());
+  const inScope=arr=>{let r=arr.filter(x=>x.date&&isSummer(x.date));if(yr!=='all')r=r.filter(x=>x.date.startsWith(yr));return r;};
+  const compl=inScope(jobs).filter(j=>j.status==='completed');
+  const cancelled=inScope(jobs).filter(j=>j.status==='cancelled');
+  const scheduled=inScope(jobs).filter(j=>j.status==='scheduled');
+  const fcosts=inScope(costs);
+  const revenue=compl.reduce((s,j)=>s+(j.price||0),0);
+  const totalCosts=fcosts.reduce((s,c)=>s+(c.amount||0),0);
+  const profit=revenue-totalCosts;
+  const margin=revenue>0?Math.round((profit/revenue)*100):null;
+  const avgTicket=compl.length?Math.round(revenue/compl.length):0;
+  const bookedRev=scheduled.reduce((s,j)=>s+(j.price||0),0);
+
+  const marginEl=document.getElementById('az-margin');
+  marginEl.textContent=margin===null?'—':margin+'%';
+  marginEl.className='gs-value '+(margin===null?'':margin>=25?'green':margin>=10?'yellow':'red');
+  document.getElementById('az-avgticket').textContent='$'+avgTicket.toLocaleString();
+  document.getElementById('az-booked').textContent='$'+bookedRev.toLocaleString()+(scheduled.length?' ('+scheduled.length+')':'');
+
+  // ── verdict hero ──
+  let badge='watch',badgeText='STEADY',headline='Add a few completed jobs and expenses to get your first read.',sub='';
+  if(compl.length>=3&&margin!==null){
+    badgeText=margin>=25?'STRONG':margin<10?'NEEDS ATTENTION':'STEADY';
+    badge=margin>=25?'good':margin<10?'warn':'watch';
+    headline=margin>=25?`You're keeping ${margin}% of every dollar — a healthy detailing margin.`:
+      margin>=10?`You're keeping ${margin}% of every dollar. There's room to tighten costs or raise prices.`:
+      `You're only keeping ${margin}% of every dollar. Costs are eating your profit — see below.`;
+    sub=compl.length+' completed job'+(compl.length!==1?'s':'')+' · $'+revenue.toLocaleString()+' revenue · $'+totalCosts.toLocaleString()+' costs'+(yr==='all'?' (all summers)':' · Summer '+yr);
+  }
+  document.getElementById('az-badge').textContent=badgeText;
+  document.getElementById('az-badge').className='az-verdict-badge '+badge;
+  document.getElementById('az-headline').textContent=headline;
+  document.getElementById('az-sub').textContent=sub;
+
+  // ── repeat/unique customer base (shared by Key Metrics + advice cards) ──
+  const nameCounts={};
+  compl.forEach(j=>{const n=(j.name||'').trim().toLowerCase();if(n)nameCounts[n]=(nameCounts[n]||0)+1;});
+  const uniqueClients=Object.keys(nameCounts).length;
+  const repeatClients=Object.values(nameCounts).filter(c=>c>1).length;
+
+  // ── key metrics ──
+  const svcTotals={};
+  compl.forEach(j=>{const k=j.service||'Other';if(!svcTotals[k])svcTotals[k]={rev:0,count:0};svcTotals[k].rev+=j.price||0;svcTotals[k].count++;});
+  const svcArr=Object.entries(svcTotals).sort((a,b)=>b[1].rev-a[1].rev);
+  document.getElementById('az-m-topservice').textContent=svcArr.length?(svcArr[0][0]+' ('+svcArr[0][1].count+')'):'—';
+
+  const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dowTotals=[0,0,0,0,0,0,0];
+  compl.forEach(j=>{if(!j.date)return;dowTotals[new Date(j.date+'T00:00:00').getDay()]+=j.price||0;});
+  let bestDowIdx=0;for(let i=1;i<7;i++)if(dowTotals[i]>dowTotals[bestDowIdx])bestDowIdx=i;
+  document.getElementById('az-m-bestday').textContent=compl.length?DOW[bestDowIdx]:'—';
+
+  const avgCustomerValue=uniqueClients?Math.round(revenue/uniqueClients):0;
+  document.getElementById('az-m-custvalue').textContent='$'+avgCustomerValue.toLocaleString();
+
+  const breakEvenJobs=avgTicket>0?Math.ceil(totalCosts/avgTicket):0;
+  document.getElementById('az-m-breakeven').textContent=totalCosts>0?breakEvenJobs:'—';
+
+  const activeDays=new Set(compl.map(j=>j.date)).size;
+  const revPerActiveDay=activeDays?Math.round(revenue/activeDays):0;
+  document.getElementById('az-m-perday').textContent='$'+revPerActiveDay.toLocaleString();
+
+  const firstJobByName={};
+  jobs.filter(j=>j.status==='completed'&&j.date).forEach(j=>{const n=(j.name||'').trim().toLowerCase();if(!n)return;if(!firstJobByName[n]||j.date<firstJobByName[n])firstJobByName[n]=j.date;});
+  let newCustomers=0;
+  Object.keys(nameCounts).forEach(n=>{const first=firstJobByName[n];if(first&&isSummer(first)&&(yr==='all'||first.startsWith(yr)))newCustomers++;});
+  document.getElementById('az-m-newcust').textContent=newCustomers;
+
+  const profitPerJob=compl.length?Math.round(profit/compl.length):0;
+  const profitPerJobEl=document.getElementById('az-m-profitperjob');
+  profitPerJobEl.textContent=(profitPerJob<0?'-$'+Math.abs(profitPerJob).toLocaleString():'$'+profitPerJob.toLocaleString());
+  profitPerJobEl.className='gs-value '+(compl.length===0?'':profitPerJob>=0?'green':'red');
+
+  // ── advice cards ──
+  const cards=[];
+
+  // biggest non-labor cost category
+  const catTotals={};
+  fcosts.forEach(c=>{if(c.cat==='Worker Pay')return;const k=c.cat||'Other';catTotals[k]=(catTotals[k]||0)+(c.amount||0);});
+  const catArr=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+  if(catArr.length&&revenue>0){
+    const[topCat,topAmt]=catArr[0];
+    const pct=Math.round(topAmt/revenue*100);
+    if(pct>=15){
+      cards.push({tone:pct>=25?'warn':'watch',icon:'💸',title:topCat+' is your biggest cost',
+        body:`<strong>${topCat}</strong> cost you <strong>$${topAmt.toLocaleString()}</strong> — ${pct}% of revenue${yr==='all'?'':' in '+yr}. Shop around for a better rate, buy in bulk, or fold a small amount into your pricing before it keeps compounding.`});
+    }
+  }
+
+  // worker pay efficiency
+  const workerPay=fcosts.filter(c=>c.cat==='Worker Pay').reduce((s,c)=>s+(c.amount||0),0);
+  if(workerPay>0&&revenue>0){
+    const perDollar=(revenue/workerPay).toFixed(1);
+    const workerPct=Math.round(workerPay/revenue*100);
+    if(workerPct>35){
+      cards.push({tone:'watch',icon:'👥',title:'Worker pay is a big slice of revenue',
+        body:`You paid out <strong>$${workerPay.toLocaleString()}</strong> in worker pay — <strong>${workerPct}%</strong> of revenue (every $1 in labor brings in $${perDollar}). Fine while you're growing, but past ~40% your own take starts shrinking. Consider raising prices on jobs that need extra hands.`});
+    }else{
+      cards.push({tone:'good',icon:'👥',title:'Worker pay is efficient',
+        body:`Every <strong>$1</strong> you pay your crew brings in <strong>$${perDollar}</strong> in revenue (${workerPct}% of revenue goes to labor). That's a healthy ratio — your team is pulling its weight.`});
+    }
+  }
+
+  // repeat customers
+  if(uniqueClients>=5){
+    const repeatRate=Math.round(repeatClients/uniqueClients*100);
+    if(repeatRate<20){
+      cards.push({tone:'watch',icon:'🔁',title:'Low repeat-customer rate',
+        body:`Only <strong>${repeatRate}%</strong> of your ${uniqueClients} customers have booked twice. Repeat clients cost nothing to acquire — try a maintenance-plan pitch or a "book your next detail" text right after you finish a job.`});
+    }else{
+      cards.push({tone:'good',icon:'🔁',title:'Solid repeat-customer base',
+        body:`<strong>${repeatRate}%</strong> of your ${uniqueClients} customers are repeat bookings. That's real loyalty — lean into referral asks with this group, they already trust you.`});
+    }
+  }
+
+  // cancellation rate
+  const totalBooked=compl.length+cancelled.length;
+  if(totalBooked>=5){
+    const cancelRate=Math.round(cancelled.length/totalBooked*100);
+    if(cancelRate>=15){
+      cards.push({tone:'warn',icon:'⚠️',title:'Cancellation rate is high',
+        body:`<strong>${cancelRate}%</strong> of your booked jobs (${cancelled.length} of ${totalBooked}) got cancelled. Consider a deposit or a confirmation text 24 hours out to protect no-show-prone slots.`});
+    }
+  }
+
+  // momentum — days since last completed job (only nags during the active season)
+  const{start:seasonStart,end:seasonEnd,totalDays:seasonTotalDays}=summerWindow(now.getFullYear());
+  const lastJobDate=jobs.filter(j=>j.status==='completed'&&j.date).map(j=>j.date).sort().pop();
+  if(lastJobDate&&now>=seasonStart&&now<=seasonEnd){
+    const daysSince=Math.floor((now-new Date(lastJobDate+'T00:00:00'))/86400000);
+    if(daysSince>=10){
+      cards.push({tone:daysSince>=21?'warn':'watch',icon:'⏳',title:"It's been a while since your last job",
+        body:`Your most recent completed job was <strong>${daysSince} days ago</strong>, and you're mid-season. If that's not intentional, a round of outreach to past customers or a check of your booking channels might be worth it.`});
+    }
+  }
+
+  // goal pace — projected through end of summer (Sep 30), always tracks the real current year regardless of the year filter above
   const goal=parseInt(localStorage.getItem('ecd_goal')||'10000');
-  const rev2026=jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').reduce((s,j)=>s+j.price,0);
-  const remaining=Math.max(0,goal-rev2026);
-  const pct=Math.min(100,Math.round((rev2026/goal)*100));
-  const avg=jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').length?rev2026/jobs.filter(j=>j.date?.startsWith('2026')&&j.status==='completed').length:238;
-  const jobsNeeded=avg>0?Math.ceil(remaining/avg):0;
-  document.getElementById('g-amount-display').textContent='$'+goal.toLocaleString();
-  document.getElementById('g-input').value=goal;
-  document.getElementById('g-bar').style.width=pct+'%';
-  document.getElementById('g-pct').textContent=pct+'%';
-  document.getElementById('g-caption').textContent=pct>=100?'🎉 Goal reached!':'$'+rev2026.toLocaleString()+' of $'+goal.toLocaleString();
-  document.getElementById('g-current').textContent='$'+rev2026.toLocaleString();
-  document.getElementById('g-remaining').textContent=remaining>0?'$'+remaining.toLocaleString():'$0';
-  document.getElementById('g-jobs').textContent=remaining>0?jobsNeeded:'Done!';
+  const thisYearSummerCompl=jobs.filter(j=>j.date&&j.date.startsWith(thisYearStr)&&isSummer(j.date)&&j.status==='completed');
+  const revSummerYTD=thisYearSummerCompl.reduce((s,j)=>s+(j.price||0),0);
+  let goalDaysElapsed;
+  if(now<seasonStart)goalDaysElapsed=0;
+  else if(now>seasonEnd)goalDaysElapsed=seasonTotalDays;
+  else goalDaysElapsed=Math.round((now-seasonStart)/86400000)+1;
+  const paceProjection=goalDaysElapsed>0?Math.round(revSummerYTD/goalDaysElapsed*seasonTotalDays):0;
+  if((yr==='all'||yr===thisYearStr)&&revSummerYTD>0&&goalDaysElapsed>0){
+    if(paceProjection<goal){
+      const shortfall=goal-paceProjection;
+      cards.push({tone:'watch',icon:'🎯',title:'Off pace for your '+thisYearStr+' goal',
+        body:`At your current summer pace you'll finish the season (Sep 30) around <strong>$${paceProjection.toLocaleString()}</strong> — <strong>$${shortfall.toLocaleString()}</strong> short of your $${goal.toLocaleString()} goal. Try the What-If tool below to see what closes the gap.`});
+    }else{
+      cards.push({tone:'good',icon:'🎯',title:'On pace to beat your '+thisYearStr+' goal',
+        body:`At your current summer pace you'll finish the season (Sep 30) around <strong>$${paceProjection.toLocaleString()}</strong> — ahead of your $${goal.toLocaleString()} goal. Consider raising the target so it still stretches you.`});
+    }
+  }
+
+  // summer-over-summer trend (needs at least 2 summers of history)
+  const summerByYear={};
+  jobs.filter(j=>j.status==='completed'&&j.date&&isSummer(j.date)).forEach(j=>{const yy=j.date.slice(0,4);summerByYear[yy]=(summerByYear[yy]||0)+(j.price||0);});
+  const summerYearKeys=Object.keys(summerByYear).sort((a,b)=>b-a);
+  if(summerYearKeys.length>=2){
+    const[latestY,prevY]=summerYearKeys;
+    const latestSum=summerByYear[latestY],prevSum=summerByYear[prevY];
+    if(prevSum>0){
+      const growth=Math.round((latestSum-prevSum)/prevSum*100);
+      const inProgress=latestY===thisYearStr&&now<=summerWindow(+latestY).end;
+      if(Math.abs(growth)>=10){
+        cards.push({tone:growth>0?'good':'warn',icon:growth>0?'📈':'📉',title:growth>0?'This summer is beating last summer':'This summer is trailing last summer',
+          body:`Summer ${latestY} has brought in <strong>$${latestSum.toLocaleString()}</strong>${inProgress?' so far':''} vs <strong>$${prevSum.toLocaleString()}</strong> for summer ${prevY} — a <strong>${growth>0?'+':''}${growth}%</strong> swing.${inProgress?' (Season still in progress — this gap may close.)':''} ${growth>0?'Whatever you changed is working — keep doing it.':'Worth a look at what shifted before the season wraps.'}`});
+      }
+    }
+  }
+
+  const order={warn:0,watch:1,good:2};
+  cards.sort((a,b)=>order[a.tone]-order[b.tone]);
+  const cardsEl=document.getElementById('az-cards');
+  cardsEl.innerHTML=cards.length?cards.map(c=>`<div class="az-card ${c.tone}"><div class="az-card-title">${c.icon} ${c.title}</div><p>${c.body}</p></div>`).join('')
+    :'<div class="empty">Log a few more completed jobs and expenses — your manager needs more data to spot patterns.</div>';
+
+  // ── live goal progress (always tracks the real current year/season) ──
+  const goalRemaining=Math.max(0,goal-revSummerYTD);
+  const goalPct=goal>0?Math.min(100,Math.round((revSummerYTD/goal)*100)):0;
+  const goalAvgTicket=thisYearSummerCompl.length?Math.round(revSummerYTD/thisYearSummerCompl.length):avgTicket;
+  const goalJobsLeft=goalRemaining>0&&goalAvgTicket>0?Math.ceil(goalRemaining/goalAvgTicket):0;
+  document.getElementById('az-goal-label').textContent=thisYearStr+' Summer Goal';
+  document.getElementById('az-goal-amount').textContent='$'+goal.toLocaleString();
+  if(document.activeElement!==document.getElementById('az-goal-input'))document.getElementById('az-goal-input').value=goal;
+  document.getElementById('az-goal-bar').style.width=goalPct+'%';
+  document.getElementById('az-goal-pct').textContent=goalPct+'%';
+  document.getElementById('az-goal-caption').textContent=goalPct>=100?'🎉 Goal reached!':'$'+revSummerYTD.toLocaleString()+' of $'+goal.toLocaleString()+' — season ends Sep 30';
+  document.getElementById('az-goal-current').textContent='$'+revSummerYTD.toLocaleString();
+  document.getElementById('az-goal-remaining').textContent='$'+goalRemaining.toLocaleString();
+  document.getElementById('az-goal-jobsleft').textContent=goalRemaining>0?goalJobsLeft:'Done!';
+
+  renderScenario();
 }
-function setGoal(){
-  const val=parseInt(document.getElementById('g-input').value);
+function setAnalyzeGoal(){
+  const val=parseInt(document.getElementById('az-goal-input').value);
   if(!val||val<1){alert('Enter a valid goal.');return;}
-  localStorage.setItem('ecd_goal',val);markChanged();renderGoals();
+  localStorage.setItem('ecd_goal',val);markChanged();renderAnalyze();
 }
+
+function renderScenario(){
+  const SEASON_MONTHS=5; // May–Sep
+  const allCompl=jobs.filter(j=>j.status==='completed'&&j.date&&isSummer(j.date));
+  const allCosts=costs.filter(c=>c.date&&isSummer(c.date));
+  const curEl=document.getElementById('az-res-current'),newEl=document.getElementById('az-res-new'),deltaEl=document.getElementById('az-res-delta');
+  if(!allCompl.length){
+    curEl.textContent='$0 rev / $0 profit';newEl.textContent='$0 rev / $0 profit';
+    deltaEl.textContent='Add completed summer jobs to run scenarios';deltaEl.style.color='var(--muted)';
+    return;
+  }
+  const jobMonths=Math.min(SEASON_MONTHS,new Set(allCompl.map(j=>j.date.slice(0,7))).size||1);
+  const costMonths=Math.min(SEASON_MONTHS,new Set(allCosts.map(c=>c.date.slice(0,7))).size||1);
+  const totalRev=allCompl.reduce((s,j)=>s+(j.price||0),0);
+  const totalCostAll=allCosts.reduce((s,c)=>s+(c.amount||0),0);
+  const avgTicketAll=totalRev/allCompl.length;
+  const jobsPerMonth=allCompl.length/jobMonths;
+  const baseSeasonRev=avgTicketAll*jobsPerMonth*SEASON_MONTHS;
+  const baseSeasonCost=(totalCostAll/costMonths)*SEASON_MONTHS;
+  const baseSeasonProfit=baseSeasonRev-baseSeasonCost;
+
+  const catTotals={};
+  allCosts.forEach(c=>{if(c.cat==='Worker Pay')return;const k=c.cat||'Other';catTotals[k]=(catTotals[k]||0)+(c.amount||0);});
+  const catArr=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+  const topCat=catArr[0]?catArr[0][0]:null;
+  const topCatAmt=catArr[0]?catArr[0][1]:0;
+  document.getElementById('az-cut-label').textContent=topCat?('Cut '+topCat+' cost by'):'Cut top expense by';
+  const topCatSeason=topCat?(topCatAmt/costMonths)*SEASON_MONTHS:0;
+
+  const raise=parseFloat(document.getElementById('az-in-price').value)||0;
+  const addJobs=parseFloat(document.getElementById('az-in-jobs').value)||0;
+  const cutPct=Math.min(100,Math.max(0,parseFloat(document.getElementById('az-in-cut').value)||0));
+  const cutAmt=topCatSeason*(cutPct/100);
+
+  const newAvgTicket=Math.max(0,avgTicketAll+raise);
+  const newJobsPerMonth=Math.max(0,jobsPerMonth+addJobs);
+  const newSeasonRev=newAvgTicket*newJobsPerMonth*SEASON_MONTHS;
+  const newSeasonCost=Math.max(0,baseSeasonCost-cutAmt);
+  const newSeasonProfit=newSeasonRev-newSeasonCost;
+
+  curEl.textContent='$'+Math.round(baseSeasonRev).toLocaleString()+' rev / $'+Math.round(baseSeasonProfit).toLocaleString()+' profit';
+  newEl.textContent='$'+Math.round(newSeasonRev).toLocaleString()+' rev / $'+Math.round(newSeasonProfit).toLocaleString()+' profit';
+  const delta=Math.round(newSeasonProfit-baseSeasonProfit);
+  deltaEl.textContent=(delta>=0?'+':'-')+'$'+Math.abs(delta).toLocaleString()+'/season profit';
+  deltaEl.style.color=delta>=0?'#2dd4bf':'var(--red)';
+}
+
+function getBizYears(){return[...new Set([...jobs.map(j=>j.date?.split('-')[0]),...costs.map(c=>c.date?.split('-')[0])].filter(Boolean))].sort((a,b)=>b-a);}
 
 // UNDO
 let undoTimer=null;
@@ -977,21 +1378,30 @@ function undoAction(){clearInterval(undoTimer);document.getElementById('undo-toa
 function deleteJob(id){
   const job=jobs.find(j=>j.id===id);if(!job)return;
   const snap=[...jobs];jobs=jobs.filter(j=>j.id!==id);
-  save();buildYearTabs();render();
-  showUndo('"'+job.name+'" deleted',()=>{jobs=snap;save();buildYearTabs();render();});
+  const t=loadTomb();t.j[id]=Date.now();saveTomb(t);
+  save();refreshAll();
+  showUndo('"'+job.name+'" deleted',()=>{
+    jobs=snap;const j=jobs.find(x=>x.id===id);if(j)j._u=Date.now();
+    const t2=loadTomb();delete t2.j[id];saveTomb(t2);
+    save();refreshAll();
+  });
 }
 function deleteCost(id){
   const cost=costs.find(c=>c.id===id);if(!cost)return;
   const snap=[...costs];costs=costs.filter(c=>c.id!==id);
-  save();buildCostYearTabs();renderCosts();
-  showUndo('"'+cost.desc+'" deleted',()=>{costs=snap;save();buildCostYearTabs();renderCosts();});
+  const t=loadTomb();t.c[id]=Date.now();saveTomb(t);
+  save();refreshAll();
+  showUndo('"'+cost.desc+'" deleted',()=>{
+    costs=snap;const c=costs.find(x=>x.id===id);if(c)c._u=Date.now();
+    const t2=loadTomb();delete t2.c[id];saveTomb(t2);
+    save();refreshAll();
+  });
 }
 function cycleStatus(id){
   const order=['scheduled','completed','cancelled'];
   const job=jobs.find(j=>j.id===id);
-  job.status=order[(order.indexOf(job.status)+1)%order.length];
-  save();render();
-  if(currentView==='calendar')renderCalendar();
+  job.status=order[(order.indexOf(job.status)+1)%order.length];job._u=Date.now();
+  save();refreshAll();
 }
 
 // JOB MODAL
@@ -1026,10 +1436,9 @@ function saveJob(){
   const service=document.getElementById('f-service').value;
   if(!name||!service){alert('Enter a customer name and service.');return;}
   const data={name,vehicle:document.getElementById('f-vehicle').value.trim(),phone:document.getElementById('f-phone').value.trim(),address:document.getElementById('f-address').value.trim(),date:document.getElementById('f-date').value,time:document.getElementById('f-time').value,service,price:parseFloat(document.getElementById('f-price').value)||0,notes:document.getElementById('f-notes').value.trim()};
-  if(editingJobId!==null){Object.assign(jobs.find(j=>j.id===editingJobId),data);}
-  else{const status=(data.date&&data.date>localDateStr(new Date()))?'scheduled':'completed';jobs.push({id:jobId++,status,...data});}
-  closeModal();save();buildYearTabs();render();
-  if(currentView==='calendar')renderCalendar();
+  if(editingJobId!==null){Object.assign(jobs.find(j=>j.id===editingJobId),data,{_u:Date.now()});}
+  else{const status=(data.date&&data.date>localDateStr(new Date()))?'scheduled':'completed';jobs.push({id:jobId++,status,...data,_u:Date.now()});}
+  closeModal();save();refreshAll();
 }
 
 // COST MODAL
@@ -1078,10 +1487,9 @@ function saveCost(){
   if(!desc||!cat){alert('Enter a description and category.');return;}
   const workers=cat==='Worker Pay'?getWorkerBreakdown():{};
   const data={desc,cat,date:document.getElementById('c-date').value,amount:parseFloat(document.getElementById('c-amount').value)||0,notes:document.getElementById('c-notes').value.trim(),workers};
-  if(editingCostId!==null){Object.assign(costs.find(c=>c.id===editingCostId),data);}
-  else{costs.push({id:costId++,...data});}
-  closeCostModal();save();buildCostYearTabs();
-  if(currentView==='costs')renderCosts();else if(currentView==='workers')renderWorkers();else updateStats();
+  if(editingCostId!==null){Object.assign(costs.find(c=>c.id===editingCostId),data,{_u:Date.now()});}
+  else{costs.push({id:costId++,...data,_u:Date.now()});}
+  closeCostModal();save();refreshAll();
 }
 
 function toggleWorkerSection(){
@@ -1233,8 +1641,7 @@ function renderCalDay(){
     rows+
     `<button class="cdd-add" onclick="addJobOnDate('${ds}')">+ Add job on this day</button>`;
 }
-function addToCalendar(id){
-  const j=jobs.find(x=>x.id===id);if(!j||!j.date)return;
+function icsEventLines(j,stamp){
   const dt=j.date.replace(/-/g,'');
   let dtLines;
   if(j.time){
@@ -1251,12 +1658,25 @@ function addToCalendar(id){
   if(j.price)desc+='Price: $'+j.price+'\\n';
   if(j.phone)desc+='Phone: '+j.phone+'\\n';
   if(j.notes)desc+=j.notes.replace(/\r?\n/g,'\\n');
-  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ECD//Tracker//EN','BEGIN:VEVENT','UID:ecd-'+j.id+'-'+Date.now()+'@ecdtracker','DTSTAMP:'+stamp,dtLines,'SUMMARY:'+title,(j.address?'LOCATION:'+j.address:''),'DESCRIPTION:'+desc,'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:Reminder','END:VALARM','END:VEVENT','END:VCALENDAR'].filter(Boolean).join('\r\n');
+  return['BEGIN:VEVENT','UID:ecd-'+j.id+'@ecdtracker','DTSTAMP:'+stamp,dtLines,'SUMMARY:'+title,(j.address?'LOCATION:'+j.address:''),'DESCRIPTION:'+desc,'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:Reminder','END:VALARM','END:VEVENT'].filter(Boolean).join('\r\n');
+}
+function downloadIcs(filename,body){
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ECD//Tracker//EN',body,'END:VCALENDAR'].join('\r\n');
   const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=(j.name||'job').replace(/[^a-z0-9]/gi,'_')+'.ics';
+  const a=document.createElement('a');a.href=url;a.download=filename;
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function addToCalendar(id){
+  const j=jobs.find(x=>x.id===id);if(!j||!j.date)return;
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  downloadIcs((j.name||'job').replace(/[^a-z0-9]/gi,'_')+'.ics',icsEventLines(j,stamp));
+}
+function syncAllToCalendar(){
+  const list=jobs.filter(j=>j.status==='scheduled'&&j.date).sort((a,b)=>(a.date+'T'+(a.time||'00:00')).localeCompare(b.date+'T'+(b.time||'00:00')));
+  if(!list.length){alert('No upcoming scheduled jobs to sync yet.');return;}
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  downloadIcs('ecd_upcoming_jobs.ics',list.map(j=>icsEventLines(j,stamp)).join('\r\n'));
 }
 
 // ── SHARE SCHEDULE (crew-facing, no prices) ──
@@ -1356,7 +1776,8 @@ function importData(e){
       const d=JSON.parse(ev.target.result);
       if(!Array.isArray(d.jobs)||!Array.isArray(d.costs))throw new Error('bad');
       if(!confirm('Restore from this backup?\n\nThis replaces ALL current jobs and expenses with '+d.jobs.length+' jobs and '+d.costs.length+' expenses from the file.')){e.target.value='';return;}
-      jobs=d.jobs;costs=d.costs;
+      const now=Date.now();
+      jobs=d.jobs.map(j=>Object.assign({},j,{_u:now}));costs=d.costs.map(c=>Object.assign({},c,{_u:now}));
       if(d.goal)localStorage.setItem('ecd_goal',d.goal);
       if(d.jobId)jobId=d.jobId;if(d.costId)costId=d.costId;
       save();closeBackupModal();
@@ -1368,7 +1789,11 @@ function importData(e){
   reader.readAsText(file);
 }
 
-// ── CLOUD AUTO-SYNC (free, no per-use key; one Sync ID shared across devices) ──
+// ── CLOUD AUTO-SYNC (free Pantry basket; SAFE record-merge — never blind-overwrites) ──
+// Sync MERGES records by id (union; newest edit wins per record) instead of replacing the
+// whole blob. A device can only ADD its records or apply its OWN deletes (tombstones) —
+// it can never silently wipe data another device added. This is what prevents the
+// 2026-06-25 class of data-loss where a small/stale copy overwrote the real cloud copy.
 function syncOn(){return localStorage.getItem('ecd_sync_on')==='1' && !!localStorage.getItem('ecd_sync_id');}
 function syncId(){return localStorage.getItem('ecd_sync_id')||'';}
 function cloudUrl(){return 'https://getpantry.cloud/apiv1/pantry/'+encodeURIComponent(syncId())+'/basket/ecdtracker';}
@@ -1379,56 +1804,98 @@ function setSyncStatus(s){
   else if(s==='err'){el.textContent='Offline';el.className='sync-status err';}
   else{el.textContent='On ✓';el.className='sync-status ok';}
 }
-function markChanged(){if(syncOn()){localStorage.setItem('ecd_updatedAt',String(Date.now()));schedulePush();}}
-let _pushT=null;
-function schedulePush(){clearTimeout(_pushT);_pushT=setTimeout(pushCloud,800);}
-function pushCloud(){
-  if(!syncOn())return;
-  const at=Date.now();localStorage.setItem('ecd_updatedAt',String(at));
-  setSyncStatus('saving');
-  fetch(cloudUrl(),{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({jobs,costs,goal:localStorage.getItem('ecd_goal')||'10000',jobId,costId,updatedAt:at})})
-    .then(r=>{if(!r.ok)throw 0;setSyncStatus('ok');}).catch(()=>setSyncStatus('err'));
+// ---- merge primitives (pure; unit-tested separately) ----
+function recU(r){return Number(r&&r._u)||0;}
+function maxId(arr){return (arr||[]).reduce((m,x)=>Math.max(m,Number(x&&x.id)||0),0);}
+// Tombstones: {j:{id:_u}, c:{id:_u}}. A delete only wins over an edit that is OLDER than it,
+// so a record edited after it was deleted on another device is kept (resurrected) rather than lost.
+function loadTomb(){try{const t=JSON.parse(localStorage.getItem('ecd_tomb')||'{}');return{j:t.j||{},c:t.c||{}};}catch(e){return{j:{},c:{}};}}
+function saveTomb(t){const cut=Date.now()-180*864e5;['j','c'].forEach(k=>{const m=t[k]||{};for(const id in m){if(Number(m[id])<cut)delete m[id];}});localStorage.setItem('ecd_tomb',JSON.stringify({j:t.j||{},c:t.c||{}}));}
+function mergeTomb(a,b){const out={j:Object.assign({},(a&&a.j)||{}),c:Object.assign({},(a&&a.c)||{})};
+  ['j','c'].forEach(k=>{const src=(b&&b[k])||{};for(const id in src){out[k][id]=Math.max(Number(out[k][id])||0,Number(src[id])||0);}});return out;}
+function mergeRecords(localArr,remoteArr,tomb){
+  const map={};
+  (Array.isArray(remoteArr)?remoteArr:[]).forEach(r=>{if(r&&r.id!=null)map[r.id]=r;});
+  (Array.isArray(localArr)?localArr:[]).forEach(r=>{if(!r||r.id==null)return;const ex=map[r.id];if(!ex||recU(r)>=recU(ex))map[r.id]=r;});
+  const t=tomb||{};
+  for(const id in t){const r=map[id];if(!r)continue;if(recU(r)>Number(t[id]))continue;delete map[id];}
+  return Object.values(map);
 }
-function pullCloud(){
-  if(!syncOn())return Promise.resolve();
-  return fetch(cloudUrl(),{headers:{'Accept':'application/json'},cache:'no-store'})
-    .then(r=>{if(r.status===400||r.status===404)return '__empty__';if(!r.ok)throw 0;return r.json();})
+function dataSig(j,c){
+  const s=a=>(a||[]).map(x=>x.id+'.'+recU(x)).sort().join(',');
+  return (j||[]).length+':'+s(j)+'|'+(c||[]).length+':'+s(c);
+}
+// ---- sync driver ----
+function markChanged(){if(syncOn()){localStorage.setItem('ecd_updatedAt',String(Date.now()));scheduleSync();}}
+let _syncT=null;
+function scheduleSync(){clearTimeout(_syncT);_syncT=setTimeout(syncNow,900);}
+let _syncing=false;
+function syncNow(){
+  if(!syncOn()||_syncing)return Promise.resolve();
+  _syncing=true;setSyncStatus('saving');
+  const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),15000);
+  return fetch(cloudUrl(),{headers:{'Accept':'application/json'},cache:'no-store',signal:ctrl.signal})
+    .then(r=>{clearTimeout(timer);if(r.status===400||r.status===404)return '__empty__';if(!r.ok)throw 0;return r.json();})
     .then(d=>{
-      if(d==='__empty__'||!d||!Array.isArray(d.jobs)||!Array.isArray(d.costs)){pushCloud();return;}
-      const localAt=Number(localStorage.getItem('ecd_updatedAt')||0),remoteAt=Number(d.updatedAt||0);
-      if(remoteAt>localAt){
-        jobs=d.jobs;costs=d.costs;
-        if(d.goal)localStorage.setItem('ecd_goal',String(d.goal));
-        if(d.jobId)jobId=d.jobId;if(d.costId)costId=d.costId;
-        saveLocal();localStorage.setItem('ecd_updatedAt',String(remoteAt));refreshAll();
-      }else if(localAt>remoteAt){pushCloud();}
+      const isEmpty=(d==='__empty__'||!d);
+      const remoteJobs=(!isEmpty&&Array.isArray(d.jobs))?d.jobs:[];
+      const remoteCosts=(!isEmpty&&Array.isArray(d.costs))?d.costs:[];
+      const remoteTomb=(!isEmpty&&d.tomb)?{j:d.tomb.j||{},c:d.tomb.c||{}}:{j:{},c:{}};
+      const tomb=mergeTomb(loadTomb(),remoteTomb);
+      const mJobs=mergeRecords(jobs,remoteJobs,tomb.j);
+      const mCosts=mergeRecords(costs,remoteCosts,tomb.c);
+      // SAFETY GUARD: refuse to apply a merge that would wipe out half-or-more of this
+      // device's jobs (only possible via remote tombstones). Keeps local data; logs + flags.
+      if(jobs.length>=8 && mJobs.length < Math.floor(jobs.length*0.5)){
+        console.warn('[sync] aborted: merge would drop too many jobs',jobs.length,'->',mJobs.length);
+        setSyncStatus('err');return;
+      }
+      const beforeSig=dataSig(jobs,costs);
+      const localContributes=isEmpty || dataSig(mJobs,mCosts)!==dataSig(remoteJobs,remoteCosts);
+      jobs=mJobs;costs=mCosts;saveTomb(tomb);
+      jobId=Math.max(Number(jobId)||0,Number(!isEmpty&&d.jobId)||0,maxId(jobs)+1);
+      costId=Math.max(Number(costId)||0,Number(!isEmpty&&d.costId)||0,maxId(costs)+1);
+      const localAt=Number(localStorage.getItem('ecd_updatedAt')||0),remoteAt=Number((!isEmpty&&d.updatedAt)||0);
+      if(!isEmpty&&d.goal&&remoteAt>localAt)localStorage.setItem('ecd_goal',String(d.goal));
+      saveLocal();
+      if(dataSig(jobs,costs)!==beforeSig)refreshAll();
+      if(localContributes)return pushMerged(tomb);
       setSyncStatus('ok');
-    }).catch(()=>setSyncStatus('err'));
+    })
+    .catch(()=>{clearTimeout(timer);setSyncStatus('err');})
+    .finally(()=>{_syncing=false;});
+}
+function pushMerged(tomb){
+  if(!syncOn())return Promise.resolve();
+  const at=Date.now();localStorage.setItem('ecd_updatedAt',String(at));
+  const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),15000);
+  return fetch(cloudUrl(),{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({jobs,costs,goal:localStorage.getItem('ecd_goal')||'10000',jobId,costId,tomb:tomb||loadTomb(),updatedAt:at}),signal:ctrl.signal})
+    .then(r=>{clearTimeout(timer);if(!r.ok)throw 0;setSyncStatus('ok');}).catch(()=>{clearTimeout(timer);setSyncStatus('err');});
 }
 let _syncTimer=null;
-function startSyncTimer(){clearInterval(_syncTimer);_syncTimer=setInterval(function(){if(syncOn())pullCloud();},20000);}
+function startSyncTimer(){clearInterval(_syncTimer);_syncTimer=setInterval(function(){if(syncOn())syncNow();},20000);}
 function connectSync(){
   const id=document.getElementById('sync-id-input').value.trim();
   if(!id){alert('Paste your Sync ID first.');return;}
+  const btn=document.querySelector('#sync-off-view .btn-primary');
+  const resetBtn=()=>{if(btn){btn.disabled=false;btn.textContent='Turn On Auto-Sync';}};
+  if(btn){btn.disabled=true;btn.textContent='Connecting…';}
   setSyncStatus('saving');
-  fetch('https://getpantry.cloud/apiv1/pantry/'+encodeURIComponent(id)+'/basket/ecdtracker',{headers:{'Accept':'application/json'},cache:'no-store'})
-    .then(r=>{if(r.status===400||r.status===404)return null;if(!r.ok)throw 0;return r.json();})
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),15000);
+  fetch('https://getpantry.cloud/apiv1/pantry/'+encodeURIComponent(id)+'/basket/ecdtracker',{headers:{'Accept':'application/json'},cache:'no-store',signal:ctrl.signal})
+    .then(r=>{clearTimeout(timer);if(r.status===400||r.status===404)return null;if(!r.ok)throw 0;return r.json();})
     .then(remote=>{
+      if(remote&&Array.isArray(remote.jobs)&&remote.jobs.length){
+        if(!confirm('This Sync ID already has '+remote.jobs.length+' jobs in the cloud.\n\nThey’ll be MERGED with this device’s '+jobs.length+' jobs — nothing gets deleted, both sets are combined.\n\nContinue?')){resetBtn();updateSyncUI();return;}
+      }
       localStorage.setItem('ecd_sync_id',id);
       localStorage.setItem('ecd_sync_on','1');
-      if(remote&&Array.isArray(remote.jobs)){
-        const useCloud=confirm('This Sync ID already has '+remote.jobs.length+' jobs saved in the cloud.\n\nOK  = load the cloud data onto THIS device (do this when adding a second device).\n\nCancel = replace the cloud with this device’s '+jobs.length+' jobs.');
-        if(useCloud){
-          jobs=remote.jobs;costs=Array.isArray(remote.costs)?remote.costs:costs;
-          if(remote.goal)localStorage.setItem('ecd_goal',String(remote.goal));
-          if(remote.jobId)jobId=remote.jobId;if(remote.costId)costId=remote.costId;
-          saveLocal();localStorage.setItem('ecd_updatedAt',String(Number(remote.updatedAt)||Date.now()));refreshAll();setSyncStatus('ok');
-        }else{localStorage.setItem('ecd_updatedAt',String(Date.now()));pushCloud();}
-      }else{localStorage.setItem('ecd_updatedAt',String(Date.now()));pushCloud();}
-      updateSyncUI();startSyncTimer();
+      updateSyncUI();startSyncTimer();resetBtn();
+      return syncNow();
     })
-    .catch(()=>{setSyncStatus('err');alert('Could not reach the sync service. Double-check the Sync ID and your internet connection, then try again.');});
+    .catch((e)=>{clearTimeout(timer);resetBtn();setSyncStatus('err');alert((e&&e.name==='AbortError')?'The sync service (Pantry) isn’t responding right now — it may be temporarily down. Your data is safe on this device. Try again in a few minutes.':'Could not reach the sync service. Double-check the Sync ID and your internet connection, then try again.');});
 }
 function disconnectSync(){localStorage.setItem('ecd_sync_on','0');clearInterval(_syncTimer);updateSyncUI();}
 function updateSyncUI(){
@@ -1441,9 +1908,10 @@ function updateSyncUI(){
 function refreshAll(){
   buildYearTabs();buildCostYearTabs();
   if(currentView==='jobs')render();
+  else if(currentView==='calendar'){renderCalendar();updateStats();}
   else if(currentView==='costs')renderCosts();
   else if(currentView==='workers')renderWorkers();
-  else if(currentView==='goals')renderGoals();
+  else if(currentView==='analyze'){buildAnalyzeYearTabs();renderAnalyze();}
   else updateStats();
 }
 
@@ -1452,10 +1920,10 @@ document.getElementById('cost-modal').addEventListener('click',function(e){if(e.
 document.getElementById('backup-modal').addEventListener('click',function(e){if(e.target===this)closeBackupModal();});
 document.getElementById('reports-modal').addEventListener('click',function(e){if(e.target===this)closeReportsModal();});
 document.getElementById('share-modal').addEventListener('click',function(e){if(e.target===this)closeShareModal();});
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&syncOn())pullCloud();});
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&syncOn())syncNow();});
 
 buildYearTabs();render();
-if(syncOn()){updateSyncUI();pullCloud();startSyncTimer();}
+if(syncOn()){updateSyncUI();syncNow();startSyncTimer();}
 </script>
 </body>
 </html>
