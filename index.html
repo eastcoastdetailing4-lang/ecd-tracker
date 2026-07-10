@@ -342,8 +342,32 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 .contact-btn.call{color:var(--blue);border-color:rgba(96,165,250,.4);}
 .contact-btn.nav{color:#22d3ee;border-color:rgba(34,211,238,.45);}
 .contact-btn:active{background:rgba(255,255,255,.05);}
-.review-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;text-decoration:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--accent);border:1.5px solid rgba(232,255,71,.4);background:rgba(232,255,71,.05);}
+.review-btn{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;margin-top:10px;text-decoration:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--accent);border:1.5px solid rgba(232,255,71,.4);background:rgba(232,255,71,.05);}
 .review-btn:active{background:rgba(232,255,71,.14);}
+.invoice-btn{display:flex;align-items:center;justify-content:center;gap:6px;flex:1;margin-top:10px;text-decoration:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--blue);border:1.5px solid rgba(96,165,250,.4);background:rgba(96,165,250,.06);}
+.invoice-btn:active{background:rgba(96,165,250,.16);}
+.job-btn-row{display:flex;gap:8px;}
+.job-tip{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
+
+/* ── WEATHER ── */
+.cal-wx{position:absolute;top:2px;right:3px;font-size:10px;line-height:1;pointer-events:none;}
+.cdd-wx{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* ── CUSTOMERS ── */
+.cust-section-head{display:flex;align-items:center;gap:8px;margin:18px 0 10px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;color:var(--muted);}
+.cust-section-head .count{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--muted);}
+.cust-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.cust-card.due{border-color:rgba(45,212,191,.45);}
+.cust-top{display:flex;align-items:center;gap:12px;}
+.cust-avatar{width:40px;height:40px;border-radius:50%;background:rgba(45,212,191,.15);color:#2dd4bf;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+.cust-name{font-weight:700;font-size:15px;}
+.cust-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+.cust-spent{margin-left:auto;text-align:right;}
+.cust-spent .amt{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--green);letter-spacing:.5px;}
+.cust-spent .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.due-badge{display:inline-block;font-size:10px;font-weight:700;color:#2dd4bf;background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.35);border-radius:6px;padding:2px 7px;margin-top:4px;}
+.rebook-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;text-decoration:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#2dd4bf;border:1.5px solid rgba(45,212,191,.4);background:rgba(45,212,191,.05);}
+.rebook-btn:active{background:rgba(45,212,191,.14);}
 
 /* ── REPORTS ── */
 .report-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
@@ -428,6 +452,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   .main-tab.costs-tab.active{color:var(--orange);border-bottom-color:var(--orange);}
   .main-tab.workers-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
   .main-tab.analyze-tab.active{color:#f472b6;border-bottom-color:#f472b6;}
+  .main-tab.cust-tab.active{color:#2dd4bf;border-bottom-color:#2dd4bf;}
   .modal-overlay{align-items:center;}
   .modal{border-radius:16px;padding:28px;max-width:460px;max-height:85vh;}
   .modal-handle{display:none;}
@@ -465,6 +490,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   <button class="main-tab cal-tab" onclick="switchView('calendar',this)">Calendar</button>
   <button class="main-tab costs-tab" onclick="switchView('costs',this)">Expenses</button>
   <button class="main-tab workers-tab" onclick="switchView('workers',this)">Workers</button>
+  <button class="main-tab cust-tab" onclick="switchView('customers',this)">Customers</button>
   <button class="main-tab analyze-tab" onclick="switchView('analyze',this)">Analyze</button>
 </div>
 
@@ -518,6 +544,11 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
     <button class="cat-filter-btn" onclick="setCostCat('Other',this)">📋 Other</button>
   </div>
   <div class="content" id="cost-list"></div>
+</div>
+
+<!-- CUSTOMERS VIEW -->
+<div class="view" id="view-customers">
+  <div class="content" id="customers-list"></div>
 </div>
 
 <!-- WORKERS VIEW -->
@@ -617,6 +648,9 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
   <button class="nav-btn nav-workers-btn" id="nav-workers" onclick="switchView('workers', document.getElementById('nav-workers'))">
     <span class="nav-icon">👥</span>Workers
   </button>
+  <button class="nav-btn nav-cust-btn" id="nav-customers" onclick="switchView('customers', document.getElementById('nav-customers'))">
+    <span class="nav-icon">👤</span>Clients
+  </button>
   <button class="nav-btn nav-analyze-btn" id="nav-analyze" onclick="switchView('analyze', document.getElementById('nav-analyze'))">
     <span class="nav-icon">🧠</span>Analyze
   </button>
@@ -642,6 +676,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
       </select>
     </div>
     <div class="form-group"><label>Price ($)</label><input type="number" id="f-price" placeholder="0" min="0"></div>
+    <div class="form-group"><label>Tip ($, optional)</label><input type="number" id="f-tip" placeholder="0" min="0"></div>
     <div class="form-group"><label>Notes</label><textarea id="f-notes" placeholder="Special requests, workers, details..."></textarea></div>
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
@@ -754,7 +789,7 @@ textarea{resize:vertical;min-height:60px;font-size:14px;}
 
 <script>
 const JOB_DEFAULTS=[
-  {id:1,name:"Vickie",vehicle:"",date:"2024-07-01",service:"Full Detail",price:150,status:"completed",notes:""},
+  {id:1,name:"Vickie",vehicle:"",date:"2024-07-01",service:"Full Detail",price:150,status:"completed",notes:"",phone:"",address:"",time:""},
   {id:2,name:"Jared",vehicle:"",date:"2024-07-02",service:"Full Detail",price:75,status:"completed",notes:""},
   {id:3,name:"Amanda",vehicle:"",date:"2024-07-03",service:"Interior Only",price:50,status:"completed",notes:""},
   {id:4,name:"Kelvin",vehicle:"",date:"2024-07-04",service:"Full Detail",price:100,status:"completed",notes:""},
@@ -831,7 +866,9 @@ const JOB_DEFAULTS=[
   {id:81,status:"completed",name:"Ryan Goode Dad",vehicle:"Yukon XL",phone:"",address:"",date:"2026-06-27",time:"",service:"Full Detail",price:300,notes:""},
   {id:82,status:"completed",name:"Petterson",vehicle:"",phone:"",address:"",date:"2026-06-25",time:"",service:"Full Detail",price:200,notes:""},
   {id:83,status:"completed",name:"Nicholas Oakley",vehicle:"Volvo",phone:"",address:"",date:"2026-07-02",time:"",service:"Full Detail",price:200,notes:""},
-  {id:84,status:"completed",name:"Steve Tokatlyan",vehicle:"Volvo",phone:"(617) 955-0719",address:"",date:"2026-07-02",time:"",service:"Full Detail",price:300,notes:"50 tip"}
+  {id:84,status:"completed",name:"Steve Tokatlyan",vehicle:"Volvo",phone:"(617) 955-0719",address:"",date:"2026-07-02",time:"",service:"Full Detail",price:300,notes:"50 tip"},
+  {id:86,status:"completed",name:"New Hampshire",vehicle:"Old Chevy",phone:"+1 (603) 918-4070",address:"",date:"2026-07-03",time:"09:00",service:"Full Detail",price:270,notes:""},
+  {id:87,status:"completed",name:"Chappy",vehicle:"Toyota Corolla",phone:"",address:"",date:"2026-07-05",time:"",service:"Interior Only",price:110,notes:""}
 ];
 
 const COST_DEFAULTS=[
@@ -881,7 +918,8 @@ const COST_DEFAULTS=[
   {id:51,desc:"Oakley",cat:"Worker Pay",date:"2026-07-02",amount:65,notes:"",workers:{Garo:65}},
   {id:52,desc:"Steve tonakiyan",cat:"Worker Pay",date:"2026-07-02",amount:100,notes:"",workers:{Garo:100}},
   {id:53,desc:"Oakley",cat:"Worker Pay",date:"2026-07-02",amount:65,notes:"",workers:{Nicholas:65}},
-  {id:54,desc:"Steve tonakiyan",cat:"Worker Pay",date:"2026-07-02",amount:100,notes:"",workers:{Nicholas:100}}
+  {id:54,desc:"Steve tonakiyan",cat:"Worker Pay",date:"2026-07-02",amount:100,notes:"",workers:{Nicholas:100}},
+  {id:55,desc:"NH",cat:"Worker Pay",date:"2026-07-03",amount:120,notes:"",workers:{Garo:120}}
 ];
 
 function loadJobs(){try{const s=localStorage.getItem('ecd_jobs');const a=s?JSON.parse(s):null;return(Array.isArray(a)&&a.length)?a:JOB_DEFAULTS;}catch(e){return JOB_DEFAULTS;}}
@@ -895,8 +933,8 @@ function saveLocal(){
 function save(){saveLocal();markChanged();}
 
 let jobs=loadJobs(),costs=loadCosts();
-let jobId=parseInt(localStorage.getItem('ecd_jobId')||'85');
-let costId=parseInt(localStorage.getItem('ecd_costId')||'55');
+let jobId=parseInt(localStorage.getItem('ecd_jobId')||'88');
+let costId=parseInt(localStorage.getItem('ecd_costId')||'56');
 let currentStatus='all',currentYear='all',currentCostYear='all',currentCostCat='all',currentAnalyzeYear='all',currentView='jobs',currentSearch='';
 const COST_CAT_ICONS={Supplies:'🧴',Equipment:'🛠️',Fuel:'⛽',Marketing:'📣',Other:'📋'};
 let editingJobId=null,editingCostId=null;
@@ -922,6 +960,7 @@ function switchView(v,btn){
   else if(v==='calendar'){renderCalendar();}
   else if(v==='costs'){buildCostYearTabs();renderCosts();}
   else if(v==='workers'){renderWorkers();}
+  else if(v==='customers'){renderCustomers();}
   else if(v==='analyze'){buildAnalyzeYearTabs();renderAnalyze();}
 }
 
@@ -945,7 +984,7 @@ function setStatus(s,btn){currentStatus=s;document.querySelectorAll('.filter-btn
 function updateStats(){
   const yj=currentYear==='all'?jobs:jobs.filter(j=>j.date?.startsWith(currentYear));
   const fj=yj.filter(j=>currentStatus==='all'||j.status===currentStatus);
-  const rev=fj.filter(j=>j.status==='completed').reduce((s,j)=>s+j.price,0);
+  const rev=fj.filter(j=>j.status==='completed').reduce((s,j)=>s+jobTotal(j),0);
   const yc=currentYear==='all'?costs:costs.filter(c=>c.date?.startsWith(currentYear));
   const tc=yc.reduce((s,c)=>s+c.amount,0);
   const profit=rev-tc;
@@ -958,12 +997,25 @@ function updateStats(){
   pel.className='stat-value '+(profit>=0?'profit':'red');
 }
 
+function jobTotal(j){return (j.price||0)+(j.tip||0);}
+
 // ── CONTACT / NAV / REVIEW HELPERS ──
 const REVIEW_URL='https://g.page/r/CbrDVbzWKHayEAE/review';
 function telHref(p){return 'tel:'+(p+'').replace(/[^\d+]/g,'');}
 function smsHref(p,body){const n=(p+'').replace(/[^\d+]/g,'');return 'sms:'+n+(body?'?&body='+encodeURIComponent(body):'');}
 function wazeHref(a){return 'https://waze.com/ul?q='+encodeURIComponent(a)+'&navigate=yes';}
 function reviewMsg(j){return 'Hi '+(j.name||'there')+', thanks for choosing East Coast Detailing! If you have a quick sec, a Google review would mean a lot 🙏 '+REVIEW_URL;}
+// EDIT THIS with your real Venmo/Zelle info — shows up in every invoice text below
+const PAYMENT_INFO='Venmo @Shant-Gebeyan (venmo.com/u/Shant-Gebeyan) or Zelle to 781-296-3567';
+function invoiceMsg(j){
+  const svc=j.service||'detail';
+  const veh=j.vehicle?' ('+j.vehicle+')':'';
+  return 'Hi '+(j.name||'there')+', here\'s your invoice from East Coast Detailing:\n\n'+svc+veh+' — $'+j.price+'\n\nYou can pay via '+PAYMENT_INFO+'. Thanks so much for choosing us! 🚗✨';
+}
+function jobInvoiceBtn(j){
+  if(j.phone&&j.price)return '<a class="invoice-btn" href="'+smsHref(j.phone,invoiceMsg(j))+'">🧾 Send Invoice</a>';
+  return '';
+}
 function jobContactRow(j){
   let b='';
   if(j.phone)b+='<a class="contact-btn text" href="'+smsHref(j.phone)+'">💬 Text</a><a class="contact-btn call" href="'+telHref(j.phone)+'">📞 Call</a>';
@@ -990,7 +1042,7 @@ function render(){
           <div class="job-name">${job.name}</div>
           <div class="job-date">📅 ${fmtDate(job.date)}${job.vehicle?' · 🚗 '+job.vehicle:''}${job.address?' · 📍 '+job.address:''}${job.notes?' · 📝 '+job.notes.slice(0,25)+(job.notes.length>25?'…':''):''}</div>
         </div>
-        <div class="job-price">$${job.price}</div>
+        <div class="job-price">$${job.price}${job.tip?'<div class="job-tip">+$'+job.tip+' tip</div>':''}</div>
       </div>
       ${jobContactRow(job)}
       <div class="job-card-bottom">
@@ -1001,7 +1053,7 @@ function render(){
           <button class="icon-btn" onclick="deleteJob(${job.id})">✕</button>
         </div>
       </div>
-      ${jobReviewBtn(job)}
+      <div class="job-btn-row">${jobInvoiceBtn(job)}${jobReviewBtn(job)}</div>
     </div>`).join('');
 }
 
@@ -1049,15 +1101,7 @@ function renderCosts(){
 
 function renderWorkers(){
   const workerTotals={},workerJobs={},workerTBD={};
-  const knownWorkerPay=[
-    {id:1,desc:"Nick & Garo — Babs Boss",cat:"Worker Pay",date:"2026-06-01",amount:300,notes:"",workers:{Nicholas:150,Garo:150}},
-    {id:2,desc:"Tommy — Kelvin Interior",cat:"Worker Pay",date:"2026-06-10",amount:40,notes:"",workers:{Tommy:40}},
-    {id:3,desc:"Garo — Jen",cat:"Worker Pay",date:"2026-06-13",amount:60,notes:"",workers:{Garo:60}},
-    {id:4,desc:"Torch — Vesela",cat:"Worker Pay",date:"2026-06-02",amount:50,notes:"",workers:{Torch:50}},
-    {id:5,desc:"Torch — Dave O'Connor",cat:"Worker Pay",date:"2026-06-03",amount:60,notes:"",workers:{Torch:60}},
-  ];
-  const dynamicWorkerPay=costs.filter(c=>c.cat==='Worker Pay'&&c.workers);
-  const workerPaySource=dynamicWorkerPay.length>0?[...knownWorkerPay,...dynamicWorkerPay.filter(d=>d.id>10)]:knownWorkerPay;
+  const workerPaySource=costs.filter(c=>c.cat==='Worker Pay'&&c.workers&&Object.keys(c.workers).length);
 
   workerPaySource.forEach(c=>{
     Object.entries(c.workers).forEach(([w,a])=>{
@@ -1097,6 +1141,57 @@ function renderWorkers(){
   }).join('');
 }
 
+// ── CUSTOMERS ──
+const REBOOK_DAYS=60;
+function rebookMsg(name){return 'Hi '+name+', it\'s Shant from East Coast Detailing! It\'s been a little while since your last detail — want me to swing by and get your car looking fresh again? 🚗✨';}
+function renderCustomers(){
+  const todayS=localDateStr(new Date());
+  const today=new Date(todayS+'T00:00:00');
+  const map={};
+  jobs.forEach(j=>{
+    if(!j.name)return;
+    const k=j.name.trim().toLowerCase();
+    if(!map[k])map[k]={name:j.name.trim(),visits:0,spent:0,last:'',phone:'',vehicle:'',future:false};
+    const c=map[k];
+    if(j.phone)c.phone=j.phone;
+    if(j.vehicle)c.vehicle=j.vehicle;
+    if(j.status==='completed'){c.visits++;c.spent+=jobTotal(j);if((j.date||'')>c.last)c.last=j.date||'';}
+    if(j.status==='scheduled'&&j.date&&j.date>=todayS)c.future=true;
+  });
+  const custs=Object.values(map).filter(c=>c.visits>0);
+  custs.forEach(c=>{c.days=c.last?Math.floor((today-new Date(c.last+'T00:00:00'))/864e5):null;});
+  const el=document.getElementById('customers-list');
+  if(!custs.length){el.innerHTML='<div class="empty">No customers yet — they\'ll show up here automatically from your jobs.</div>';return;}
+  const due=custs.filter(c=>c.days!==null&&c.days>=REBOOK_DAYS&&!c.future).sort((a,b)=>b.spent-a.spent);
+  const rest=custs.filter(c=>!due.includes(c)).sort((a,b)=>(b.last||'').localeCompare(a.last||''));
+  renderCustomers._list=[...due,...rest];
+  const card=(c,isDue,idx)=>`
+    <div class="cust-card${isDue?' due':''}">
+      <div class="cust-top">
+        <div class="cust-avatar">${c.name.slice(0,2).toUpperCase()}</div>
+        <div>
+          <div class="cust-name">${c.name}</div>
+          <div class="cust-meta">${c.visits} visit${c.visits!==1?'s':''}${c.vehicle?' · 🚗 '+c.vehicle:''}${c.last?' · last '+fmtDate(c.last):''}</div>
+          ${isDue?`<span class="due-badge">⏰ ${c.days} days since last detail</span>`:''}
+        </div>
+        <div class="cust-spent"><div class="amt">$${c.spent.toLocaleString()}</div><div class="lbl">total</div></div>
+      </div>
+      ${c.phone
+        ?`<a class="rebook-btn" href="${smsHref(c.phone,rebookMsg(c.name))}">${isDue?'💬 Send Rebook Text':'💬 Text'}</a>`
+        :(isDue?`<button class="rebook-btn" style="width:100%;cursor:pointer;" onclick="copyRebookMsg(${idx},this)">📋 Copy Message — paste in IG / FB</button>`:'')}
+    </div>`;
+  el.innerHTML=
+    (due.length?`<div class="cust-section-head">⏰ Time to Rebook <span class="count">(${due.length})</span></div>`+due.map((c,i)=>card(c,true,i)).join(''):'')+
+    `<div class="cust-section-head">👤 All Customers <span class="count">(${rest.length})</span></div>`+rest.map((c,i)=>card(c,false,due.length+i)).join('');
+}
+function copyRebookMsg(i,btn){
+  const c=(renderCustomers._list||[])[i];if(!c)return;
+  const msg=rebookMsg(c.name);
+  const done=()=>{if(btn){const t=btn.innerHTML;btn.innerHTML='✅ Copied! Paste it anywhere';setTimeout(()=>{btn.innerHTML=t;},1800);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(msg).then(done).catch(()=>prompt('Copy this message:',msg));
+  else prompt('Copy this message:',msg);
+}
+
 // ── ANALYZE (rule-based business manager, scoped to summer season: May–Sep) ──
 function isSummer(dateStr){if(!dateStr)return false;const m=+dateStr.slice(5,7);return m>=5&&m<=9;}
 function summerWindow(year){const start=new Date(year,4,1),end=new Date(year,8,30);return{start,end,totalDays:Math.round((end-start)/86400000)+1};}
@@ -1116,12 +1211,12 @@ function renderAnalyze(){
   const cancelled=inScope(jobs).filter(j=>j.status==='cancelled');
   const scheduled=inScope(jobs).filter(j=>j.status==='scheduled');
   const fcosts=inScope(costs);
-  const revenue=compl.reduce((s,j)=>s+(j.price||0),0);
+  const revenue=compl.reduce((s,j)=>s+jobTotal(j),0);
   const totalCosts=fcosts.reduce((s,c)=>s+(c.amount||0),0);
   const profit=revenue-totalCosts;
   const margin=revenue>0?Math.round((profit/revenue)*100):null;
   const avgTicket=compl.length?Math.round(revenue/compl.length):0;
-  const bookedRev=scheduled.reduce((s,j)=>s+(j.price||0),0);
+  const bookedRev=scheduled.reduce((s,j)=>s+jobTotal(j),0);
 
   const marginEl=document.getElementById('az-margin');
   marginEl.textContent=margin===null?'—':margin+'%';
@@ -1152,13 +1247,13 @@ function renderAnalyze(){
 
   // ── key metrics ──
   const svcTotals={};
-  compl.forEach(j=>{const k=j.service||'Other';if(!svcTotals[k])svcTotals[k]={rev:0,count:0};svcTotals[k].rev+=j.price||0;svcTotals[k].count++;});
+  compl.forEach(j=>{const k=j.service||'Other';if(!svcTotals[k])svcTotals[k]={rev:0,count:0};svcTotals[k].rev+=jobTotal(j);svcTotals[k].count++;});
   const svcArr=Object.entries(svcTotals).sort((a,b)=>b[1].rev-a[1].rev);
   document.getElementById('az-m-topservice').textContent=svcArr.length?(svcArr[0][0]+' ('+svcArr[0][1].count+')'):'—';
 
   const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const dowTotals=[0,0,0,0,0,0,0];
-  compl.forEach(j=>{if(!j.date)return;dowTotals[new Date(j.date+'T00:00:00').getDay()]+=j.price||0;});
+  compl.forEach(j=>{if(!j.date)return;dowTotals[new Date(j.date+'T00:00:00').getDay()]+=jobTotal(j);});
   let bestDowIdx=0;for(let i=1;i<7;i++)if(dowTotals[i]>dowTotals[bestDowIdx])bestDowIdx=i;
   document.getElementById('az-m-bestday').textContent=compl.length?DOW[bestDowIdx]:'—';
 
@@ -1249,7 +1344,7 @@ function renderAnalyze(){
   // goal pace — projected through end of summer (Sep 30), always tracks the real current year regardless of the year filter above
   const goal=parseInt(localStorage.getItem('ecd_goal')||'10000');
   const thisYearSummerCompl=jobs.filter(j=>j.date&&j.date.startsWith(thisYearStr)&&isSummer(j.date)&&j.status==='completed');
-  const revSummerYTD=thisYearSummerCompl.reduce((s,j)=>s+(j.price||0),0);
+  const revSummerYTD=thisYearSummerCompl.reduce((s,j)=>s+jobTotal(j),0);
   let goalDaysElapsed;
   if(now<seasonStart)goalDaysElapsed=0;
   else if(now>seasonEnd)goalDaysElapsed=seasonTotalDays;
@@ -1268,7 +1363,7 @@ function renderAnalyze(){
 
   // summer-over-summer trend (needs at least 2 summers of history)
   const summerByYear={};
-  jobs.filter(j=>j.status==='completed'&&j.date&&isSummer(j.date)).forEach(j=>{const yy=j.date.slice(0,4);summerByYear[yy]=(summerByYear[yy]||0)+(j.price||0);});
+  jobs.filter(j=>j.status==='completed'&&j.date&&isSummer(j.date)).forEach(j=>{const yy=j.date.slice(0,4);summerByYear[yy]=(summerByYear[yy]||0)+jobTotal(j);});
   const summerYearKeys=Object.keys(summerByYear).sort((a,b)=>b-a);
   if(summerYearKeys.length>=2){
     const[latestY,prevY]=summerYearKeys;
@@ -1324,7 +1419,7 @@ function renderScenario(){
   }
   const jobMonths=Math.min(SEASON_MONTHS,new Set(allCompl.map(j=>j.date.slice(0,7))).size||1);
   const costMonths=Math.min(SEASON_MONTHS,new Set(allCosts.map(c=>c.date.slice(0,7))).size||1);
-  const totalRev=allCompl.reduce((s,j)=>s+(j.price||0),0);
+  const totalRev=allCompl.reduce((s,j)=>s+jobTotal(j),0);
   const totalCostAll=allCosts.reduce((s,c)=>s+(c.amount||0),0);
   const avgTicketAll=totalRev/allCompl.length;
   const jobsPerMonth=allCompl.length/jobMonths;
@@ -1410,7 +1505,7 @@ function openModal(){
   document.getElementById('job-modal-title').textContent='New Job';
   document.getElementById('job-modal-btn').textContent='Add Job';
   document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
-  ['f-name','f-vehicle','f-phone','f-address','f-time','f-price','f-notes'].forEach(id=>document.getElementById(id).value='');
+  ['f-name','f-vehicle','f-phone','f-address','f-time','f-price','f-tip','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-service').value='';
   document.getElementById('modal').classList.add('open');
 }
@@ -1427,6 +1522,7 @@ function editJob(id){
   document.getElementById('f-time').value=job.time||'';
   document.getElementById('f-service').value=job.service||'';
   document.getElementById('f-price').value=job.price||'';
+  document.getElementById('f-tip').value=job.tip||'';
   document.getElementById('f-notes').value=job.notes||'';
   document.getElementById('modal').classList.add('open');
 }
@@ -1435,7 +1531,7 @@ function saveJob(){
   const name=document.getElementById('f-name').value.trim();
   const service=document.getElementById('f-service').value;
   if(!name||!service){alert('Enter a customer name and service.');return;}
-  const data={name,vehicle:document.getElementById('f-vehicle').value.trim(),phone:document.getElementById('f-phone').value.trim(),address:document.getElementById('f-address').value.trim(),date:document.getElementById('f-date').value,time:document.getElementById('f-time').value,service,price:parseFloat(document.getElementById('f-price').value)||0,notes:document.getElementById('f-notes').value.trim()};
+  const data={name,vehicle:document.getElementById('f-vehicle').value.trim(),phone:document.getElementById('f-phone').value.trim(),address:document.getElementById('f-address').value.trim(),date:document.getElementById('f-date').value,time:document.getElementById('f-time').value,service,price:parseFloat(document.getElementById('f-price').value)||0,tip:parseFloat(document.getElementById('f-tip').value)||0,notes:document.getElementById('f-notes').value.trim()};
   if(editingJobId!==null){Object.assign(jobs.find(j=>j.id===editingJobId),data,{_u:Date.now()});}
   else{const status=(data.date&&data.date>localDateStr(new Date()))?'scheduled':'completed';jobs.push({id:jobId++,status,...data,_u:Date.now()});}
   closeModal();save();refreshAll();
@@ -1548,10 +1644,10 @@ function renderReports(){
   const now=new Date();
   const ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   const mj=completed.filter(j=>(j.date||'').startsWith(ym));
-  const mRev=mj.reduce((s,j)=>s+j.price,0);
+  const mRev=mj.reduce((s,j)=>s+jobTotal(j),0);
   document.getElementById('rq-month-rev').textContent='$'+mRev.toLocaleString();
   document.getElementById('rq-month-cars').textContent=mj.length+' car'+(mj.length!==1?'s':'');
-  const avg=completed.length?Math.round(completed.reduce((s,j)=>s+j.price,0)/completed.length):0;
+  const avg=completed.length?Math.round(completed.reduce((s,j)=>s+jobTotal(j),0)/completed.length):0;
   document.getElementById('rq-avg').textContent='$'+avg.toLocaleString();
   const counts={};
   completed.forEach(j=>{const n=(j.name||'').trim().toLowerCase();if(n)counts[n]=(counts[n]||0)+1;});
@@ -1564,14 +1660,14 @@ function renderReportList(){
   if(!completed.length){el.innerHTML='<div class="empty">No completed jobs yet.</div>';return;}
   if(reportMode==='month'){
     const groups={};
-    completed.forEach(j=>{const key=j.date.slice(0,7);const[y,m]=key.split('-');if(!groups[key])groups[key]={key,label:MONTHS_FULL[+m-1]+' '+y,cars:0,rev:0};groups[key].cars++;groups[key].rev+=j.price;});
+    completed.forEach(j=>{const key=j.date.slice(0,7);const[y,m]=key.split('-');if(!groups[key])groups[key]={key,label:MONTHS_FULL[+m-1]+' '+y,cars:0,rev:0};groups[key].cars++;groups[key].rev+=jobTotal(j);});
     const arr=Object.values(groups).sort((a,b)=>b.key.localeCompare(a.key));
     el.innerHTML=arr.map(g=>`<div class="report-row"><div><div class="rr-period">${g.label}</div><div class="rr-sub">${g.cars} car${g.cars!==1?'s':''}</div></div><div class="rr-rev">$${g.rev.toLocaleString()}</div></div>`).join('');
     return;
   }
   // weekly — grouped under month/year headers, newest first
   const groups={};
-  completed.forEach(j=>{const ws=weekStartStr(j.date);if(!groups[ws])groups[ws]={ws,cars:0,rev:0};groups[ws].cars++;groups[ws].rev+=j.price;});
+  completed.forEach(j=>{const ws=weekStartStr(j.date);if(!groups[ws])groups[ws]={ws,cars:0,rev:0};groups[ws].cars++;groups[ws].rev+=jobTotal(j);});
   const arr=Object.values(groups).sort((a,b)=>b.ws.localeCompare(a.ws)).slice(0,26);
   let html='',curHdr='';
   arr.forEach(g=>{
@@ -1594,7 +1690,26 @@ function calShift(n){calView.setMonth(calView.getMonth()+n);renderCalendar();}
 function calToday(){calView=new Date();calView.setDate(1);calSelected=localDateStr(new Date());renderCalendar();}
 function selectCalDay(ds){calSelected=ds;renderCalendar();}
 function addJobOnDate(ds){openModal();document.getElementById('f-date').value=ds;}
+// ── WEATHER (Open-Meteo — free, no key, Waltham MA) ──
+const WX_LAT=42.3765,WX_LON=-71.2356;
+let wxData=null,wxFetchedAt=0;
+const WX_ICONS=[[0,'☀️'],[1,'🌤️'],[2,'⛅'],[3,'☁️'],[48,'🌫️'],[57,'🌦️'],[67,'🌧️'],[77,'❄️'],[82,'🌧️'],[86,'❄️'],[99,'⛈️']];
+function wxIcon(code){for(const[max,ic]of WX_ICONS){if(code<=max)return ic;}return'';}
+function fetchWeather(){
+  if(wxData&&Date.now()-wxFetchedAt<60*60*1000)return;
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+WX_LAT+'&longitude='+WX_LON+'&daily=weathercode,temperature_2m_max,precipitation_probability_max&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=16')
+    .then(r=>r.json())
+    .then(d=>{
+      if(!d.daily||!d.daily.time)return;
+      wxData={};
+      d.daily.time.forEach((ds,i)=>{wxData[ds]={code:d.daily.weathercode[i],tmax:Math.round(d.daily.temperature_2m_max[i]),pp:d.daily.precipitation_probability_max[i]};});
+      wxFetchedAt=Date.now();
+      if(currentView==='calendar')renderCalendar();
+    }).catch(()=>{});
+}
+
 function renderCalendar(){
+  fetchWeather();
   if(!calSelected)calSelected=localDateStr(new Date());
   const y=calView.getFullYear(),m=calView.getMonth();
   const prefix=y+'-'+String(m+1).padStart(2,'0');
@@ -1611,7 +1726,8 @@ function renderCalendar(){
     const dj=byDate[ds]||[];
     const dots=dj.slice(0,4).map(j=>`<span class="cal-dot ${j.status}"></span>`).join('');
     const cls='cal-cell'+(ds===todayS?' today':'')+(ds===calSelected?' selected':'');
-    cells+=`<div class="${cls}" onclick="selectCalDay('${ds}')"><span class="cal-date">${d}</span><span class="cal-dots">${dots}</span></div>`;
+    const wx=wxData&&wxData[ds]?`<span class="cal-wx">${wxIcon(wxData[ds].code)}</span>`:'';
+    cells+=`<div class="${cls}" style="position:relative;" onclick="selectCalDay('${ds}')">${wx}<span class="cal-date">${d}</span><span class="cal-dots">${dots}</span></div>`;
   }
   document.getElementById('cal-grid').innerHTML=cells;
   renderCalDay();
@@ -1619,8 +1735,8 @@ function renderCalendar(){
 function renderCalDay(){
   const ds=calSelected;
   const dj=jobs.filter(j=>j.date===ds).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99'));
-  const done=dj.filter(j=>j.status==='completed').reduce((s,j)=>s+j.price,0);
-  const booked=dj.filter(j=>j.status==='scheduled').reduce((s,j)=>s+j.price,0);
+  const done=dj.filter(j=>j.status==='completed').reduce((s,j)=>s+jobTotal(j),0);
+  const booked=dj.filter(j=>j.status==='scheduled').reduce((s,j)=>s+jobTotal(j),0);
   let sum=dj.length?dj.length+' job'+(dj.length!==1?'s':''):'No jobs yet';
   if(done)sum+=' · $'+done.toLocaleString()+' done';
   if(booked)sum+=' · $'+booked.toLocaleString()+' booked';
@@ -1636,8 +1752,9 @@ function renderCalDay(){
       <button class="status-badge ${j.status}" onclick="cycleStatus(${j.id})">${j.status}</button>
       <button class="cdd-cal" onclick="addToCalendar(${j.id})" title="Add to phone calendar">📅</button>
     </div>`).join('');}
+  const wxLine=wxData&&wxData[ds]?`<div class="cdd-wx">${wxIcon(wxData[ds].code)} High ${wxData[ds].tmax}°F · 💧 ${wxData[ds].pp}% rain chance</div>`:'';
   document.getElementById('cal-day-detail').innerHTML=
-    `<div class="cdd-head"><div class="cdd-title">${fmtDayLong(ds)}</div><div class="cdd-sum">${sum}</div></div>`+
+    `<div class="cdd-head"><div class="cdd-title">${fmtDayLong(ds)}</div><div class="cdd-sum">${sum}</div>${wxLine}</div>`+
     rows+
     `<button class="cdd-add" onclick="addJobOnDate('${ds}')">+ Add job on this day</button>`;
 }
@@ -1911,6 +2028,7 @@ function refreshAll(){
   else if(currentView==='calendar'){renderCalendar();updateStats();}
   else if(currentView==='costs')renderCosts();
   else if(currentView==='workers')renderWorkers();
+  else if(currentView==='customers')renderCustomers();
   else if(currentView==='analyze'){buildAnalyzeYearTabs();renderAnalyze();}
   else updateStats();
 }
